@@ -24,7 +24,7 @@ const Routes = HttpRouter.addAll([
 			if (name) {
 				const stub = env.MY_DURABLE_OBJECT.getByName(name);
 				const greeting = yield* Effect.promise(() => stub.sayHello("world"));
-				return HttpServerResponse.text(greeting);
+				return HttpServerResponse.text(greeting)
 			}
 
 			return HttpServerResponse.empty()
