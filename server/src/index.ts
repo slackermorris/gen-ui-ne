@@ -1,6 +1,7 @@
 import { DurableObject } from "cloudflare:workers";
 import { Context, Effect, Layer } from "effect";
 import {
+	HttpMiddleware,
 	HttpRouter,
 	HttpServer,
 	HttpServerResponse,
@@ -12,6 +13,10 @@ export class MyDurableObject extends DurableObject<Env> {
 		return `Hello, ${name}!`;
 	}
 }
+
+const CorsMiddleware = HttpRouter.cors({
+	allowedOrigins: ['http://localhost:5173']
+})
 
 const Routes = HttpRouter.addAll([
 	HttpRouter.route(
@@ -31,7 +36,9 @@ const Routes = HttpRouter.addAll([
 
 		}),
 	),
-]);
+]).pipe(Layer.provide(
+	[CorsMiddleware]
+));
 
 const { handler } = HttpRouter.toWebHandler(
 	Routes.pipe(Layer.provide(HttpServer.layerServices)),

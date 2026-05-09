@@ -1,7 +1,29 @@
+import { useEffect, useState } from 'react';
 import { Button } from './components/Button';
 import { Card } from './components/Card';
 
 function App() {
+
+  const [body, setBody] = useState('')
+
+
+  useEffect(() => {
+    async function getGeneratedUi() {
+
+      const response = await fetch('http://localhost:8788/slackermorris');
+      const text = await response.text()
+      if (text) {
+        setBody(text)
+      }
+    }
+
+    getGeneratedUi()
+  }, []) 
+
+  if (body) {
+    return <div>{body}</div>
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
       <main className="container mx-auto px-4 py-16">
