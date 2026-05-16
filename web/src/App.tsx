@@ -10,7 +10,7 @@ function App() {
   useEffect(() => {
     async function getGeneratedUi() {
 
-      const response = await fetch('http://localhost:8788/slackermorris');
+      const response = await fetch('http://localhost:8787/gen-ui-ne/slackermorris');
       const text = await response.text()
       if (text) {
         setBody(text)
