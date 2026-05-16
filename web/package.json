@@ -13,6 +13,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "effect": "^4.0.0-beta.65",
     "lucide-react": "^1.14.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
