@@ -1,4 +1,4 @@
-import { useAppState } from '../state/AppState'
+import { useAppState } from '../state/app-state'
 import { cn } from '../utils/cn'
 
 interface NavItem {

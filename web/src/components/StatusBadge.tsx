@@ -1,4 +1,4 @@
-import { useAppState, type AppState } from '../state/AppState'
+import { useAppState, type AppState } from '../state/app-state'
 import { cn } from '../utils/cn'
 
 interface StatusBadgeProps {

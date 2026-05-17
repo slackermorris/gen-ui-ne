@@ -1,4 +1,4 @@
-import { useAppState, type AppState } from '../state/AppState'
+import { useAppState, type AppState } from '../state/app-state'
 
 interface MetricCardProps {
   label: string
