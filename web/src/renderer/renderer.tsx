@@ -1,7 +1,7 @@
 import { Effect, Option } from "effect";
 import { RuntimeClient } from "../runtime-client";
 import { Registry } from "./registry";
-import type { Spec } from "./types";
+import { Spec } from "../models/domain";
 
 interface RendererProps {
   spec: Spec;
@@ -30,10 +30,11 @@ export function Renderer({ spec }: RendererProps) {
         return null;
       },
       onSome: (Component) => {
-        const children = element.children?.map(renderElement);
+        const elementProps = 'props' in element && element.props;
+        const children = 'children' in element && element.children.map(renderElement);
 
         return (
-          <Component key={key} {...element.props}>
+          <Component key={key} {...elementProps}>
             {children}
           </Component>
         );
