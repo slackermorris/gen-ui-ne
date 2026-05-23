@@ -5,7 +5,7 @@ import { HttpRouter, HttpServer } from 'effect/unstable/http';
 import { DurableObjectNamespace } from './services/durable-object-namespace';
 
 
-const BaseLive = HttpApiBuilder.group(Api, 'base', (handlers) => handlers.handle('getUI', () => handleGetUi)).pipe(Layer.provide(HttpServer.layerServices));
+const BaseLive = HttpApiBuilder.group(Api, 'base', (handlers) => handlers.handle('getUI', () => handleGetUi));
 
 const handleGetUi = Effect.gen(function* () {
 	const { name } = yield* HttpRouter.params;

@@ -1,6 +1,7 @@
 import { Config, Context, Effect, Layer } from "effect";
 import { fetchWithRetry } from "./http";
 import type { ConfigError } from "effect/Config";
+import { HttpError, JsonParseError, NetworkError } from "../tagged-errors";
 
 export class BuildApiUrl extends Context.Service<
   BuildApiUrl,
@@ -23,7 +24,8 @@ export class BuildApiUrl extends Context.Service<
 export class Api extends Context.Service<
   Api,
   {
-    readonly getGenerativeUi: () => Effect.Effect<unknown, unknown>;
+    // TODO: do I need to explicitly declare the possible errors?
+    readonly getGenerativeUi: () => Effect.Effect<unknown, HttpError | NetworkError | JsonParseError | ConfigError>;
   }
 >()("Api") {
   static readonly Live = Layer.effect(
