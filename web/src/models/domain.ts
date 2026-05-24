@@ -53,9 +53,17 @@ const RiskIndicatorElement = Schema.Struct({
   type: Schema.Literal("RiskIndicator"),
 });
 
-const HoldingsListElement = Schema.Struct({
-  type: Schema.Literal("HoldingsList"),
-  limit: Schema.Number.pipe(Schema.withDecodingDefault(Effect.succeed(5))),
+const HoldingRowElement = Schema.Struct({
+  type: Schema.Literal("HoldingRow"),
+  props: Schema.Struct({
+    name: Schema.String,
+    code: Schema.String,
+    value: Schema.String,
+    returnPercent: Schema.String,
+    gap: Schema.Literals(["positive", "negative", "neutral"]).pipe(
+    Schema.withDecodingDefault(Effect.succeed("neutral" as const)),
+  ),
+  })
 });
 
 const PromptCardElement = Schema.Struct({
@@ -76,7 +84,7 @@ export const Element = Schema.Union([
   AllocationBarElement,
   AutoInvestCardElement,
   RiskIndicatorElement,
-  HoldingsListElement,
+  HoldingRowElement,
   PromptCardElement,
 ]);
 

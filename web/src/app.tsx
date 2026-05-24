@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { AppStateProvider } from "./state/app-state";
 import { Renderer } from "./renderer/renderer";
-import type { Spec } from "./renderer/types";
 import { cn } from "./utils/cn";
 import { RuntimeClient } from "./runtime-client";
 import { Effect } from "effect";
 import { Api } from "./services/api";
+import { useShowErrorBoundary } from "./hooks/useShowErrorBoundary";
+import { Spec } from "./models/domain";
 
 const personas = {
   new: {
@@ -210,18 +211,31 @@ const personas = {
 type PersonaKey = keyof typeof personas;
 
 function App() {
+  const showErrorBoundary = useShowErrorBoundary()
+
+  const [uiSpec, setUiSpec] = useState<Spec | null>(null);
   const [persona, setPersona] = useState<PersonaKey>("new");
 
+  const userName = window.location.pathname.slice(1);
+
   useEffect(() => {
-    console.log('logging here')
     const program = Effect.gen(function* () {
+
       const api = yield* Api;
-      const response = yield* api.getGenerativeUi();
-      console.log('logging the response', response);
+      const response = yield* api.getGenerativeUi(userName);
+
+      console.log('loggign the response', { userName, response })
+
+      if (response?.['uiSpec']) {
+        const uiSpec = JSON.parse(response['uiSpec'] as string);
+        setUiSpec(uiSpec);
+      }
     });
 
-    RuntimeClient.runPromise(program);
-  }, []);
+    const recoverable = program.pipe(Effect.catchTag('NetworkError', error => Effect.fail(error)))
+
+    RuntimeClient.runPromise(recoverable).catch(showErrorBoundary);
+  }, [userName]);
 
   return (
     <AppStateProvider>
@@ -248,7 +262,7 @@ function App() {
           </div>
         </div>
         <div className="mx-auto max-w-sm p-8">
-          <Renderer spec={personas[persona].spec} />
+          {uiSpec && <Renderer spec={uiSpec} /> }
         </div>
       </div>
     </AppStateProvider>
