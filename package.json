@@ -1,0 +1,4 @@
+{
+  "name": "gen-ui-ne-workspace",
+  "workspaces": ["gen-ui-ne-server", "gen-ui-ne-client"]
+}

@@ -1,5 +1,5 @@
 {
-  "name": "scratchpad",
+  "name": "gen-ui-ne-client",
   "description": "A modern frontend template (react, typescript, vite, tailwindcss)",
   "private": true,
   "version": "0.0.0",
