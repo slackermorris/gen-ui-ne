@@ -10,7 +10,7 @@ import { PromptCard } from "../components/investment/PromptCard";
 import { HoldingRow } from "../components/investment/HoldingRow";
 import { Context, Layer, Option } from "effect";
 import { valueOf } from "../utils/type-helper";
-import type { ElementType } from "gen-ui-ne-shared";
+import type { ElementType } from "gen-ui-ne-shared/model";
 
 const registry: Record<ElementType, ComponentType<any>> = {
   Stack,

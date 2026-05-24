@@ -1,7 +1,7 @@
 import { Effect, Option } from "effect";
 import { RuntimeClient } from "../runtime-client";
 import { Registry } from "./registry";
-import { Spec } from "../models/domain";
+import { Spec } from "gen-ui-ne-shared/model";
 
 interface RendererProps {
   spec: Spec;

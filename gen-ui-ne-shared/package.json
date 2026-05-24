@@ -1,8 +1,9 @@
 {
-  "name": "gen-ui-ne-shared",
-  "version": "0.0.0",
-  "type": "module",
-  "exports": {
-    ".": "./domain.ts"
-  }
+    "name": "gen-ui-ne-shared",
+    "version": "0.0.0",
+    "type": "module",
+    "exports": {
+        "./model": "./domain.ts",
+        "./api": "./api.ts"
+    }
 }

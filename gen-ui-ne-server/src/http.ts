@@ -1,22 +1,21 @@
 import { HttpApiBuilder } from 'effect/unstable/httpapi';
-import { Api } from './api';
-import { Effect, Layer } from 'effect';
-import { HttpRouter } from 'effect/unstable/http';
+
+import { Effect, Layer, Schema } from 'effect';
 import { DurableObjectNamespace } from './services/durable-object-namespace';
+import { Api } from 'gen-ui-ne-shared/api';
+import { Spec } from 'gen-ui-ne-shared/model';
 
 
-const BaseLive = HttpApiBuilder.group(Api, 'base', (handlers) => handlers.handle('getUI', () => handleGetUi));
+const BaseLive = HttpApiBuilder.group(Api, 'base', (handlers) =>
+	handlers.handle('getUI', ({ params }) => Effect.gen(function* () {
+		const doNamespace = yield* DurableObjectNamespace;
+		const stub = yield* doNamespace.getByName(params.name);
+		const raw = yield* Effect.promise(() => stub.getUi(params.name));
+		
 
-const handleGetUi = Effect.gen(function* () {
-	const { name } = yield* HttpRouter.params;
-
-	const doNamespace = yield* DurableObjectNamespace;
-	const stub = yield* doNamespace.getByName(name!);
-
-	const uiSpec = yield* Effect.promise(() => stub.getUi(name!));
-
-	// 🚨 I think these handlers expect strings because they are serialised
-	return { uiSpec: JSON.stringify(uiSpec) };
-});
+		// TODO: simulate a decoding error 
+		return Schema.decodeUnknownSync(Spec)(raw)
+	}))
+);
 
 export const ApiLive = HttpApiBuilder.layer(Api).pipe(Layer.provide(BaseLive));

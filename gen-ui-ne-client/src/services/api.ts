@@ -1,7 +1,9 @@
 import { Config, Context, Effect, Layer } from "effect";
 import { fetchWithRetry } from "./http";
-import type { ConfigError } from "effect/Config";
 import { HttpError, JsonParseError, NetworkError } from "../tagged-errors";
+
+import type { ConfigError } from "effect/Config";
+import type { Spec } from "gen-ui-ne-shared/model";
 
 export class BuildApiUrl extends Context.Service<
   BuildApiUrl,
@@ -14,11 +16,10 @@ export class BuildApiUrl extends Context.Service<
     Effect.gen(function* () {
       const baseUrl = yield* Config.string("VITE_LOCAL_GENERATIVE_UI_API_URL");
 
-
       return BuildApiUrl.of({
         getUrl: (path: string) => Effect.sync(() => `${baseUrl}/${path}`),
       });
-    })
+    }),
   );
 }
 
@@ -26,7 +27,12 @@ export class Api extends Context.Service<
   Api,
   {
     // TODO: do I need to explicitly declare the possible errors?
-    readonly getGenerativeUi: (name: string) => Effect.Effect<unknown, HttpError | NetworkError | JsonParseError | ConfigError>;
+    readonly getGenerativeUi: (
+      name: string,
+    ) => Effect.Effect<
+      Spec,
+      HttpError | NetworkError | JsonParseError | ConfigError
+    >;
   }
 >()("Api") {
   static readonly Live = Layer.effect(
