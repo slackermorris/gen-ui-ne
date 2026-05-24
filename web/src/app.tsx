@@ -217,15 +217,15 @@ function App() {
   const [persona, setPersona] = useState<PersonaKey>("new");
 
   const userName = window.location.pathname.slice(1);
-  
+
   useEffect(() => {
     const program = Effect.gen(function* () {
-      
+
       const api = yield* Api;
       const response = yield* api.getGenerativeUi(userName);
 
       console.log('loggign the response', { userName, response })
-      
+
       if (response?.['uiSpec']) {
         const uiSpec = JSON.parse(response['uiSpec'] as string);
         setUiSpec(uiSpec);

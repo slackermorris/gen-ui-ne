@@ -14,7 +14,7 @@ export class BuildApiUrl extends Context.Service<
     Effect.gen(function* () {
       const baseUrl = yield* Config.string("VITE_LOCAL_GENERATIVE_UI_API_URL");
 
-      
+
       return BuildApiUrl.of({
         getUrl: (path: string) => Effect.sync(() => `${baseUrl}/${path}`),
       });
