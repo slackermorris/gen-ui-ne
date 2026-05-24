@@ -20,7 +20,7 @@ const registry: Record<ElementType, ComponentType<any>> = {
   AllocationBar,
   RiskIndicator,
   AutoInvestCard,
-  HoldingsList: HoldingRow,
+  HoldingRow,
   PromptCard,
 };
 

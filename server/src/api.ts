@@ -4,7 +4,8 @@
   class BaseGroup extends HttpApiGroup.make("base")
     .add(
       HttpApiEndpoint.get("getUI", "/:name", {
-        success: Schema.Struct({ ui: Schema.String }),
+        // TODO: define endpoint as returning JSON
+        success: Schema.Struct({ uiSpec: Schema.String }),
       }),
     )
     .prefix("/gen-ui-ne") {}
