@@ -1,0 +1,11 @@
+{
+  "name": "gen-ui-ne-workspace",
+  "workspaces": [
+    "gen-ui-ne-server",
+    "gen-ui-ne-client",
+    "gen-ui-ne-shared"
+  ],
+  "dependencies": {
+    "effect": "^4.0.0-beta.65"
+  }
+}

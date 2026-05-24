@@ -33,24 +33,52 @@ const GridElement = Schema.Struct({
   children: Schema.Array(Schema.String),
 });
 
+const Direction = Schema.Literals(["positive", "negative", "neutral"]);
+
 const PortfolioValueElement = Schema.Struct({
   type: Schema.Literal("PortfolioValue"),
+  props: Schema.Struct({
+    value: Schema.String,
+    change: Schema.String,
+    changePercent: Schema.String,
+    direction: Direction,
+  }),
 });
 
 const ReturnBadgeElement = Schema.Struct({
   type: Schema.Literal("ReturnBadge"),
+  props: Schema.Struct({
+    value: Schema.String,
+    direction: Direction,
+    label: Schema.String,
+  }),
 });
 
 const AllocationBarElement = Schema.Struct({
   type: Schema.Literal("AllocationBar"),
+  props: Schema.Struct({
+    segments: Schema.Array(Schema.Struct({
+      label: Schema.String,
+      percent: Schema.Number,
+    })),
+  }),
 });
 
 const AutoInvestCardElement = Schema.Struct({
   type: Schema.Literal("AutoInvestCard"),
+  props: Schema.Struct({
+    amount: Schema.String,
+    frequency: Schema.String,
+    nextDate: Schema.String,
+  }),
 });
 
 const RiskIndicatorElement = Schema.Struct({
   type: Schema.Literal("RiskIndicator"),
+  props: Schema.Struct({
+    rating: Schema.Number,
+    label: Schema.String,
+  }),
 });
 
 const HoldingRowElement = Schema.Struct({
@@ -60,10 +88,8 @@ const HoldingRowElement = Schema.Struct({
     code: Schema.String,
     value: Schema.String,
     returnPercent: Schema.String,
-    gap: Schema.Literals(["positive", "negative", "neutral"]).pipe(
-    Schema.withDecodingDefault(Effect.succeed("neutral" as const)),
-  ),
-  })
+    direction: Direction,
+  }),
 });
 
 const PromptCardElement = Schema.Struct({
@@ -88,7 +114,7 @@ export const Element = Schema.Union([
   PromptCardElement,
 ]);
 
-export type Element = typeof Element.Type;
+type Element = typeof Element.Type;
 export type ElementType = Element["type"];
 
 export class Spec extends Schema.Class<Spec>("Spec")({
