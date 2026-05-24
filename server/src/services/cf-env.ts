@@ -1,3 +1,4 @@
-import { Context } from 'effect';
+import { Context } from "effect";
 
-export const CfEnv = Context.Service<{ readonly env: Env; readonly ctx: ExecutionContext }>("CfEnv")
+export class WorkerEnvironment extends Context.Service<WorkerEnvironment, { readonly env: Env}>()("WorkerEnvironment"){}
+export class WorkerContext extends Context.Service<WorkerContext, { readonly ctx: ExecutionContext}>()("WorkerContext"){}
