@@ -9,7 +9,6 @@
     "cf-typegen": "wrangler types"
   },
   "dependencies": {
-    "effect": "^4.0.0-beta.65",
     "gen-ui-ne-shared": ""
   },
   "devDependencies": {
