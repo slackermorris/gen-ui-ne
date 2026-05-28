@@ -10,7 +10,6 @@ import { PERSONALISED_UI_SCHEMA } from './dummy-data';
 import type { Spec } from 'gen-ui-ne-shared/model';
 
 export class MyDurableObject extends DurableObject<Env> {
-	// TODO: do the proper typing for the spec.
 	async getUi(name: string) {
 		// @ts-ignore: I know the string can be counted to be what I hardcoded them as.
 		const uiSpec: Spec = PERSONALISED_UI_SCHEMA[name].spec;

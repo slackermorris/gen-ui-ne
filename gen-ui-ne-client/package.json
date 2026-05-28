@@ -13,11 +13,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "effect": "^4.0.0-beta.65",
+    "gen-ui-ne-shared": "",
     "lucide-react": "^1.14.0",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "gen-ui-ne-shared": ""
+    "react-dom": "^18.3.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.1",
