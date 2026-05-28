@@ -15,7 +15,17 @@ const BaseLive = HttpApiBuilder.group(Api, 'base', (handlers) =>
 
 		// TODO: simulate a decoding error 
 		return Schema.decodeUnknownSync(Spec)(raw)
-	}))
+
+
+		
+	})).handle('log', ({ params }) => Effect.gen(function*() {
+		const doNamespace = yield* DurableObjectNamespace;
+		const stub = yield* doNamespace.getByName(params.name);
+		return {
+			ok: true
+		}
+	})),
+	
 );
 
 export const ApiLive = HttpApiBuilder.layer(Api).pipe(Layer.provide(BaseLive));

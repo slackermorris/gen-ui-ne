@@ -4,7 +4,7 @@ import {
   HttpApiEndpoint,
   HttpApiGroup,
 } from "effect/unstable/httpapi";
-import { Spec } from './domain'
+import { Spec } from "./domain";
 
 class BaseGroup extends HttpApiGroup.make("base")
   .add(
@@ -12,6 +12,12 @@ class BaseGroup extends HttpApiGroup.make("base")
       params: { name: Schema.String },
       success: Spec,
     }),
+    HttpApiEndpoint.post("log", "/:name/log", {
+        params: { name: Schema.String },
+        success: Schema.Struct({
+          ok: Schema.Boolean,
+        }),
+      }),
   )
   .prefix("/gen-ui-ne") {}
 
