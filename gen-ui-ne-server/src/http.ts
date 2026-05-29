@@ -25,7 +25,6 @@ const BaseLive = HttpApiBuilder.group(Api, 'base', (handlers) =>
 				const stub = yield* doNamespace.getByName(params.name);
 				const logs = Schema.decodeSync(Schema.Array(OtlpLogRecordToLogInsertDto))(payload.logs);
 
-				console.log(logs)
 
 				yield* Effect.promise(() => stub.ingestLogs(logs));
 

@@ -1,5 +1,5 @@
 import { DurableObject, WorkerEntrypoint } from 'cloudflare:workers';
-import { Context, Layer, Schema } from 'effect';
+import { Context, Layer } from 'effect';
 import { HttpRouter, HttpServer } from 'effect/unstable/http';
 import { WorkerEnvironment, WorkerContext } from './services/cf-env';
 import { ApiLive } from './http';
