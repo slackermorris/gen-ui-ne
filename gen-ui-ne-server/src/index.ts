@@ -1,5 +1,5 @@
 import { DurableObject, WorkerEntrypoint } from 'cloudflare:workers';
-import { Context, Layer } from 'effect';
+import { Context, Layer, Schema } from 'effect';
 import { HttpRouter, HttpServer } from 'effect/unstable/http';
 import { WorkerEnvironment, WorkerContext } from './services/cf-env';
 import { ApiLive } from './http';
@@ -9,8 +9,6 @@ import { PERSONALISED_UI_SCHEMA } from './dummy-data';
 
 import type { Spec } from 'gen-ui-ne-shared/model';
 import type { LogInsertDto } from './models/dto';
-
-
 
 export class MyDurableObject extends DurableObject<Env> {
 	constructor(ctx: DurableObjectState, env: Env) {
@@ -37,10 +35,9 @@ export class MyDurableObject extends DurableObject<Env> {
 	}
 
 	async ingestLogs(rows: ReadonlyArray<LogInsertDto>) {
-
-		// TODO: wrap this in a transaction 
+		// TODO: wrap this in a transaction
 		for (const row of rows) {
-			console.log('logging each row', { row })
+			console.log('logging each row', { row });
 			this.ctx.storage.sql.exec(
 				`INSERT INTO logs (ts, severity, body, trace_id, span_id, attributes) VALUES (?, ?, ?, ?, ?, ?)`,
 				row.ts,
