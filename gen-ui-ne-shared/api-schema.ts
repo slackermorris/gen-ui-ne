@@ -1,4 +1,4 @@
-import { Schema, SchemaTransformation } from "effect"
+import { Schema } from "effect"
 
 export const OtlpLogRecord = Schema.Struct({
   timeUnixNano: Schema.optionalKey(Schema.String),

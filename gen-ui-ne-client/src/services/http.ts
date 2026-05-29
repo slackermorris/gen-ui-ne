@@ -12,6 +12,23 @@ function getRequest(url: string) {
   });
 }
 
+function postRequest(url: string, body: object) {
+  return Effect.tryPromise({
+    try: async () => {
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body),
+      });
+      return response;
+    },
+    catch: () =>
+      new NetworkError({ statusCode: 0, message: "Failed to fulfil request" }),
+  });
+}
+
 export function fetchWithRetry(url: string) {
   const basicGet = Effect.gen(function* () {
     const response = yield* getRequest(url);
@@ -31,6 +48,26 @@ export function fetchWithRetry(url: string) {
   const retryableGet = basicGet;
 
   return retryableGet;
+}
+
+export function postWithRetry(url: string, body: object) {
+  const basicPost = Effect.gen(function* () {
+    const response = yield* postRequest(url, body);
+
+    if (!response.ok) {
+      return yield* Effect.fail(
+        new HttpError({
+          statusCode: response.status,
+          message: response.statusText,
+        }),
+      );
+    }
+
+    return yield* extractJson(response);
+  });
+
+  const retryablePost = basicPost;
+  return retryablePost;
 }
 
 function extractJson(response: Response) {
