@@ -30,6 +30,7 @@ function App() {
     RuntimeClient.runPromise(recoverable).catch(showErrorBoundary);
   }, [userName]);
 
+
   return (
     <AppStateProvider>
       <div className="min-h-screen bg-gray-50">
