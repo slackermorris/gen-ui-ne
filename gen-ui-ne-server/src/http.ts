@@ -4,7 +4,7 @@ import { Effect, Layer, Schema } from 'effect';
 import { DurableObjectNamespace } from './services/durable-object-namespace';
 import { Api } from 'gen-ui-ne-shared/api';
 import { Spec } from 'gen-ui-ne-shared/model';
-import { OtlpLogRecordToLogInsertDto } from 'gen-ui-ne-shared/api-schema';
+import { OtlpLogRecordToLogInsertDto } from './models/dto';
 
 const BaseLive = HttpApiBuilder.group(Api, 'base', (handlers) =>
 	handlers
@@ -21,12 +21,10 @@ const BaseLive = HttpApiBuilder.group(Api, 'base', (handlers) =>
 		.handle('log', ({ params, payload }) =>
 			Effect.gen(function* () {
 				// TODO: add some logging
-				console.log('firing something', { payload })
 				const doNamespace = yield* DurableObjectNamespace;
 				const stub = yield* doNamespace.getByName(params.name);
 				const logs = Schema.decodeSync(Schema.Array(OtlpLogRecordToLogInsertDto))(payload.logs);
 
-				console.log(logs)
 
 				yield* Effect.promise(() => stub.ingestLogs(logs));
 

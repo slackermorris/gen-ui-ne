@@ -1,5 +1,5 @@
 import { DurableObject, WorkerEntrypoint } from 'cloudflare:workers';
-import { Context, Layer, Schema } from 'effect';
+import { Context, Layer } from 'effect';
 import { HttpRouter, HttpServer } from 'effect/unstable/http';
 import { WorkerEnvironment, WorkerContext } from './services/cf-env';
 import { ApiLive } from './http';
@@ -8,23 +8,9 @@ import { DurableObjectNamespace } from './services/durable-object-namespace';
 import { PERSONALISED_UI_SCHEMA } from './dummy-data';
 
 import type { Spec } from 'gen-ui-ne-shared/model';
-import type { LogInsertDto } from 'gen-ui-ne-shared/api-schema';
+import type { LogInsertDto } from './models/dto';
 
-// const DbLogRow = Schema.Struct({
-// 	id: Schema.Number,
-// 	// epoch milliseconds (converted from timeUnixNano)
-// 	ts: Schema.Number,
-// 	// OTLP severity number (9=Info, 13=Warn, 17=Error)
-// 	severity: Schema.Number,
-// 	// the log message/event name
-// 	body: Schema.String,
-// 	trace_id: Schema.NullOr(Schema.String),
-// 	span_id: Schema.NullOr(Schema.String),
-// 	// flattened key-value JSON: {"user.action":"view_portfolio","component":"AllocationBar"}
-// 	attributes: Schema.String,
-// });
 
-// type DbLogRow = typeof DbLogRow.Type
 
 export class MyDurableObject extends DurableObject<Env> {
 	constructor(ctx: DurableObjectState, env: Env) {
