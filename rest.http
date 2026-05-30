@@ -1,0 +1,47 @@
+### /gen-ui-ne
+POST http://localhost:8787/gen-ui-ne/jack/log
+Content-Type: application/json
+
+{
+    "logs": [
+        {
+            "timeUnixNano": "1748563200000000000",
+            "observedTimeUnixNano": "1748563200100000000",
+            "severityNumber": 9,
+            "severityText": "INFO",
+            "body": "User viewed portfolio allocation",
+            "attributes": [
+                {
+                    "key": "user.action",
+                    "value": "view_portfolio"
+                },
+                {
+                    "key": "component",
+                    "value": "AllocationBar"
+                },
+                {
+                    "key": "session.id",
+                    "value": "abc123"
+                }
+            ],
+            "traceId": "4bf92f3577b34da6a3ce929d0e0e4736",
+            "spanId": "00f067aa0ba902b7"
+        },
+        {
+            "timeUnixNano": "1748563201000000000",
+            "severityNumber": 17,
+            "severityText": "ERROR",
+            "body": "Failed to load fund data",
+            "attributes": [
+                {
+                    "key": "error.message",
+                    "value": "Network timeout after 5000ms"
+                },
+                {
+                    "key": "component",
+                    "value": "FundList"
+                }
+            ]
+        }
+    ]
+}

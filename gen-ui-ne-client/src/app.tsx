@@ -3,7 +3,7 @@ import { AppStateProvider } from "./state/app-state";
 import { Renderer } from "./renderer/renderer";
 import { RuntimeClient } from "./runtime-client";
 import { Effect } from "effect";
-import { Api } from "./services/api";
+import { ApiClient } from "./services/api";
 import { useShowErrorBoundary } from "./hooks/useShowErrorBoundary";
 import type { Spec } from "gen-ui-ne-shared/model";
 
@@ -16,19 +16,15 @@ function App() {
 
   useEffect(() => {
     const program = Effect.gen(function* () {
-      const api = yield* Api;
-      const uiSpec = yield* api.getGenerativeUi(userName);
+      const client = yield* ApiClient;
+      const uiSpec = yield* client.base.getUI({ params: { name: userName } });
 
       setUiSpec(uiSpec);
     });
 
-    // TODO: figure out is handling errors here is the best place
-    const recoverable = program.pipe(
-      Effect.catchTag("NetworkError", (error) => Effect.fail(error)),
-    );
-
-    RuntimeClient.runPromise(recoverable).catch(showErrorBoundary);
+    RuntimeClient.runPromise(program).catch(showErrorBoundary);
   }, [userName]);
+
 
   return (
     <AppStateProvider>

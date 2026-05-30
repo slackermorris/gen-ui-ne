@@ -1,54 +1,39 @@
-import { Config, Context, Effect, Layer } from "effect";
-import { fetchWithRetry } from "./http";
-import { HttpError, JsonParseError, NetworkError } from "../tagged-errors";
+import { Config, Context, Data, Effect, flow, Layer, Schema } from "effect";
+import {
+  FetchHttpClient,
+  HttpClient,
+  HttpClientRequest,
+  HttpClientResponse,
+} from "effect/unstable/http";
+import { HttpApiClient } from "effect/unstable/httpapi";
+import { Api } from "gen-ui-ne-shared/api";
+import { OtlpLogRecord } from "gen-ui-ne-shared/api-schema";
+import { Spec } from "gen-ui-ne-shared/model";
 
-import type { ConfigError } from "effect/Config";
-import type { Spec } from "gen-ui-ne-shared/model";
+class ApiError extends Data.TaggedError("ApiError")<{
+  readonly cause: any;
+}> {}
 
-export class BuildApiUrl extends Context.Service<
-  BuildApiUrl,
-  {
-    readonly getUrl: (path: string) => Effect.Effect<string, ConfigError>;
-  }
->()("BuildApiUrl") {
+export class ApiClient extends Context.Service<
+  ApiClient,
+  HttpApiClient.ForApi<typeof Api>
+>()("gen-ui-ne-client/ApiClient") {
   static readonly Live = Layer.effect(
-    BuildApiUrl,
+    ApiClient,
     Effect.gen(function* () {
       const baseUrl = yield* Config.string("VITE_LOCAL_GENERATIVE_UI_API_URL");
 
-      return BuildApiUrl.of({
-        getUrl: (path: string) => Effect.sync(() => `${baseUrl}/${path}`),
+      return yield* HttpApiClient.make(Api, {
+        transformClient: (client) =>
+          client.pipe(
+            HttpClient.mapRequest(
+              flow(
+                HttpClientRequest.prependUrl(baseUrl),
+                HttpClientRequest.acceptJson,
+              ),
+            ),
+          ),
       });
     }),
-  );
-}
-
-export class Api extends Context.Service<
-  Api,
-  {
-    // TODO: do I need to explicitly declare the possible errors?
-    readonly getGenerativeUi: (
-      name: string,
-    ) => Effect.Effect<
-      Spec,
-      HttpError | NetworkError | JsonParseError | ConfigError
-    >;
-  }
->()("Api") {
-  static readonly Live = Layer.effect(
-    Api,
-    Effect.gen(function* () {
-      const urlBuilder = yield* BuildApiUrl;
-
-      return Api.of({
-        getGenerativeUi: (name: string) =>
-          Effect.gen(function* () {
-            const url = yield* urlBuilder.getUrl(name);
-
-            const response = yield* fetchWithRetry(url);
-            return response;
-          }),
-      });
-    }),
-  );
+  ).pipe(Layer.provide(FetchHttpClient.layer));
 }
