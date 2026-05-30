@@ -4,6 +4,7 @@
     "type": "module",
     "exports": {
         "./model": "./domain.ts",
-        "./api": "./api.ts"
+        "./api": "./api.ts",
+        "./api-schema": "./api-schema.ts"
     }
 }
