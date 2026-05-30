@@ -10,7 +10,7 @@ import { PERSONALISED_UI_SCHEMA } from './dummy-data';
 import type { Spec } from 'gen-ui-ne-shared/model';
 import type { LogInsertDto } from './models/dto';
 
-export class MyDurableObject extends DurableObject<Env> {
+export class Orchestrator extends DurableObject<Env> {
 	constructor(ctx: DurableObjectState, env: Env) {
 		super(ctx, env);
 
