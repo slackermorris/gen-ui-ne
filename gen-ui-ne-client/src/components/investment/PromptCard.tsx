@@ -1,5 +1,5 @@
 import { Effect } from "effect";
-import { Api } from "../../services/api";
+import { ApiClient } from "../../services/api";
 import { RuntimeClient } from "../../runtime-client";
 import { useShowErrorBoundary } from "../../hooks/useShowErrorBoundary";
 
@@ -39,8 +39,8 @@ export function PromptCard({ title, message, action }: PromptCardProps) {
     };
 
     const program = Effect.gen(function* () {
-      const api = yield* Api;
-      const response = yield* api.sendLog(userName, { logs: [payload] });
+      const client = yield* ApiClient;
+      const response = yield* client.base.log({ params: { name: userName }, payload: { logs: [payload] } });
 
       console.log("logging the response", { response });
     });
