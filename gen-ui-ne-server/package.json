@@ -5,10 +5,13 @@
   "scripts": {
     "deploy": "wrangler deploy",
     "dev": "wrangler dev",
+    "dev:spec-selector": "wrangler dev --config spec-selector.wrangler.jsonc",
     "start": "wrangler dev",
     "cf-typegen": "wrangler types"
   },
   "dependencies": {
+    "@ai-sdk/anthropic": "^3.0.81",
+    "ai": "^6.0.193",
     "gen-ui-ne-shared": ""
   },
   "devDependencies": {
