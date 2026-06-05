@@ -3,9 +3,11 @@
     "version": "0.0.0",
     "type": "module",
     "exports": {
-        "./model": "./domain.ts",
+        "./model": "./spec.ts",
         "./api": "./api.ts",
         "./api-schema": "./api-schema.ts",
-        "./catalogue": "./catalogue.ts"
+        "./catalogue": "./catalogue.ts",
+        "./catalogue-v2": "./catalogue-v2.ts",
+        "./spec": "./spec.ts"
     }
 }

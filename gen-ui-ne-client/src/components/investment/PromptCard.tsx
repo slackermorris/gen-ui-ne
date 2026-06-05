@@ -1,15 +1,21 @@
-import { Effect } from "effect";
+import { Effect, Schema } from "effect";
 import { Api } from "../../services/api";
 import { RuntimeClient } from "../../runtime-client";
 import { useShowErrorBoundary } from "../../hooks/useShowErrorBoundary";
 
 import type { OtlpLogRecord } from "gen-ui-ne-shared/api-schema";
 
-interface PromptCardProps {
-  title: string;
-  message: string;
-  action?: string;
-}
+// @schema-export-start
+const PromptCardProps = Schema.Struct({
+  title: Schema.String,
+  message: Schema.String,
+  action: Schema.optionalKey(Schema.String),
+}).annotate({
+  description: "A call-to-action card with a title, message, and optional action label. Use to surface a recommendation, prompt, or insight the investor should act on.",
+})
+// @schema-export-end
+
+type PromptCardProps = typeof PromptCardProps.Type
 
 export function PromptCard({ title, message, action }: PromptCardProps) {
   const showErrorBoundary = useShowErrorBoundary();

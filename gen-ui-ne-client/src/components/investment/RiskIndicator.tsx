@@ -1,7 +1,15 @@
-interface RiskIndicatorProps {
-  rating: number
-  label?: string
-}
+import { Schema } from 'effect'
+
+// @schema-export-start
+const RiskIndicatorProps = Schema.Struct({
+  rating: Schema.Number,
+  label: Schema.optionalKey(Schema.String),
+}).annotate({
+  description: "Displays the investor's risk rating on a 1–7 scale. Use to surface or reinforce risk profile awareness, especially when recommending funds.",
+})
+// @schema-export-end
+
+type RiskIndicatorProps = typeof RiskIndicatorProps.Type
 
 export function RiskIndicator({ rating, label = 'Risk level' }: RiskIndicatorProps) {
   const color = rating <= 2 ? 'bg-green-500' : rating <= 4 ? 'bg-yellow-500' : 'bg-red-500'

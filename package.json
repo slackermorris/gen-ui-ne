@@ -1,5 +1,8 @@
 {
   "name": "gen-ui-ne-workspace",
+  "scripts": {
+    "generate-catalogue": "node scripts/generate-catalogue.mjs"
+  },
   "workspaces": [
     "gen-ui-ne-server",
     "gen-ui-ne-client",

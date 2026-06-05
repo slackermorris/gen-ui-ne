@@ -1,11 +1,17 @@
-interface Segment {
-  label: string
-  percent: number
-}
+import { Schema } from 'effect'
 
-interface AllocationBarProps {
-  segments: Segment[]
-}
+// @schema-export-start
+const AllocationBarProps = Schema.Struct({
+  segments: Schema.Array(Schema.Struct({
+    label: Schema.String,
+    percent: Schema.Number,
+  })),
+}).annotate({
+  description: "A segmented horizontal bar showing portfolio asset allocation by percentage. Use when showing how an investor's portfolio is divided across asset classes or funds.",
+})
+// @schema-export-end
+
+type AllocationBarProps = typeof AllocationBarProps.Type
 
 const COLORS = ['bg-green-500', 'bg-blue-500', 'bg-purple-500', 'bg-orange-500', 'bg-teal-500']
 const DOT_COLORS = ['bg-green-500', 'bg-blue-500', 'bg-purple-500', 'bg-orange-500', 'bg-teal-500']

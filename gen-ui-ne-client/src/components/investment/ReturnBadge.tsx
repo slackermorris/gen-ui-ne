@@ -1,10 +1,17 @@
 import { cn } from '../../utils/cn'
+import { Schema } from 'effect'
 
-interface ReturnBadgeProps {
-  value: string
-  direction: 'positive' | 'negative' | 'neutral'
-  label?: string
-}
+// @schema-export-start
+const ReturnBadgeProps = Schema.Struct({
+  value: Schema.String,
+  direction: Schema.Literals(["positive", "negative", "neutral"]),
+  label: Schema.optionalKey(Schema.String),
+}).annotate({
+  description: "A small badge showing a return figure with a direction indicator. Use to highlight a specific return metric inline or alongside a holding.",
+})
+// @schema-export-end
+
+type ReturnBadgeProps = typeof ReturnBadgeProps.Type
 
 const badgeStyles = {
   positive: 'bg-green-50 text-green-700 border-green-200',
