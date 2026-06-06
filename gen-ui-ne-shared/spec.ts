@@ -1,11 +1,11 @@
 import { Schema } from "effect";
-import { Element } from "./catalogue.ts";
+import { CatalogueElement } from "./catalogue.ts";
 
 const ElementId = Schema.String.pipe(Schema.brand("ElementId"));
 export type ElementId = typeof ElementId.Type;
 
 const SpecElement = Schema.Union([
-  ...(Element.members.map((member) => {
+  ...(CatalogueElement.members.map((member) => {
     const fields = member.fields;
     const componentProps = fields.props;
 
