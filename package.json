@@ -1,7 +1,7 @@
 {
   "name": "gen-ui-ne-workspace",
   "scripts": {
-    "generate-catalogue": "node scripts/generate-catalogue.mjs"
+    "generate-catalogue": "tsx scripts/generate-catalogue.ts"
   },
   "workspaces": [
     "gen-ui-ne-server",
@@ -10,5 +10,11 @@
   ],
   "dependencies": {
     "effect": "^4.0.0-beta.65"
+  },
+  "devDependencies": {
+    "@effect/platform-node": "^4.0.0-beta.78",
+    "@types/node": "^25.9.2",
+    "tsx": "^4.19.2",
+    "typescript": "^5.5.3"
   }
 }
