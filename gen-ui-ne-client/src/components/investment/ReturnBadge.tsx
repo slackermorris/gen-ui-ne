@@ -2,7 +2,7 @@ import { cn } from '../../utils/cn'
 import { Schema } from 'effect'
 
 // @schema-export-start
-const ReturnBadgeProps = Schema.Struct({
+export const ReturnBadgeProps = Schema.Struct({
   value: Schema.String,
   direction: Schema.Literals(["positive", "negative", "neutral"]),
   label: Schema.optionalKey(Schema.String),

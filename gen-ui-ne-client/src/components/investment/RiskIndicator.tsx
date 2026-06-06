@@ -1,7 +1,7 @@
 import { Schema } from 'effect'
 
 // @schema-export-start
-const RiskIndicatorProps = Schema.Struct({
+export const RiskIndicatorProps = Schema.Struct({
   rating: Schema.Number,
   label: Schema.optionalKey(Schema.String),
 }).annotate({

@@ -3,7 +3,7 @@ import { cn } from '../../utils/cn'
 import { Effect, Schema } from 'effect'
 
 // @schema-export-start
-const GridProps = Schema.Struct({
+export const GridProps = Schema.Struct({
   columns: Schema.Literals([1, 2, 3, 4]).pipe(
     Schema.withDecodingDefault(Effect.succeed(1 as const)),
   ),

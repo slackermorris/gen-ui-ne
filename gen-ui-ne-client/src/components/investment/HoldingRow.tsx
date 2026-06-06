@@ -2,7 +2,7 @@ import { cn } from '../../utils/cn'
 import { Schema } from 'effect'
 
 // @schema-export-start
-const HoldingRowProps = Schema.Struct({
+export const HoldingRowProps = Schema.Struct({
   name: Schema.String,
   code: Schema.String,
   value: Schema.String,

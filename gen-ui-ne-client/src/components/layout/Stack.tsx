@@ -7,7 +7,7 @@ import type { ReactNode } from "react";
 const ReactNodeSchema = Schema.declare((u): u is ReactNode => true);
 
 // @schema-export-start
-const StackProps = Schema.Struct({
+export const StackProps = Schema.Struct({
   direction: Schema.Literals(["vertical", "horizontal"]).pipe(
     Schema.withDecodingDefault(Effect.succeed("vertical" as const)),
   ),

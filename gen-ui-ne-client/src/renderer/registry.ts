@@ -2,9 +2,9 @@ import * as Components from "../catalogue-source";
 import { Context, Layer, Option } from "effect";
 
 import type { ComponentType } from "react";
-import type { ElementType } from "gen-ui-ne-shared/catalogue-v2";
+import type { ElementType } from "gen-ui-ne-shared/catalogue";
 
-const registry: Record<ElementType, ComponentType<any>> = Components;
+const registry: Record<ElementType, ComponentType<any>> = Components
 
 export class Registry extends Context.Service<
   Registry,

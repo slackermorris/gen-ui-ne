@@ -6,7 +6,7 @@ import { useShowErrorBoundary } from "../../hooks/useShowErrorBoundary";
 import type { OtlpLogRecord } from "gen-ui-ne-shared/api-schema";
 
 // @schema-export-start
-const PromptCardProps = Schema.Struct({
+export const PromptCardProps = Schema.Struct({
   title: Schema.String,
   message: Schema.String,
   action: Schema.optionalKey(Schema.String),

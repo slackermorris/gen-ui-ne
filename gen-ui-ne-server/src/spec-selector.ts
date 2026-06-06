@@ -68,7 +68,6 @@ export class SpecSelector extends WorkerEntrypoint<Env> {
 			.trim();
 
 		const parsed = JSON.parse(json);
-		console.log('logging here', { parsed, json })
 
 		// TODO: I think we loop until we satisfy the decoding.. no point returning if what we have produced will not be able to be rendered.
 

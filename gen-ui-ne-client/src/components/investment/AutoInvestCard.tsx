@@ -1,7 +1,7 @@
 import { Schema } from 'effect'
 
 // @schema-export-start
-const AutoInvestCardProps = Schema.Struct({
+export const AutoInvestCardProps = Schema.Struct({
   amount: Schema.String,
   frequency: Schema.String,
   nextDate: Schema.String,

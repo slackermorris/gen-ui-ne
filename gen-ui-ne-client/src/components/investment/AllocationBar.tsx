@@ -1,7 +1,7 @@
 import { Schema } from 'effect'
 
 // @schema-export-start
-const AllocationBarProps = Schema.Struct({
+export const AllocationBarProps = Schema.Struct({
   segments: Schema.Array(Schema.Struct({
     label: Schema.String,
     percent: Schema.Number,

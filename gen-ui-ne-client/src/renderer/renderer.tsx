@@ -1,14 +1,14 @@
 import { Effect, Option } from "effect";
 import { RuntimeClient } from "../runtime-client";
 import { Registry } from "./registry";
-import { Spec } from "gen-ui-ne-shared/model";
+import { ElementId, Spec } from "gen-ui-ne-shared/model";
 
 interface RendererProps {
   spec: Spec;
 }
 
 export function Renderer({ spec }: RendererProps) {
-  function renderElement(key: string): React.ReactNode {
+  function renderElement(key: ElementId): React.ReactNode {
     const element = spec.elements[key];
     if (!element) {
       console.warn(`[Renderer] Unknown element key: "${key}"`);
@@ -30,6 +30,7 @@ export function Renderer({ spec }: RendererProps) {
         return null;
       },
       onSome: (Component) => {
+        // TODO: fix typing for the children element
         const elementProps = 'props' in element && element.props;
         const children = 'children' in element && element.children.map(renderElement);
 

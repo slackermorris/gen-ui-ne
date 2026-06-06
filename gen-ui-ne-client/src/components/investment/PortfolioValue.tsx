@@ -2,7 +2,7 @@ import { cn } from '../../utils/cn'
 import { Schema } from 'effect'
 
 // @schema-export-start
-const PortfolioValueProps = Schema.Struct({
+export const PortfolioValueProps = Schema.Struct({
   value: Schema.String,
   change: Schema.String,
   changePercent: Schema.String,

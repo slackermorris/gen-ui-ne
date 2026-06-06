@@ -14,6 +14,7 @@
   "devDependencies": {
     "@effect/platform-node": "^4.0.0-beta.78",
     "@types/node": "^25.9.2",
+    "@types/react": "^19.2.17",
     "tsx": "^4.19.2",
     "typescript": "^5.5.3"
   }
