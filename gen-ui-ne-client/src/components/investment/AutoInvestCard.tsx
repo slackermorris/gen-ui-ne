@@ -1,8 +1,16 @@
-interface AutoInvestCardProps {
-  amount: string
-  frequency: string
-  nextDate: string
-}
+import { Schema } from 'effect'
+
+// @schema-export-start
+export const AutoInvestCardProps = Schema.Struct({
+  amount: Schema.String,
+  frequency: Schema.String,
+  nextDate: Schema.String,
+}).annotate({
+  description: "Shows an investor's auto-invest configuration: amount, frequency, and next scheduled date. Use when the investor has an active auto-invest and the context is relevant.",
+})
+// @schema-export-end
+
+type AutoInvestCardProps = typeof AutoInvestCardProps.Type
 
 export function AutoInvestCard({ amount, frequency, nextDate }: AutoInvestCardProps) {
   return (

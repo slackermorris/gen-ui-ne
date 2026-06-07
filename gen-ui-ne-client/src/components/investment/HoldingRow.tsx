@@ -1,12 +1,19 @@
 import { cn } from '../../utils/cn'
+import { Schema } from 'effect'
 
-interface HoldingRowProps {
-  name: string
-  code: string
-  value: string
-  returnPercent: string
-  direction: 'positive' | 'negative' | 'neutral'
-}
+// @schema-export-start
+export const HoldingRowProps = Schema.Struct({
+  name: Schema.String,
+  code: Schema.String,
+  value: Schema.String,
+  returnPercent: Schema.String,
+  direction: Schema.Literals(["positive", "negative", "neutral"]),
+}).annotate({
+  description: "A single row showing one holding: name, ticker code, current value, and return percentage. Use inside a list to display multiple holdings.",
+})
+// @schema-export-end
+
+type HoldingRowProps = typeof HoldingRowProps.Type
 
 export function HoldingRow({ name, code, value, returnPercent, direction }: HoldingRowProps) {
   return (

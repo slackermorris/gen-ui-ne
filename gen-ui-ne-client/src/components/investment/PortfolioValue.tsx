@@ -1,11 +1,18 @@
 import { cn } from '../../utils/cn'
+import { Schema } from 'effect'
 
-interface PortfolioValueProps {
-  value: string
-  change: string
-  changePercent: string
-  direction: 'positive' | 'negative' | 'neutral'
-}
+// @schema-export-start
+export const PortfolioValueProps = Schema.Struct({
+  value: Schema.String,
+  change: Schema.String,
+  changePercent: Schema.String,
+  direction: Schema.Literals(["positive", "negative", "neutral"]),
+}).annotate({
+  description: "Displays the investor's total portfolio value with a change amount and percentage. Use at the top of a dashboard to give an at-a-glance financial overview.",
+})
+// @schema-export-end
+
+type PortfolioValueProps = typeof PortfolioValueProps.Type
 
 const changeStyles = {
   positive: 'text-green-600',

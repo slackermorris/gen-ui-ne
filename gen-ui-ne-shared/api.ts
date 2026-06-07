@@ -4,7 +4,7 @@ import {
   HttpApiEndpoint,
   HttpApiGroup,
 } from "effect/unstable/httpapi";
-import { Spec } from "./domain";
+import { Spec } from "./spec";
 import { OtlpLogRecord } from "./api-schema";
 
 class BaseGroup extends HttpApiGroup.make("base")

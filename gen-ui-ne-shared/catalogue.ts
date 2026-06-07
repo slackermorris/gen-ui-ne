@@ -1,5 +1,13 @@
+import { Schema } from "effect";
 import type { ElementType } from "./domain.ts";
+import * as ComponentSchema from "./component-schema";
 
+// Schema union for type-safe validation (used by the client renderer)
+const elements = Object.values(ComponentSchema).map((s) => s.toCatalogueElement());
+export const CatalogueElement = Schema.Union([...elements]);
+export type CatalogueElement = typeof CatalogueElement.Type['type'];
+
+// Description/example catalogue for LLM prompt building
 type ComponentEntry = {
   description: string;
   example?: Record<string, unknown>;
