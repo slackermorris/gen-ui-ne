@@ -1,9 +1,8 @@
 import { WorkerEntrypoint } from 'cloudflare:workers';
 import { generateText } from 'ai';
 import { createAnthropic } from '@ai-sdk/anthropic';
-import { catalogue } from 'gen-ui-ne-shared/catalogue-v2';
+import { catalogue } from 'gen-ui-ne-shared/catalogue';
 import { Spec } from 'gen-ui-ne-shared/model';
-import { SchemaAST, Option } from 'effect';
 import type { Orchestrator } from './index';
 
 interface Env {
@@ -14,12 +13,11 @@ interface Env {
 
 function buildSystemPrompt() {
 	const components = Object.entries(catalogue)
-		.map(([type, { schema }]) => {
-			const description = Option.getOrElse(
-				SchemaAST.getDescriptionAnnotation(schema.ast),
-				() => ''
-			);
-			return `- ${type}: ${description}`;
+		.map(([type, entry]) => {
+			const element = entry.example
+				? `{"type":"${type}","props":${JSON.stringify(entry.example)}}`
+				: `{"type":"${type}"}`;
+			return `- ${type}: ${entry.description}\n  Schema: ${element}`;
 		})
 		.join('\n');
 
@@ -68,8 +66,7 @@ export class SpecSelector extends WorkerEntrypoint<Env> {
 			.trim();
 
 		const parsed = JSON.parse(json);
-
-		// TODO: I think we loop until we satisfy the decoding.. no point returning if what we have produced will not be able to be rendered.
+		console.log('logging here', { parsed, json })
 
 		return parsed;
 	}

@@ -64,6 +64,7 @@ export class Orchestrator extends DurableObject<Env> {
 
 		for (const step of result.steps) {
 			for (const toolResult of step.toolResults ?? []) {
+				console.log('logging the tool result', { toolResult })
 				if (toolResult.toolName === 'selectSpec') {
 					return toolResult.output;
 				}

@@ -8,8 +8,5 @@
         "./api-schema": "./api-schema.ts",
         "./catalogue": "./catalogue.ts",
         "./spec": "./spec.ts"
-    },
-    "dependencies": {
-        "gen-ui-ne-client": ""
     }
 }
