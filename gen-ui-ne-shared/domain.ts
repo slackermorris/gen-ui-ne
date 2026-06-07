@@ -41,7 +41,9 @@ const PortfolioValueElement = Schema.Struct({
     value: Schema.String,
     change: Schema.String,
     changePercent: Schema.String,
-    direction: Direction,
+    direction: Direction.pipe(
+      Schema.withDecodingDefault(Effect.succeed("neutral" as const)),
+    ),
   }),
 });
 

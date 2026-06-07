@@ -10,7 +10,7 @@
 	"migrations": [
 		{
 			"new_sqlite_classes": [
-				"MyDurableObject"
+				"Orchestrator"
 			],
 			"tag": "v1"
 		}
@@ -18,7 +18,7 @@
 	"durable_objects": {
 		"bindings": [
 			{
-				"class_name": "MyDurableObject",
+				"class_name": "Orchestrator",
 				"name": "MY_DURABLE_OBJECT"
 			}
 		]
@@ -29,7 +29,7 @@
 	"upload_source_maps": true,
 	"compatibility_flags": [
 		"nodejs_compat"
-	]
+	],
 	/**
 	 * Smart Placement
 	 * https://developers.cloudflare.com/workers/configuration/smart-placement/#smart-placement
@@ -53,9 +53,18 @@
 	 * https://developers.cloudflare.com/workers/static-assets/binding/
 	 */
 	// "assets": {  "directory": "./public/",  "binding": "ASSETS" }
+	"secrets": {
+		"required": ["ANTHROPIC_API_KEY"]
+	},
 	/**
 	 * Service Bindings (communicate between multiple Workers)
 	 * https://developers.cloudflare.com/workers/wrangler/configuration/#service-bindings
 	 */
-	// "services": [  {   "binding": "MY_SERVICE",   "service": "my-service"  } ]
+	"services": [
+		{
+			"binding": "SPEC_SELECTOR",
+			"service": "spec-selector",
+			"entrypoint": "SpecSelector"
+		}
+	]
 }

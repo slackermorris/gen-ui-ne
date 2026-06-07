@@ -3,8 +3,8 @@ import { HttpApiBuilder } from 'effect/unstable/httpapi';
 import { Effect, Layer, Schema } from 'effect';
 import { DurableObjectNamespace } from './services/durable-object-namespace';
 import { Api } from 'gen-ui-ne-shared/api';
-import { Spec } from 'gen-ui-ne-shared/model';
 import { OtlpLogRecordToLogInsertDto } from './models/dto';
+import { Spec } from 'gen-ui-ne-shared/model';
 
 const BaseLive = HttpApiBuilder.group(Api, 'base', (handlers) =>
 	handlers
@@ -14,7 +14,7 @@ const BaseLive = HttpApiBuilder.group(Api, 'base', (handlers) =>
 				const stub = yield* doNamespace.getByName(params.name);
 				const raw = yield* Effect.promise(() => stub.getUi(params.name));
 
-				// TODO: simulate a decoding error
+				// TODO: do not need to handle decoding the spec myself.. if anything, wouldn't this be encoding?
 				return Schema.decodeUnknownSync(Spec)(raw);
 			}),
 		)

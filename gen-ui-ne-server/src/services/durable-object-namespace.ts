@@ -1,9 +1,9 @@
 import { Context, Effect, Layer } from 'effect';
 import { WorkerEnvironment } from './cf-env';
 import { BindingNotFoundError, BindingValidationError } from '../tagged-errors';
-import type { MyDurableObject } from '..';
+import type { Orchestrator } from '..';
 
-type Stub = DurableObjectStub<MyDurableObject>;
+type Stub = DurableObjectStub<Orchestrator>;
 export class DurableObjectNamespace extends Context.Service<
 	DurableObjectNamespace,
 	{
