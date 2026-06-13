@@ -1,8 +1,8 @@
 import { WorkerEntrypoint } from 'cloudflare:workers';
 import { generateText } from 'ai';
 import { createAnthropic } from '@ai-sdk/anthropic';
-import { catalogue } from 'gen-ui-ne-shared/catalogue';
-import { Spec } from 'gen-ui-ne-shared/model';
+
+import type { Spec } from 'gen-ui-ne-shared/model';
 import type { Orchestrator } from './index';
 
 interface Env {
