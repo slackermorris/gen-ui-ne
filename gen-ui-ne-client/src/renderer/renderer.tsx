@@ -1,7 +1,8 @@
 import { Effect, Option } from "effect";
 import { RuntimeClient } from "../runtime-client";
 import { Registry } from "./registry";
-import { ElementId, Spec } from "gen-ui-ne-shared/model";
+import { Spec } from "gen-ui-ne-shared/model";
+import type { ElementId } from "gen-ui-ne-shared/catalogue";
 
 interface RendererProps {
   spec: Spec;
@@ -30,12 +31,13 @@ export function Renderer({ spec }: RendererProps) {
         return null;
       },
       onSome: (Component) => {
-        // TODO: fix typing for the children element
-        const elementProps = 'props' in element && element.props;
-        const children = 'children' in element && element.children.map(renderElement);
+        const children =
+          "children" in element && element.children
+            ? element.children.map(renderElement)
+            : undefined;
 
         return (
-          <Component key={key} {...elementProps}>
+          <Component key={key} {...element.props}>
             {children}
           </Component>
         );
