@@ -1,8 +1,9 @@
 import { WorkerEntrypoint } from 'cloudflare:workers';
-import { generateText } from 'ai';
+import { generateText, jsonSchema, Output } from 'ai';
 import { createAnthropic } from '@ai-sdk/anthropic';
+import { Catalogue } from 'gen-ui-ne-shared/catalogue';
 
-import type { Spec } from 'gen-ui-ne-shared/model';
+import { Spec, SpecJsonSchema } from 'gen-ui-ne-shared/model';
 import type { Orchestrator } from './index';
 
 interface Env {
@@ -10,17 +11,7 @@ interface Env {
 	ORCHESTRATOR: DurableObjectNamespace<Orchestrator>;
 }
 
-
 function buildSystemPrompt() {
-	const components = Object.entries(catalogue)
-		.map(([type, entry]) => {
-			const element = entry.example
-				? `{"type":"${type}","props":${JSON.stringify(entry.example)}}`
-				: `{"type":"${type}"}`;
-			return `- ${type}: ${entry.description}\n  Schema: ${element}`;
-		})
-		.join('\n');
-
 	return [
 		'You are a UI spec generator for a personalised investment dashboard called Sharesies.',
 		'',
@@ -29,10 +20,9 @@ function buildSystemPrompt() {
 		'- elements: an object mapping element ids to element definitions',
 		'',
 		'Each element has a "type" and a "props" object matching the schema shown below.',
-		'Stack and Grid also have a "children" array of element ids (no other components have children).',
 		'',
 		'Available components:',
-		components,
+		Catalogue.toPrompt(),
 		'',
 		'Rules:',
 		'- root Stack must have props.direction "vertical"',
@@ -41,7 +31,6 @@ function buildSystemPrompt() {
 		'- omit optional fields — never set them to null',
 	].join('\n');
 }
-
 
 export default {} satisfies ExportedHandler<Env>;
 
@@ -54,20 +43,16 @@ export class SpecSelector extends WorkerEntrypoint<Env> {
 
 		const logContext = logs.length > 0 ? `\n\nRecent activity logs:\n${JSON.stringify(logs, null, 2)}` : '';
 
-		const { text } = await generateText({
+		console.log('logging the system prompt', buildSystemPrompt())
+
+		const { output } = await generateText({
 			model: anthropic('claude-haiku-4-5-20251001'),
+			// TODO: might have to make the schema conform 
+			output: Output.object({ schema: jsonSchema<typeof Spec.Type>(SpecJsonSchema) }),
 			system: buildSystemPrompt(),
 			prompt: `${userContext}${logContext}`,
 		});
 
-		const json = text
-			.replace(/^```(?:json)?\n?/, '')
-			.replace(/\n?```$/, '')
-			.trim();
-
-		const parsed = JSON.parse(json);
-		console.log('logging here', { parsed, json })
-
-		return parsed;
+		return output;
 	}
 }
