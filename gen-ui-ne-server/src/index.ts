@@ -35,7 +35,8 @@ export class Orchestrator extends DurableObject<Env> {
 		const userData: Record<string, string> = {
 			jack: 'New investor, no holdings yet, risk profile 3/7 (moderate-low).',
 			rose: 'Active investor, $18,420 portfolio, holdings: Apple (AAPL $4,200 +32.1%), Meridian Energy (MEL $2,800 +8.4%), Fisher & Paykel (FPH $1,950 -2.1%), allocation: US 52% NZ 31% AU 17%, total return +21.3%.',
-			robert: 'Passive investor, $9,840 portfolio, auto-invests $50 weekly next 19 May 2026, allocation: NZ ETF 60% US ETF 30% AU ETF 10%, return +9.3%.',
+			robert:
+				'Passive investor, $9,840 portfolio, auto-invests $50 weekly next 19 May 2026, allocation: NZ ETF 60% US ETF 30% AU ETF 10%, return +9.3%.',
 			kennedy: 'Concerned investor, $14,200 portfolio down $1,800 (-11.3%), heavily concentrated in US Tech (71%), risk level 6/7 (high).',
 		};
 
@@ -52,7 +53,10 @@ export class Orchestrator extends DurableObject<Env> {
 					inputSchema: jsonSchema<{ userContext: string }>({
 						type: 'object',
 						properties: {
-							userContext: { type: 'string', description: 'A description of the investor including their portfolio, holdings, risk profile, and relevant context' },
+							userContext: {
+								type: 'string',
+								description: 'A description of the investor including their portfolio, holdings, risk profile, and relevant context',
+							},
 						},
 						required: ['userContext'],
 					}),
@@ -64,9 +68,18 @@ export class Orchestrator extends DurableObject<Env> {
 
 		for (const step of result.steps) {
 			for (const toolResult of step.toolResults ?? []) {
-				console.log('logging the tool result', { toolResult })
+				console.log('logging the tool result', { toolResult });
 				if (toolResult.toolName === 'selectSpec') {
 					return toolResult.output;
+				}
+			}
+			// Surface the real failure: when execute() throws, the SDK records a
+			// tool-error part instead of a tool-result, which would otherwise be
+			// hidden behind a misleading "did not invoke selectSpec".
+			for (const part of step.content ?? []) {
+				if (part.type === 'tool-error' && part.toolName === 'selectSpec') {
+					console.error('selectSpec execution failed', part.error);
+					throw new Error(`selectSpec failed: ${part.error instanceof Error ? part.error.message : String(part.error)}`);
 				}
 			}
 		}
@@ -96,10 +109,7 @@ export class Orchestrator extends DurableObject<Env> {
 			body: string;
 			attributes: string;
 		};
-		const cursor = this.ctx.storage.sql.exec<LogRow>(
-			'SELECT ts, severity, body, attributes FROM logs ORDER BY ts DESC LIMIT ?',
-			limit,
-		);
+		const cursor = this.ctx.storage.sql.exec<LogRow>('SELECT ts, severity, body, attributes FROM logs ORDER BY ts DESC LIMIT ?', limit);
 		return [...cursor];
 	}
 }

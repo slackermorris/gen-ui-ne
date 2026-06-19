@@ -1,34 +1,25 @@
 import { Schema } from "effect";
-import * as Components from "./component-schema";
+import { Component } from "./component-schema";
+import { NonEmptyReadonlyArray } from "effect/Array";
 
 export const ElementId = Schema.String.pipe(Schema.brand("ElementId"));
 export type ElementId = typeof ElementId.Type;
 
-export class Catalogue extends Schema.Class<Catalogue>("Catalogue")(
-  Schema.Struct({}),
-) {
-  /**
-   * The union of every component's catalogue element. Each member is a plain
-   * struct ({ type, props, description }), so JSON-schema generation keeps them
-   */
-  static readonly union = Schema.Union(
-    Object.values(Components).map((component) =>
-      component.toCatalogueElement(),
-    ),
-  );
+export type CatalogueElement = ReturnType<Component["toCatalogueElement"]>;
+export type CatalogueElementKey = CatalogueElement["Type"]["type"];
 
-  /**
-   * Projects the catalogue into the union of element shapes a Spec uses:
-   *  - drops the `description` field (LLM-facing catalogue metadata), and
-   *  - overwrites `children` (the opaque ReactNode in the catalogue) with an
-   *    array of `ElementId` references into the Spec's `elements` map.
-   *
-   * The struct is rebuilt rather than mutated because JSON-schema generation
-   * and decoding read the underlying AST, not a spread copy's `.fields`.
-   */
-  static toSpecElements() {
+export class Catalogue {
+  private catalogue;
+
+  constructor(components: NonEmptyReadonlyArray<Component>) {
+    this.catalogue = components.map((component) =>
+      component.toCatalogueElement(),
+    );
+  }
+
+  public toSpecElements() {
     return Schema.Union(
-      this.union.members.map((member) => {
+      this.catalogue.map((member) => {
         const { type, props, description: _omitDescription } = member.fields;
 
         if ("children" in props.fields) {
@@ -47,8 +38,10 @@ export class Catalogue extends Schema.Class<Catalogue>("Catalogue")(
     );
   }
 
-  static toPrompt() {
-    const { schema } = Schema.toJsonSchemaDocument(this.union);
+  public toPrompt() {
+    const { schema } = Schema.toJsonSchemaDocument(
+      Schema.Union(this.catalogue),
+    );
 
     const llmFriendlyComponentManifest = schema["anyOf"].map((element) => {
       const { properties } = element;
@@ -62,6 +55,3 @@ export class Catalogue extends Schema.Class<Catalogue>("Catalogue")(
     return llmFriendlyComponentManifest.join("\n");
   }
 }
-
-
-export type CatalogueComponentKey = (typeof Catalogue.union.Type)["type"];

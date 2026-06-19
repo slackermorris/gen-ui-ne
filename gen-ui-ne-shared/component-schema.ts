@@ -46,7 +46,6 @@ const StackPropsSchema = Schema.Struct({
   }),
 );
 
-
 /**
  * A flexbox-based stack component for laying out children vertically or horizontally
  */
@@ -333,3 +332,18 @@ export class PromptCardProps extends Schema.Class<PromptCardProps>(
     });
   }
 }
+
+export const Components = [
+  StackProps,
+  GridProps,
+  PortfolioValueProps,
+  ReturnBadgeProps,
+  AllocationBarProps,
+  RiskIndicatorProps,
+  HoldingRowProps,
+  AutoInvestCardProps,
+  PromptCardProps,
+] as const;
+
+/** The static side of a component class — i.e. the thing carrying toCatalogueElement(). */
+export type Component = (typeof Components)[number];
