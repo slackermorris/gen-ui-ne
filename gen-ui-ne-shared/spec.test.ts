@@ -1,26 +1,37 @@
 import { Schema } from "effect";
 import { describe, expect, it } from "vitest";
-import { Spec, SpecJsonSchema } from "./spec.ts";
-
-// The catalogue derives each element's `description` from the component's
-// schema annotation, and the union requires it as an exact literal.
-const STACK_DESCRIPTION =
-  "A flexbox-based stack component for laying out children vertically or horizontally";
-const PORTFOLIO_DESCRIPTION = "Displays portfolio value with change information";
-
-const decode = Schema.decodeUnknownSync(Spec);
+import { Spec } from "./spec.ts";
+import { SchemaError } from "effect/Schema";
 
 describe("Spec", () => {
-  it("decodes a valid spec and applies Stack prop defaults", () => {
-    const result = decode({
+  it("decodes a valid Spec, hoists Stack children and applies prop defaults", () => {
+    expect(
+      Schema.decodeUnknownSync(Spec)({
+        root: "root",
+        elements: {
+          root: {
+            type: "Stack",
+            props: {}, // direction/gap/align are filled in by decoding defaults
+            children: ["portfolio"], // children live at the element top level, NOT inside props
+          },
+          portfolio: {
+            type: "PortfolioValue",
+            props: {
+              value: "$1,000.00",
+              change: "+$10.00",
+              changePercent: "+1.0%",
+              direction: "positive",
+            },
+          },
+        },
+      }),
+    ).toEqual({
       root: "root",
       elements: {
         root: {
           type: "Stack",
-          // direction/gap/align omitted — decoding should fill the defaults.
-          // children are references (ElementIds) into the `elements` map.
-          props: { children: ["portfolio"] },
-          description: STACK_DESCRIPTION,
+          props: { direction: "vertical", gap: "md", align: "stretch" },
+          children: ["portfolio"],
         },
         portfolio: {
           type: "PortfolioValue",
@@ -30,58 +41,59 @@ describe("Spec", () => {
             changePercent: "+1.0%",
             direction: "positive",
           },
-          description: PORTFOLIO_DESCRIPTION,
         },
       },
     });
+  });
 
-    expect(result.root).toBe("root");
-    expect(result.elements.root).toMatchObject({
-      type: "Stack",
-      props: {
-        direction: "vertical",
-        gap: "md",
-        align: "stretch",
-        children: ["portfolio"],
+  it("drops children placed inside props (they belong at the element top level)", () => {
+    expect(
+      Schema.decodeUnknownSync(Spec)({
+        root: "root",
+        elements: {
+          root: {
+            type: "Stack",
+            props: { children: ["portfolio"] }, // wrong place: dropped
+          },
+          portfolio: {
+            type: "PortfolioValue",
+            props: {
+              value: "$1,000.00",
+              change: "+$10.00",
+              changePercent: "+1.0%",
+              direction: "positive",
+            },
+          },
+        },
+      }),
+    ).toEqual({
+      root: "root",
+      elements: {
+        root: {
+          type: "Stack",
+          props: { direction: "vertical", gap: "md", align: "stretch" },
+        },
+        portfolio: {
+          type: "PortfolioValue",
+          props: {
+            value: "$1,000.00",
+            change: "+$10.00",
+            changePercent: "+1.0%",
+            direction: "positive",
+          },
+        },
       },
     });
   });
 
   it("rejects an element with an unknown component type", () => {
     expect(() =>
-      decode({
+      Schema.decodeUnknownSync(Spec)({
         root: "root",
         elements: {
-          root: { type: "NotARealComponent", props: {}, description: "nope" },
+          root: { type: "NotARealComponent", props: {} },
         },
       }),
-    ).toThrow();
-  });
-});
-
-describe("SpecJsonSchema", () => {
-  it("is an object schema exposing root and elements", () => {
-    expect(SpecJsonSchema).toMatchObject({
-      type: "object",
-      properties: {
-        root: { type: "string" },
-        elements: { type: "object" },
-      },
-    });
-    expect(SpecJsonSchema.required).toEqual(
-      expect.arrayContaining(["root", "elements"]),
-    );
-  });
-
-  it("types container children as an array of element-id references", () => {
-    const elementSchema = (SpecJsonSchema as any).properties.elements
-      .additionalProperties;
-    const stack = elementSchema.anyOf.find(
-      (member: any) => member.properties.type.enum[0] === "Stack",
-    );
-
-    expect(stack.properties.props.properties.children.anyOf).toEqual(
-      expect.arrayContaining([{ type: "array", items: { type: "string" } }]),
-    );
+    ).toThrow(SchemaError);
   });
 });
