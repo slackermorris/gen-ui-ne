@@ -3,11 +3,10 @@ import { generateText, jsonSchema, Output } from 'ai';
 import { createAnthropic } from '@ai-sdk/anthropic';
 import { Catalogue } from 'gen-ui-ne-shared/catalogue';
 
-import { Spec, SpecForGen, SpecRevised } from 'gen-ui-ne-shared/model';
+import { Spec, SpecForLlm } from 'gen-ui-ne-shared/model';
 import { Components } from '../../gen-ui-ne-shared/component-schema';
 
 import type { Orchestrator } from './index';
-import { Schema } from 'effect';
 
 interface Env {
 	ANTHROPIC_API_KEY: string;
@@ -37,6 +36,7 @@ function buildSystemPrompt() {
 }
 
 export default {} satisfies ExportedHandler<Env>;
+
 export class SpecSelector extends WorkerEntrypoint<Env> {
 	async generate(name: string, userContext: string): Promise<typeof Spec.Type> {
 		const anthropic = createAnthropic({ apiKey: this.env.ANTHROPIC_API_KEY });
@@ -46,25 +46,15 @@ export class SpecSelector extends WorkerEntrypoint<Env> {
 
 		const logContext = logs.length > 0 ? `\n\nRecent activity logs:\n${JSON.stringify(logs, null, 2)}` : '';
 
-		const anthropicAndVercelFriendlySchema = jsonSchema(SpecForGen.toStrictJsonSchema());
-
-		
-
 		const { output } = await generateText({
 			model: anthropic('claude-haiku-4-5-20251001'),
 			output: Output.object({
-				schema: anthropicAndVercelFriendlySchema,
+				schema: jsonSchema(SpecForLlm.toStrictAnthropicJsonSchema()),
 			}),
 			system: buildSystemPrompt(),
 			prompt: `${userContext}${logContext}`,
 		});
 
-		console.log('logging the output', JSON.stringify(output));
-
-		// `output` matches the generation schema (elements as an array). Decode &
-		// validate it against the canonical Spec, rebuilding the Record of elements.
-
-		return SpecForGen.toSpec(output as SpecForGen);
-		// return output;
+		return SpecForLlm.toSpec(output);
 	}
 }
