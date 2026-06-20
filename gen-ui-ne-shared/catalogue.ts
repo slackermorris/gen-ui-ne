@@ -17,25 +17,41 @@ export class Catalogue {
     );
   }
 
+  private specElementMembers() {
+    return this.catalogue.map((member) => {
+      const { type, props, description: _omitDescription } = member.fields;
+
+      if ("children" in props.fields) {
+        const { children: _reactNode, ...rest } = props.fields;
+        return Schema.Struct({
+          type,
+          props: Schema.Struct({
+            ...rest,
+          }),
+          children: Schema.optional(Schema.Array(ElementId)),
+        });
+      }
+
+      return Schema.Struct({ type, props });
+    });
+  }
+
   public toSpecElements() {
-    return Schema.Union(
-      this.catalogue.map((member) => {
-        const { type, props, description: _omitDescription } = member.fields;
+    return Schema.Union(this.specElementMembers());
+  }
 
-        if ("children" in props.fields) {
-          const { children: _reactNode, ...rest } = props.fields;
-          return Schema.Struct({
-            type,
-            props: Schema.Struct({
-              ...rest,
-            }),
-            children: Schema.optional(Schema.Array(ElementId)),
-          });
-        }
-
-        return Schema.Struct({ type, props });
-      }),
+  /**
+   * Generation-friendly variant of the element collection. Each element carries
+   * its own `id` and the collection is an Array, not a Record, because LLM
+   * structured output cannot express open-ended maps. Generate this, then
+   * rebuild the canonical Record via SpecForGen.toSpec.
+   */
+  public toSpecElementsArray() {
+    const membersWithId = this.specElementMembers().map((member) =>
+      Schema.Struct({ id: ElementId, ...member.fields }),
     );
+
+    return Schema.Array(Schema.Union(membersWithId));
   }
 
   public toPrompt() {
