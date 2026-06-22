@@ -3,7 +3,7 @@ import { Context, Layer } from 'effect';
 import { HttpRouter, HttpServer } from 'effect/unstable/http';
 import { WorkerEnvironment, WorkerContext } from './services/cf-env';
 import { ApiLive } from './http';
-import { DurableObjectNamespace } from './services/durable-object-namespace';
+import * as DurableObjectNamespace from './services/durable-object-namespace';
 import { generateText, tool, jsonSchema, hasToolCall } from 'ai';
 import { createAnthropic } from '@ai-sdk/anthropic';
 
@@ -124,7 +124,7 @@ export default class extends WorkerEntrypoint<Env> {
 	constructor(ctx: ExecutionContext, env: Env) {
 		super(ctx, env);
 
-		const DurableObjectLayer = DurableObjectNamespace.Live.pipe(Layer.provide(Layer.succeed(WorkerEnvironment, { env })));
+		const DurableObjectLayer = DurableObjectNamespace.layer.pipe(Layer.provide(Layer.succeed(WorkerEnvironment, { env })));
 
 		const MainLayer = ApiLive.pipe(
 			Layer.provide(HttpServer.layerServices),
