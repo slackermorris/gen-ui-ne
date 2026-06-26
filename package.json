@@ -1,13 +1,14 @@
 {
   "name": "gen-ui-ne-workspace",
-  "scripts": {
-    "generate-catalogue": "tsx scripts/generate-catalogue.ts"
-  },
   "workspaces": [
     "gen-ui-ne-server",
     "gen-ui-ne-client",
     "gen-ui-ne-shared"
   ],
+  "scripts": {
+    "generate-catalogue": "tsx scripts/generate-catalogue.ts",
+    "prepare": "vp config"
+  },
   "dependencies": {
     "effect": "^4.0.0-beta.65"
   },
@@ -17,6 +18,18 @@
     "@types/node": "^25.9.2",
     "@types/react": "^19.2.17",
     "tsx": "^4.19.2",
-    "typescript": "^5.5.3"
+    "typescript": "^5.5.3",
+    "vite-plus": "latest"
+  },
+  "overrides": {
+    "vite": "npm:@voidzero-dev/vite-plus-core@latest",
+    "vitest": "4.1.9"
+  },
+  "devEngines": {
+    "packageManager": {
+      "name": "npm",
+      "version": "11.17.0",
+      "onFail": "download"
+    }
   }
 }
