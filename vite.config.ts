@@ -4,6 +4,9 @@ export default defineConfig({
   staged: {
     '*': 'vp check --fix',
   },
+  test: {
+    exclude: ['**/node_modules/**', '**/open-source/**'],
+  },
   fmt: {
     semi: true,
     singleQuote: true,
