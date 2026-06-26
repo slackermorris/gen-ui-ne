@@ -14,13 +14,15 @@ describe('Catalogue', () => {
   it('successfully transforms itself to a Spec format', () => {
     const SpecElements = new Catalogue([PromptCardProps]).toSpecElements();
 
-    const catalogueElementToDecode = {
+    const specElementToDecode = {
+      id: 'unique-id',
       type: 'PromptCard',
       props: { title: 'Add funds', message: 'Top up', action: 'Add' },
       description: 'catalogue-only field that should be projected away',
     };
 
-    expect(Schema.decodeUnknownSync(SpecElements)(catalogueElementToDecode)).toStrictEqual({
+    expect(Schema.decodeUnknownSync(SpecElements)(specElementToDecode)).toStrictEqual({
+      id: 'unique-id',
       type: 'PromptCard',
       props: { title: 'Add funds', message: 'Top up', action: 'Add' },
     });
@@ -29,12 +31,10 @@ describe('Catalogue', () => {
   it('throws an error when deriving Spec from malformed catalogue', () => {
     const SpecElements = new Catalogue([PromptCardProps]).toSpecElements();
 
-    const catalogueElementToDecode = {
+    const specElementToDecode = {
       nonCatalogueElementField: 'id',
     };
 
-    expect(() => Schema.decodeUnknownSync(SpecElements)(catalogueElementToDecode)).toThrow(
-      SchemaError,
-    );
+    expect(() => Schema.decodeUnknownSync(SpecElements)(specElementToDecode)).toThrow(SchemaError);
   });
 });
