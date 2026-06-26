@@ -10,11 +10,13 @@ describe('Spec', () => {
         root: 'root',
         elements: {
           root: {
+            id: 'root',
             type: 'Stack',
             props: {}, // direction/gap/align are filled in by decoding defaults
             children: ['portfolio'], // children live at the element top level, NOT inside props
           },
           portfolio: {
+            id: 'portfolio',
             type: 'PortfolioValue',
             props: {
               value: '$1,000.00',
@@ -29,11 +31,13 @@ describe('Spec', () => {
       root: 'root',
       elements: {
         root: {
+          id: 'root',
           type: 'Stack',
           props: { direction: 'vertical', gap: 'md', align: 'stretch' },
           children: ['portfolio'],
         },
         portfolio: {
+          id: 'portfolio',
           type: 'PortfolioValue',
           props: {
             value: '$1,000.00',
@@ -52,10 +56,12 @@ describe('Spec', () => {
         root: 'root',
         elements: {
           root: {
+            id: 'root',
             type: 'Stack',
             props: { children: ['portfolio'] }, // wrong place: dropped
           },
           portfolio: {
+            id: 'portfolio',
             type: 'PortfolioValue',
             props: {
               value: '$1,000.00',
@@ -70,10 +76,12 @@ describe('Spec', () => {
       root: 'root',
       elements: {
         root: {
+          id: 'root',
           type: 'Stack',
           props: { direction: 'vertical', gap: 'md', align: 'stretch' },
         },
         portfolio: {
+          id: 'portfolio',
           type: 'PortfolioValue',
           props: {
             value: '$1,000.00',
@@ -92,6 +100,21 @@ describe('Spec', () => {
         root: 'root',
         elements: {
           root: { type: 'NotARealComponent', props: {} },
+        },
+      }),
+    ).toThrow(SchemaError);
+  });
+
+  it('rejects an element that does not have expected "id" attribute', () => {
+    expect(() =>
+      Schema.decodeUnknownSync(Spec)({
+        root: 'root',
+        elements: {
+          root: {
+            // id: 'root',
+            type: 'Stack',
+            props: { direction: 'vertical', gap: 'md', align: 'stretch' },
+          },
         },
       }),
     ).toThrow(SchemaError);
