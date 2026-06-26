@@ -1,18 +1,19 @@
 {
-    "name": "gen-ui-ne-shared",
-    "version": "0.0.0",
-    "type": "module",
-    "exports": {
-        "./model": "./spec.ts",
-        "./api": "./api.ts",
-        "./api-schema": "./api-schema.ts",
-        "./catalogue": "./catalogue.ts",
-        "./spec": "./spec.ts"
-    },
-    "scripts": {
-        "test": "vitest"
-    },
-    "devDependencies": {
-        "vitest": "^1.6.0"
-    }
+  "name": "gen-ui-ne-shared",
+  "version": "0.0.0",
+  "type": "module",
+  "exports": {
+    "./model": "./spec.ts",
+    "./api": "./api.ts",
+    "./api-schema": "./api-schema.ts",
+    "./catalogue": "./catalogue.ts",
+    "./spec": "./spec.ts"
+  },
+  "scripts": {
+    "test": "vp test"
+  },
+  "devDependencies": {
+    "vite-plus": "latest",
+    "vitest": "4.1.9"
+  }
 }
