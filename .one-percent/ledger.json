@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "runs": [
+    {
+      "date": "2026-06-28",
+      "general": "general-2026-06-28-catalogue-projection-helper",
+      "react": null
+    }
+  ],
+  "entries": [
+    {
+      "id": "general-2026-06-28-catalogue-projection-helper",
+      "date": "2026-06-28",
+      "domain": "general",
+      "title": "Collapse nine duplicated toCatalogueElement bodies into one projection helper",
+      "rationale": "Nine component classes each carried a verbatim copy of the catalogue-projection logic (AST description read + Struct shape); extracted to a single typed helper they delegate to.",
+      "files": ["gen-ui-ne-shared/component-schema.ts"],
+      "severity": "medium",
+      "status": "pr-open",
+      "pr_url": "https://github.com/slackermorris/gen-ui-ne/pull/39",
+      "report_path": ".one-percent/reports/2026-06-28-general.html"
+    }
+  ]
+}

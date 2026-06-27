@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>One Percent — gen-ui-ne — 2026-06-28 — general</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+      mermaid.initialize({ startOnLoad: true, theme: 'neutral', securityLevel: 'loose' });
+    </script>
+    <style>
+      .seam {
+        stroke-dasharray: 4 4;
+      }
+      .leak {
+        stroke: #dc2626;
+      }
+      .deep {
+        background: linear-gradient(135deg, #0f172a, #1e293b);
+      }
+      .accent {
+        color: #4f46e5;
+      }
+    </style>
+  </head>
+  <body class="bg-stone-50 text-slate-900 font-sans">
+    <main class="max-w-5xl mx-auto px-6 py-12 space-y-12">
+      <header class="space-y-4 border-b border-stone-200 pb-8">
+        <div class="flex items-baseline justify-between flex-wrap gap-2">
+          <h1 class="text-3xl font-semibold tracking-tight">
+            One Percent <span class="accent">/</span> gen-ui-ne
+          </h1>
+          <p class="text-sm text-slate-500 font-mono">2026-06-28 · domain: general</p>
+        </div>
+        <p class="text-slate-600 max-w-3xl">
+          One ambitious, behaviour-preserving structural improvement, shipped green. This run
+          collapses nine duplicated projection bodies behind a single deep helper.
+        </p>
+        <div
+          class="flex flex-wrap gap-x-6 gap-y-1 text-xs uppercase tracking-wider text-slate-500 pt-2"
+        >
+          <span
+            ><span class="inline-block w-4 h-3 align-middle border border-slate-700"></span>
+            module</span
+          >
+          <span
+            ><span
+              class="inline-block w-4 h-3 align-middle border border-slate-700 border-dashed"
+            ></span>
+            seam</span
+          >
+          <span><span class="inline-block w-4 h-0.5 align-middle bg-red-600"></span> leakage</span>
+          <span><span class="inline-block w-4 h-3 align-middle deep"></span> deep module</span>
+        </div>
+      </header>
+
+      <section id="chosen">
+        <article class="bg-white rounded-2xl shadow-sm ring-1 ring-stone-200 p-8 space-y-8">
+          <div class="space-y-3">
+            <h2 class="text-2xl font-semibold tracking-tight">
+              Collapse nine duplicated
+              <code class="text-indigo-600">toCatalogueElement</code> bodies into one projection
+              helper
+            </h2>
+            <div class="flex flex-wrap gap-2">
+              <span
+                class="inline-flex items-center rounded-full bg-emerald-100 text-emerald-800 text-xs font-semibold px-3 py-1 uppercase tracking-wider"
+                >Strong</span
+              >
+              <span
+                class="inline-flex items-center rounded-full bg-amber-100 text-amber-800 text-xs font-semibold px-3 py-1 uppercase tracking-wider"
+                >Severity: spaghetti / duplication</span
+              >
+              <span
+                class="inline-flex items-center rounded-full bg-slate-100 text-slate-700 text-xs font-semibold px-3 py-1 uppercase tracking-wider"
+                >net −35 lines</span
+              >
+            </div>
+            <p class="font-mono text-sm text-slate-600">gen-ui-ne-shared/component-schema.ts</p>
+          </div>
+
+          <div class="grid md:grid-cols-2 gap-6">
+            <div class="space-y-2">
+              <p class="text-xs uppercase tracking-wider text-slate-500">
+                Before — nine copies of the logic
+              </p>
+              <div
+                class="border border-stone-200 rounded-xl p-3 bg-stone-50"
+                style="height: 320px; overflow: auto"
+              >
+                <pre class="mermaid">
+flowchart TD
+  C[Catalogue\nmodule]:::deep
+  S1[Stack.toCatalogueElement]:::dup
+  S2[Grid.toCatalogueElement]:::dup
+  S3[PortfolioValue ...]:::dup
+  S4[ReturnBadge ...]:::dup
+  S5[6 more, identical]:::dup
+  C --> S1
+  C --> S2
+  C --> S3
+  C --> S4
+  C --> S5
+  S1 -. copy of\nAST read + Struct .-> L((projection\nlogic)):::leak
+  S2 -. copy .-> L
+  S3 -. copy .-> L
+  S4 -. copy .-> L
+  S5 -. copy .-> L
+  classDef dup fill:#fee2e2,stroke:#dc2626,color:#7f1d1d;
+  classDef leak fill:#fff,stroke:#dc2626,stroke-width:2px,color:#7f1d1d;
+  classDef deep fill:#0f172a,color:#fff,stroke:#0f172a;
+</pre
+                >
+              </div>
+            </div>
+            <div class="space-y-2">
+              <p class="text-xs uppercase tracking-wider text-slate-500">
+                After — one helper, nine delegations
+              </p>
+              <div
+                class="border border-stone-200 rounded-xl p-3 bg-stone-50"
+                style="height: 320px; overflow: auto"
+              >
+                <pre class="mermaid">
+flowchart TD
+  C[Catalogue\nmodule]:::deep
+  S1[Stack.toCatalogueElement]:::thin
+  S2[Grid.toCatalogueElement]:::thin
+  S3[PortfolioValue ...]:::thin
+  S4[ReturnBadge ...]:::thin
+  S5[6 more, 2 lines each]:::thin
+  H[[catalogueElementOf\nprojection helper]]:::deep
+  C --> S1 --> H
+  C --> S2 --> H
+  C --> S3 --> H
+  C --> S4 --> H
+  C --> S5 --> H
+  classDef thin fill:#eef2ff,stroke:#4f46e5,color:#312e81;
+  classDef deep fill:#0f172a,color:#fff,stroke:#0f172a;
+</pre
+                >
+              </div>
+            </div>
+          </div>
+
+          <div class="grid md:grid-cols-2 gap-8">
+            <div class="space-y-2">
+              <p class="text-xs uppercase tracking-wider text-slate-500">Problem</p>
+              <p class="text-slate-700">
+                Nine component classes each carried a byte-for-byte copy of the catalogue-projection
+                body — the brittle <code>ast.annotations["description"] as string</code> read and
+                the <code>Schema.Struct</code> shape — differing only in the class name.
+              </p>
+            </div>
+            <div class="space-y-2">
+              <p class="text-xs uppercase tracking-wider text-slate-500">Solution</p>
+              <p class="text-slate-700">
+                Extract a single generic
+                <code>catalogueElementOf(type, propsFields, ast)</code> helper that owns the
+                projection; each <code>toCatalogueElement()</code>
+                becomes a two-line delegation that preserves its precise return type.
+              </p>
+            </div>
+          </div>
+
+          <div class="space-y-2">
+            <p class="text-xs uppercase tracking-wider text-slate-500">Wins</p>
+            <ul class="grid sm:grid-cols-2 gap-x-8 gap-y-1 text-slate-700 list-disc list-inside">
+              <li>Locality: projection bug fixed once</li>
+              <li>Leverage: one helper, nine call sites</li>
+              <li>Deep module: small interface, lifted logic</li>
+              <li>Deletion test: complexity vanished, not moved</li>
+              <li>One cast, not nine</li>
+              <li>Interface unchanged: Catalogue untouched</li>
+            </ul>
+          </div>
+
+          <div class="rounded-xl bg-emerald-50 ring-1 ring-emerald-200 p-4 space-y-1">
+            <p class="text-xs uppercase tracking-wider text-emerald-700 font-semibold">
+              Validation
+            </p>
+            <p class="text-sm text-emerald-900">
+              Tests green: <code>vp test run</code> — 7/7 across 2 files. Type-clean:
+              <code>vp check --no-fmt</code> introduces zero new errors or warnings (3 pre-existing
+              errors in <code>catalogue.ts</code> are unchanged, out of scope). Diff is net −35
+              lines, isolated to one file.
+            </p>
+          </div>
+        </article>
+      </section>
+
+      <section id="runners-up" class="space-y-4">
+        <h2 class="text-lg font-semibold tracking-tight text-slate-700">Runners-up considered</h2>
+        <div class="grid md:grid-cols-2 gap-4 text-sm">
+          <div class="bg-white rounded-xl ring-1 ring-stone-200 p-4 space-y-1">
+            <p class="font-semibold">
+              Type the <code>catalogue.ts</code> <code>toPrompt()</code> JSON walk
+            </p>
+            <p class="text-slate-600">
+              Three pre-existing <code>unknown</code>/<code>any</code> errors live in the
+              JSON-schema walk. Worth fixing, but it is the concurrent react assessor's
+              neighbourhood and a separate boundary concern — deferred to avoid overlap.
+            </p>
+          </div>
+          <div class="bg-white rounded-xl ring-1 ring-stone-200 p-4 space-y-1">
+            <p class="font-semibold">Redundant per-class JSDoc mirroring the annotation</p>
+            <p class="text-slate-600">
+              Each class repeats its <code>description</code> as a doc comment. Cosmetic; fails the
+              "not a comment tweak" bar for a 1% change.
+            </p>
+          </div>
+          <div class="bg-white rounded-xl ring-1 ring-stone-200 p-4 space-y-1">
+            <p class="font-semibold">Fully free-function projection (drop the statics)</p>
+            <p class="text-slate-600">
+              A single free function over the class would delete the statics entirely, but the
+              generic <code>Omit&lt;C["fields"], "type"&gt;</code> projection fights Effect's
+              <code>Fields</code> constraint, forcing casts. The delegating form keeps types precise
+              with no casts — the boring, inevitable shape.
+            </p>
+          </div>
+          <div class="bg-white rounded-xl ring-1 ring-stone-200 p-4 space-y-1">
+            <p class="font-semibold">Untransacted log <code>INSERT</code> loop</p>
+            <p class="text-slate-600">
+              <code>ingestLogs</code> in the server carries a real <code>TODO</code> for a
+              transaction. A behaviour change (atomicity), not behaviour-preserving — out of scope
+              for this run.
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
