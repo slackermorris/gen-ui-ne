@@ -18,6 +18,7 @@
     "editor.defaultFormatter": "oxc.oxc-vscode"
   },
   "oxc.fmt.configPath": "./vite.config.ts",
+  "oxc.path.oxlint": "./node_modules/vite-plus/bin/oxlint",
   "editor.formatOnSave": true,
   "editor.formatOnSaveMode": "file",
   "editor.codeActionsOnSave": {

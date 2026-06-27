@@ -1,5 +1,7 @@
 import { defineConfig } from 'vite-plus';
 
+import { clientLint } from './gen-ui-ne-client/lint';
+
 export default defineConfig({
   staged: {
     '*': 'vp check --fix',
@@ -16,5 +18,6 @@ export default defineConfig({
     rules: { 'vite-plus/prefer-vite-plus-imports': 'error' },
     options: { typeAware: true, typeCheck: true },
     ignorePatterns: ['dist/**'],
+    overrides: [{ files: ['gen-ui-ne-client/**/*.{ts,tsx}'], ...clientLint }],
   },
 });
