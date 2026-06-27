@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>One Percent — gen-ui-ne — 2026-06-28 — react</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+      mermaid.initialize({ startOnLoad: true, theme: 'neutral', securityLevel: 'loose' });
+    </script>
+    <style>
+      .seam {
+        stroke-dasharray: 4 4;
+      }
+      .leak {
+        stroke: #dc2626;
+      }
+      .deep {
+        background: linear-gradient(135deg, #0f172a, #1e293b);
+      }
+    </style>
+  </head>
+  <body class="bg-stone-50 text-slate-900 font-sans">
+    <main class="max-w-5xl mx-auto px-6 py-12 space-y-12">
+      <header class="space-y-3 border-b border-stone-200 pb-8">
+        <p class="text-xs uppercase tracking-wider text-slate-500">
+          One Percent · gen-ui-ne · 2026-06-28 · domain: react
+        </p>
+        <h1 class="text-3xl font-semibold tracking-tight">
+          The renderer was an inline render-in-render that ran the Effect runtime per node
+        </h1>
+        <p class="text-slate-600 max-w-3xl">
+          One ambitious, behaviour-preserving React change this run. Tooling:
+          <span class="font-mono text-sm">react-doctor v0.5.8</span>,
+          <span class="font-mono text-sm">vp lint / fmt / tsc</span>,
+          <span class="font-mono text-sm">vp test run</span>.
+        </p>
+        <div class="flex flex-wrap gap-2 pt-2 text-xs uppercase tracking-wider">
+          <span class="rounded-full bg-slate-900 text-white px-3 py-1">deep module</span>
+          <span class="rounded-full border border-red-300 text-red-600 px-3 py-1"
+            >red edge = leakage</span
+          >
+          <span class="rounded-full border border-slate-300 text-slate-600 px-3 py-1"
+            >dashed = seam</span
+          >
+        </div>
+      </header>
+
+      <section id="chosen" class="space-y-6">
+        <p class="text-xs uppercase tracking-wider text-slate-500">The change shipped</p>
+        <article class="rounded-2xl bg-white shadow-sm border border-stone-200 p-8 space-y-8">
+          <div class="space-y-3">
+            <h2 class="text-2xl font-semibold tracking-tight">
+              Recursive renderer becomes an identity-stable
+              <span class="font-mono">Element</span> module
+            </h2>
+            <div class="flex flex-wrap gap-2 text-xs uppercase tracking-wider">
+              <span class="rounded-full bg-emerald-600 text-white px-3 py-1">Strong</span>
+              <span class="rounded-full bg-amber-100 text-amber-800 px-3 py-1"
+                >severity: medium</span
+              >
+              <span class="rounded-full bg-slate-100 text-slate-700 px-3 py-1"
+                >react-doctor: no-render-in-render</span
+              >
+            </div>
+            <p class="font-mono text-sm text-slate-600">
+              gen-ui-ne-client/src/renderer/renderer.tsx
+            </p>
+          </div>
+
+          <div class="grid md:grid-cols-2 gap-6">
+            <div class="space-y-2">
+              <p class="text-xs uppercase tracking-wider text-slate-500">Before</p>
+              <div
+                class="border border-stone-200 rounded-xl p-4 bg-stone-50"
+                style="height: 320px; overflow: auto"
+              >
+                <pre class="mermaid">
+flowchart TB
+  R[Renderer]
+  RE["renderElement(key)\ninline fn, called in render"]
+  RT1["RuntimeClient.runSync\nper node, in render"]:::leak
+  RT2["RuntimeClient.runSync\nper node, in render"]:::leak
+  REG[(Registry map)]
+  R --> RE
+  RE -->|spec.root| RT1
+  RE -->|each child| RT2
+  RT1 -.seam.-> REG
+  RT2 -.seam.-> REG
+  RE -->|anonymous output\nidentity not preserved| RE
+  classDef leak stroke:#dc2626,stroke-width:2px,color:#dc2626;
+                </pre>
+              </div>
+            </div>
+            <div class="space-y-2">
+              <p class="text-xs uppercase tracking-wider text-slate-500">After</p>
+              <div
+                class="border border-stone-200 rounded-xl p-4 bg-stone-50"
+                style="height: 320px; overflow: auto"
+              >
+                <pre class="mermaid">
+flowchart TB
+  R2[Renderer]
+  RL["resolveLookup()\nruns runtime ONCE"]
+  REG2[(Registry map)]
+  E["Element {spec,id,lookup}\nnamed component"]:::deep
+  EC["Element (child)\nstable identity"]:::deep
+  R2 --> RL
+  RL -.seam.-> REG2
+  R2 --> E
+  E -->|pure lookup| EC
+  classDef deep fill:#0f172a,color:#e2e8f0,stroke:#1e293b;
+                </pre>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid md:grid-cols-2 gap-8">
+            <div class="space-y-4">
+              <div>
+                <p class="text-xs uppercase tracking-wider text-slate-500">Problem</p>
+                <p class="text-slate-700">
+                  The renderer rebuilt every node via an inline
+                  <span class="font-mono">renderElement()</span> call and spun up the Effect runtime
+                  (<span class="font-mono">RuntimeClient.runSync</span>) once per element just to
+                  read a synchronous in-memory map, so React preserved no identity and effect
+                  machinery leaked into render.
+                </p>
+              </div>
+              <div>
+                <p class="text-xs uppercase tracking-wider text-slate-500">Solution</p>
+                <p class="text-slate-700">
+                  Resolve the registry <span class="font-mono">lookup</span> once at a stable seam,
+                  then render each spec node through a named
+                  <span class="font-mono">Element</span> component that recurses by rendering nested
+                  <span class="font-mono">Element</span>s — identity preserved, runtime out of the
+                  render path.
+                </p>
+              </div>
+            </div>
+            <div class="space-y-4">
+              <div>
+                <p class="text-xs uppercase tracking-wider text-slate-500">Wins</p>
+                <ul class="list-disc list-inside text-slate-700 space-y-1">
+                  <li>Deep module: tiny <span class="font-mono">{spec,id}</span> interface</li>
+                  <li>Identity preserved across re-renders</li>
+                  <li>Runtime resolved once, not per node</li>
+                  <li>Effect seam out of render path</li>
+                  <li>Locality: recursion in one module</li>
+                  <li>Pure lookup, leverage at every node</li>
+                </ul>
+              </div>
+              <div>
+                <p class="text-xs uppercase tracking-wider text-slate-500">Validation</p>
+                <ul class="text-slate-700 space-y-1 text-sm">
+                  <li><span class="font-mono">vp exec tsc --noEmit</span> (client) → exit 0</li>
+                  <li><span class="font-mono">vp lint</span> → renderer.tsx clean</li>
+                  <li><span class="font-mono">vp fmt --check</span> renderer.tsx → ok</li>
+                  <li><span class="font-mono">vp test run</span> → 7 passed (no client tests)</li>
+                  <li>react-doctor: 26 → 25 issues; finding gone</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="rounded-xl bg-stone-50 border border-stone-200 p-4 text-sm text-slate-600">
+            <span class="text-xs uppercase tracking-wider text-slate-500">Note —</span>
+            repo-wide <span class="font-mono">vp check</span> is red at the
+            <span class="font-mono">main</span> baseline (118-file formatting backlog plus
+            pre-existing TS errors in <span class="font-mono">catalogue.ts</span> /
+            <span class="font-mono">Stack.tsx</span>); the two failing test files belong to a
+            separate assessor's nested worktree mounted under
+            <span class="font-mono">.claude/worktrees/</span>, not this change. This PR adds no new
+            lint, format, or type findings.
+          </div>
+        </article>
+      </section>
+
+      <section id="runners-up" class="space-y-4">
+        <p class="text-xs uppercase tracking-wider text-slate-500">Also considered</p>
+        <div class="grid md:grid-cols-2 gap-4">
+          <article class="rounded-xl bg-white border border-stone-200 p-5 space-y-1">
+            <h3 class="font-semibold">Unstable context provider value</h3>
+            <p class="font-mono text-xs text-slate-500">state/app-state.tsx:34</p>
+            <p class="text-sm text-slate-600">
+              <span class="font-mono">value={{ state, setState }}</span> rebuilt inline forces every
+              consumer to redraw. Real <span class="font-mono">useMemo</span> fix, but narrower
+              leverage than the renderer.
+            </p>
+          </article>
+          <article class="rounded-xl bg-white border border-stone-200 p-5 space-y-1">
+            <h3 class="font-semibold">Missing effect dependency (app.tsx:31)</h3>
+            <p class="font-mono text-xs text-slate-500">app.tsx</p>
+            <p class="text-sm text-slate-600">
+              Likely false positive: <span class="font-mono">showErrorBoundary</span> is a stable
+              <span class="font-mono">setState</span> updater. Skipped — no behaviour change earned.
+            </p>
+          </article>
+          <article class="rounded-xl bg-white border border-stone-200 p-5 space-y-1">
+            <h3 class="font-semibold">Button missing explicit type ×3</h3>
+            <p class="font-mono text-xs text-slate-500">Button / Sidebar / PromptCard</p>
+            <p class="text-sm text-slate-600">
+              Real a11y/bug class, but mechanical and shallow — lower architectural depth.
+            </p>
+          </article>
+          <article class="rounded-xl bg-white border border-stone-200 p-5 space-y-1">
+            <h3 class="font-semibold">9 unused files / dead exports</h3>
+            <p class="font-mono text-xs text-slate-500">deslop/unused-*</p>
+            <p class="text-sm text-slate-600">
+              Deletion-only cleanup; left for a dedicated dead-code pass.
+            </p>
+          </article>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
