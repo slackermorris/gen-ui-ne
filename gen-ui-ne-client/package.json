@@ -16,6 +16,7 @@
     "preview": "vp preview"
   },
   "dependencies": {
+    "class-variance-authority": "^0.7.1",
     "gen-ui-ne-shared": "",
     "lucide-react": "^1.14.0",
     "react": "^18.3.1",
