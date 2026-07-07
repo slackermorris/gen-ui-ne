@@ -1,16 +1,21 @@
-<!--VITE PLUS START-->
+# gen-ui-ne
 
-# Using Vite+, the Unified Toolchain for the Web
+A monorepo (npm workspaces) with:
 
-This project is using Vite+, a unified toolchain built on top of Vite, Rolldown, Vitest, tsdown, Oxlint, Oxfmt, and Vite Task. Vite+ wraps runtime management, package management, and frontend tooling in a single global CLI called `vp`. Vite+ is distinct from Vite, and it invokes Vite through `vp dev` and `vp build`. Run `vp help` to print a list of commands and `vp <command> --help` for information about a specific command.
+- `gen-ui-ne-client` — React + TypeScript + Vite + Tailwind frontend
+- `gen-ui-ne-server` — Cloudflare Worker (Wrangler)
+- `gen-ui-ne-shared` — shared models, API schema, and catalogue
+- `gen-ui-ne-slides` — Slidev deck
 
-Docs are local at `node_modules/vite-plus/docs` or online at https://viteplus.dev/guide/.
+## Toolchain
+
+- **Build/dev:** [Vite](https://vitejs.dev) (`vite`, `vite build`)
+- **Tests:** [Vitest](https://vitest.dev) (`vitest`)
+- **Lint:** [oxlint](https://oxc.rs) via `.oxlintrc.json` (`npm run lint`)
+- **Format:** [oxfmt](https://oxc.rs) (`npm run format`)
 
 ## Review Checklist
 
-- [ ] Run `vp install` after pulling remote changes and before getting started.
-- [ ] Run `vp check` and `vp test` to format, lint, type check and test changes.
-- [ ] Check if there are `vite.config.ts` tasks or `package.json` scripts necessary for validation, run via `vp run <script>`.
-- [ ] If setup, runtime, or package-manager behavior looks wrong, run `vp env doctor` and include its output when asking for help.
-
-<!--VITE PLUS END-->
+- [ ] Run `npm install` after pulling remote changes and before getting started.
+- [ ] Run `npm run lint`, `npm run format:check`, and `npm test` before committing.
+- [ ] The client `build` script (`npm run build -w gen-ui-ne-client`) runs `tsc` then `vite build`.

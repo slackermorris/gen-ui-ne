@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vite-plus/test';
+import { describe, expect, it } from 'vitest';
 import { Catalogue } from '../catalogue.ts';
 import { PromptCardProps } from '../component-schema.ts';
 import { Schema } from 'effect';

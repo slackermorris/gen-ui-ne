@@ -1,5 +1,5 @@
 import { Schema } from 'effect';
-import { describe, expect, it } from 'vite-plus/test';
+import { describe, expect, it } from 'vitest';
 import { Spec } from './spec.ts';
 import { SchemaError } from 'effect/Schema';
 
