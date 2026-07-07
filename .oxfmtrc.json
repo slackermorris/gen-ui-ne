@@ -1,0 +1,11 @@
+{
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
+  "semi": true,
+  "singleQuote": true,
+  "ignorePatterns": [
+    "**/dist/**",
+    "open-source/**",
+    "gen-ui-ne-slides/**",
+    "gen-ui-ne-client/ramp-design-system.css"
+  ]
+}

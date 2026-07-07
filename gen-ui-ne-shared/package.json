@@ -10,10 +10,9 @@
     "./spec": "./spec.ts"
   },
   "scripts": {
-    "test": "vp test"
+    "test": "vitest run"
   },
   "devDependencies": {
-    "vite-plus": "latest",
     "vitest": "4.1.9"
   }
 }
