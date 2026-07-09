@@ -1,4 +1,4 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
 /*
   The default border color has changed to `currentcolor` in Tailwind CSS v4,
@@ -16,4 +16,74 @@
   ::file-selector-button {
     border-color: var(--color-gray-200, currentcolor);
   }
+}
+
+:root {
+  /* foundational layer  */
+  --background: oklch(1 0 0); /* Pure white canvas */
+  --foreground: oklch(0.145 0 0); /* Near-black primary text */
+
+  --radius: 0.625rem;
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+
+  /* interactive layer: user actions */
+  --primary: oklch(0.205 0 0);
+  /* one below is used for button text  */
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+}
+
+@theme {
+  --color-*: initial;
+
+  /* Color primitives (OKLCH for perceptual evenness)
+  --color-blue-100: oklch(95% 0.02 250);
+  --color-blue-200: oklch(90% 0.04 250);
+  --color-blue-300: oklch(80% 0.08 250);
+  --color-blue-400: oklch(70% 0.12 250);
+  --color-blue-500: oklch(60% 0.16 250);
+  --color-blue-600: oklch(50% 0.16 250);
+  --color-blue-700: oklch(40% 0.14 250);
+  --color-blue-800: oklch(30% 0.12 250);
+  --color-blue-900: oklch(20% 0.1 250);
+
+  Semantic tokens — express intent, reference primitives above.
+     Each one generates utilities: bg-*, text-*, border-*, ring-*, ...
+  --color-background: var(--color-gray-50);
+  --color-foreground: var(--color-gray-900);
+  --color-muted: var(--color-gray-500);
+  --color-border: var(--color-gray-200);
+  --color-ring: var(--color-blue-500);
+
+  Surfaces
+  --color-surface: var(--color-white);
+  --color-surface-secondary: var(--color-gray-100);
+
+  Actions
+  --color-action: var(--color-blue-600);
+  --color-action-hover: var(--color-blue-700);
+
+  States
+  --color-success: var(--color-green-600);
+  --color-warning: var(--color-amber-500);
+  --color-error: var(--color-red-600); */
+
+  --color-primary: var(--primary);
+}
+
+/*
+  Dark theme: override the *semantic* variables only. Because bg-surface etc.
+  compile to `var(--color-surface)`, re-pointing the variable re-themes the
+  whole app — no utility classes or components change. Toggle by adding/removing
+  the `dark` class on <html> (the playground has a switch for this).
+*/
+.dark {
+  --color-background: var(--color-gray-950);
+  --color-foreground: var(--color-gray-50);
+  --color-muted: var(--color-gray-400);
+  --color-border: var(--color-gray-800);
+  --color-surface: var(--color-gray-900);
+  --color-surface-secondary: var(--color-gray-800);
 }
