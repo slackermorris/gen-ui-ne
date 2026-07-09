@@ -10,9 +10,10 @@ export default defineConfig({
     },
   },
   rules: {
-    // "tailwindcss/no-unknown-classes": "error",
-    "tailwindcss/no-conflicting-classes": "error",
-    "tailwindcss/enforce-sort-order": "warn",
+    // The combination of no-unknown|restricted-classes ensures our design system is enforced.
+    // We cannot use any unknown, arbitrary classes e.g., "text-[#32CD32]" or "text-quarternary"
+    "tailwindcss/no-unknown-classes": "error",
+    // We can only use classes that we expose as part of our design system.
     "tailwindcss/no-restricted-classes": [
       "error",
       {
@@ -26,5 +27,8 @@ export default defineConfig({
         ],
       },
     ],
+
+    "tailwindcss/no-conflicting-classes": "error",
+    "tailwindcss/enforce-sort-order": "warn",
   },
 });

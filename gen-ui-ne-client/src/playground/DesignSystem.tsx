@@ -55,7 +55,7 @@ function Row({ label, children }: { label: string; children: ReactNode }) {
 
 const COLOR_TOKENS = [
   { name: "primary-500", className: "bg-primary-500" },
-  { name: "blue-600", className: "bg-primary" },
+  { name: "blue-600", className: "bg-secondary" },
   { name: "gray-900", className: "bg-gray-900" },
   { name: "gray-500", className: "bg-gray-500" },
   { name: "gray-200", className: "bg-gray-200" },

@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 /*
   The default border color has changed to `currentcolor` in Tailwind CSS v4,
@@ -79,11 +79,11 @@
   whole app — no utility classes or components change. Toggle by adding/removing
   the `dark` class on <html> (the playground has a switch for this).
 */
-.dark {
+/* .dark {
   --color-background: var(--color-gray-950);
   --color-foreground: var(--color-gray-50);
   --color-muted: var(--color-gray-400);
   --color-border: var(--color-gray-800);
   --color-surface: var(--color-gray-900);
   --color-surface-secondary: var(--color-gray-800);
-}
+} */
