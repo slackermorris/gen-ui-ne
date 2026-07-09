@@ -24,7 +24,7 @@ const arrow = { positive: "↑", negative: "↓", neutral: "–" };
 
 export function ReturnBadge({ value, direction, label }: ReturnBadgeProps) {
   return (
-    <div className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
+    <div className="rounded-lg border border-gray-200 bg-white p-4 shadow-xs">
       {label && <p className="mb-2 text-sm text-gray-500">{label}</p>}
       <span
         className={cn(

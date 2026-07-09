@@ -1,4 +1,4 @@
-import { Schema } from 'effect'
+import { Schema } from 'effect';
 
 // @schema-export-start
 export const AutoInvestCardProps = Schema.Struct({
@@ -6,15 +6,16 @@ export const AutoInvestCardProps = Schema.Struct({
   frequency: Schema.String,
   nextDate: Schema.String,
 }).annotate({
-  description: "Shows an investor's auto-invest configuration: amount, frequency, and next scheduled date. Use when the investor has an active auto-invest and the context is relevant.",
-})
+  description:
+    "Shows an investor's auto-invest configuration: amount, frequency, and next scheduled date. Use when the investor has an active auto-invest and the context is relevant.",
+});
 // @schema-export-end
 
-type AutoInvestCardProps = typeof AutoInvestCardProps.Type
+type AutoInvestCardProps = typeof AutoInvestCardProps.Type;
 
 export function AutoInvestCard({ amount, frequency, nextDate }: AutoInvestCardProps) {
   return (
-    <div className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
+    <div className="rounded-lg border border-gray-200 bg-white p-4 shadow-xs">
       <p className="mb-3 text-sm text-gray-500">Auto-invest</p>
       <p className="text-2xl font-bold text-gray-900">{amount}</p>
       <p className="mt-0.5 text-sm text-gray-600">{frequency}</p>
@@ -23,5 +24,5 @@ export function AutoInvestCard({ amount, frequency, nextDate }: AutoInvestCardPr
         <p className="text-sm font-medium text-gray-900">{nextDate}</p>
       </div>
     </div>
-  )
+  );
 }

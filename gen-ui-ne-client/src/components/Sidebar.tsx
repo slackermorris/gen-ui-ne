@@ -1,21 +1,21 @@
-import { useAppState } from '../state/app-state'
-import { cn } from '../utils/cn'
+import { useAppState } from '../state/app-state';
+import { cn } from '../utils/cn';
 
 interface NavItem {
-  key: string
-  label: string
+  key: string;
+  label: string;
 }
 
 interface SidebarProps {
-  items: NavItem[]
+  items: NavItem[];
 }
 
 export function Sidebar({ items }: SidebarProps) {
-  const { state, setState } = useAppState()
+  const { state, setState } = useAppState();
 
   return (
-    <nav className="flex w-48 flex-col gap-1 rounded-lg border border-gray-200 bg-white p-3 shadow-sm">
-      {items.map(item => (
+    <nav className="flex w-48 flex-col gap-1 rounded-lg border border-gray-200 bg-white p-3 shadow-xs">
+      {items.map((item) => (
         <button
           key={item.key}
           onClick={() => setState('activeNav', item.key)}
@@ -30,5 +30,5 @@ export function Sidebar({ items }: SidebarProps) {
         </button>
       ))}
     </nav>
-  )
+  );
 }

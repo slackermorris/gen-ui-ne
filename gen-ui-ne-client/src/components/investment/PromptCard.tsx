@@ -1,9 +1,9 @@
-import { Effect, Schema } from "effect";
-import { Api } from "../../services/api";
-import { RuntimeClient } from "../../runtime-client";
-import { useShowErrorBoundary } from "../../hooks/useShowErrorBoundary";
+import { Effect, Schema } from 'effect';
+import { Api } from '../../services/api';
+import { RuntimeClient } from '../../runtime-client';
+import { useShowErrorBoundary } from '../../hooks/useShowErrorBoundary';
 
-import type { OtlpLogRecord } from "gen-ui-ne-shared/api-schema";
+import type { OtlpLogRecord } from 'gen-ui-ne-shared/api-schema';
 
 // @schema-export-start
 export const PromptCardProps = Schema.Struct({
@@ -11,11 +11,12 @@ export const PromptCardProps = Schema.Struct({
   message: Schema.String,
   action: Schema.optionalKey(Schema.String),
 }).annotate({
-  description: "A call-to-action card with a title, message, and optional action label. Use to surface a recommendation, prompt, or insight the investor should act on.",
-})
+  description:
+    'A call-to-action card with a title, message, and optional action label. Use to surface a recommendation, prompt, or insight the investor should act on.',
+});
 // @schema-export-end
 
-type PromptCardProps = typeof PromptCardProps.Type
+type PromptCardProps = typeof PromptCardProps.Type;
 
 export function PromptCard({ title, message, action }: PromptCardProps) {
   const showErrorBoundary = useShowErrorBoundary();
@@ -23,32 +24,32 @@ export function PromptCard({ title, message, action }: PromptCardProps) {
   function handleClick() {
     const userName = window.location.pathname.slice(1);
 
-    console.log("Capturing an event off the prompt card");
+    console.log('Capturing an event off the prompt card');
 
     const payload: OtlpLogRecord = {
-      timeUnixNano: "1748563200000000000",
+      timeUnixNano: '1748563200000000000',
       severityNumber: 9,
-      severityText: "INFO",
+      severityText: 'INFO',
       body: `User clicked ${action}`,
       attributes: [
         {
-          key: "user.action",
-          value: "browse_investments",
+          key: 'user.action',
+          value: 'browse_investments',
         },
         {
-          key: "component",
-          value: "PromptCard",
+          key: 'component',
+          value: 'PromptCard',
         },
       ],
-      traceId: "4bf92f3577b34da6a3ce929d0e0e4736",
-      spanId: "00f067aa0ba902b7",
+      traceId: '4bf92f3577b34da6a3ce929d0e0e4736',
+      spanId: '00f067aa0ba902b7',
     };
 
     const program = Effect.gen(function* () {
       const api = yield* Api;
       const response = yield* api.sendLog(userName, { logs: [payload] });
 
-      console.log("logging the response", { response });
+      console.log('logging the response', { response });
     });
 
     const recoverable = program;
@@ -57,7 +58,7 @@ export function PromptCard({ title, message, action }: PromptCardProps) {
   }
 
   return (
-    <div className="rounded-lg border border-green-200 bg-green-50 p-5 shadow-sm">
+    <div className="rounded-lg border border-green-200 bg-green-50 p-5 shadow-xs">
       <p className="font-semibold text-green-900">{title}</p>
       <p className="mt-1 text-sm text-green-800">{message}</p>
       {action && (
