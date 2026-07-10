@@ -1,21 +1,19 @@
 {
-	"$schema": "node_modules/wrangler/config-schema.json",
-	"name": "spec-selector",
-	"main": "src/spec-selector.ts",
-	"compatibility_date": "2026-05-08",
-	"compatibility_flags": [
-		"nodejs_compat"
-	],
-	"secrets": {
-		"required": ["ANTHROPIC_API_KEY"]
-	},
-	"durable_objects": {
-		"bindings": [
-			{
-				"name": "ORCHESTRATOR",
-				"class_name": "Orchestrator",
-				"script_name": "durable-object-starter"
-			}
-		]
-	}
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "spec-selector",
+  "main": "src/spec-selector.ts",
+  "compatibility_date": "2026-05-08",
+  "compatibility_flags": ["nodejs_compat"],
+  "secrets": {
+    "required": ["ANTHROPIC_API_KEY"],
+  },
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "ORCHESTRATOR",
+        "class_name": "Orchestrator",
+        "script_name": "durable-object-starter",
+      },
+    ],
+  },
 }

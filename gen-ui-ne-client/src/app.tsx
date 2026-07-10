@@ -1,5 +1,5 @@
-import { AppStateProvider } from "./state/app-state";
-import { DesignSystem } from "./playground/DesignSystem";
+import { AppStateProvider } from './state/app-state';
+import { DesignSystem } from './playground/DesignSystem';
 
 // --- Generative UI wiring (WIP) -------------------------------------------
 // Restore these imports when re-enabling the effect below:

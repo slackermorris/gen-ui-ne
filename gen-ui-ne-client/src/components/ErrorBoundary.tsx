@@ -1,5 +1,5 @@
-import { Match } from "effect";
-import { Component, ReactNode } from "react";
+import { Match } from 'effect';
+import { Component, ReactNode } from 'react';
 
 type Props = {
   fallback?: ReactNode | ((error: Error) => ReactNode);
@@ -27,7 +27,7 @@ export class ErrorBoundary extends Component<Props, State> {
       Match.when(Match.null, () => this.props.children),
       Match.orElse((error) => {
         const { fallback } = this.props;
-        if (typeof fallback === "function") return fallback(error);
+        if (typeof fallback === 'function') return fallback(error);
         return fallback ?? <DefaultFallback error={error} />;
       }),
     );

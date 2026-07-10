@@ -1,32 +1,32 @@
 {
-    "name": "gen-ui-ne-workspace",
-    "workspaces": [
-        "gen-ui-ne-server",
-        "gen-ui-ne-client",
-        "gen-ui-ne-shared"
-    ],
-    "scripts": {
-        "generate-catalogue": "tsx scripts/generate-catalogue.ts",
-        "lint": "oxlint --type-aware",
-        "format": "oxfmt .",
-        "format:check": "oxfmt --check .",
-        "test": "npm run test --workspaces --if-present"
-    },
-    "dependencies": {
-        "effect": "^4.0.0-beta.65"
-    },
-    "devDependencies": {
-        "@effect/language-service": "^0.86.2",
-        "@effect/platform-node": "^4.0.0-beta.78",
-        "@types/node": "^25.9.2",
-        "@types/react": "^19.2.17",
-        "oxfmt": "^0.58.0",
-        "oxlint": "^1.73.0",
-        "oxlint-tsgolint": "^0.24.0",
-        "tsx": "^4.19.2",
-        "typescript": "^5.5.3"
-    },
-    "overrides": {
-        "vitest": "4.1.9"
-    }
+  "name": "gen-ui-ne-workspace",
+  "workspaces": [
+    "gen-ui-ne-server",
+    "gen-ui-ne-client",
+    "gen-ui-ne-shared"
+  ],
+  "scripts": {
+    "generate-catalogue": "tsx scripts/generate-catalogue.ts",
+    "lint": "oxlint --type-aware",
+    "format": "oxfmt .",
+    "format:check": "oxfmt --check .",
+    "test": "npm run test --workspaces --if-present"
+  },
+  "dependencies": {
+    "effect": "^4.0.0-beta.65"
+  },
+  "devDependencies": {
+    "@effect/language-service": "^0.86.2",
+    "@effect/platform-node": "^4.0.0-beta.78",
+    "@types/node": "^25.9.2",
+    "@types/react": "^19.2.17",
+    "oxfmt": "^0.58.0",
+    "oxlint": "^1.73.0",
+    "oxlint-tsgolint": "^0.24.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.5.3"
+  },
+  "overrides": {
+    "vitest": "4.1.9"
+  }
 }

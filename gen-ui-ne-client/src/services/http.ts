@@ -1,5 +1,5 @@
-import { Effect } from "effect";
-import { HttpError, JsonParseError, NetworkError } from "../tagged-errors";
+import { Effect } from 'effect';
+import { HttpError, JsonParseError, NetworkError } from '../tagged-errors';
 
 function getRequest(url: string) {
   return Effect.tryPromise({
@@ -7,8 +7,7 @@ function getRequest(url: string) {
       const response = await fetch(url);
       return response;
     },
-    catch: () =>
-      new NetworkError({ statusCode: 0, message: "Failed to fulfil request" }),
+    catch: () => new NetworkError({ statusCode: 0, message: 'Failed to fulfil request' }),
   });
 }
 
@@ -16,16 +15,15 @@ function postRequest(url: string, body: object) {
   return Effect.tryPromise({
     try: async () => {
       const response = await fetch(url, {
-        method: "POST",
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify(body),
       });
       return response;
     },
-    catch: () =>
-      new NetworkError({ statusCode: 0, message: "Failed to fulfil request" }),
+    catch: () => new NetworkError({ statusCode: 0, message: 'Failed to fulfil request' }),
   });
 }
 

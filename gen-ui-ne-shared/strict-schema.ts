@@ -17,27 +17,23 @@
  * See https://github.com/anthropics/anthropic-sdk-python/issues/1185
  */
 
-const NON_FINITE_NUMBER_STRINGS = new Set(["NaN", "Infinity", "-Infinity"]);
+const NON_FINITE_NUMBER_STRINGS = new Set(['NaN', 'Infinity', '-Infinity']);
 
 function isNullSchema(node: unknown): boolean {
   return (
-    typeof node === "object" &&
-    node !== null &&
-    (node as Record<string, unknown>).type === "null"
+    typeof node === 'object' && node !== null && (node as Record<string, unknown>).type === 'null'
   );
 }
 
 /** A branch like `{ type: "string", enum: ["NaN"] }` that Effect adds for non-finite numbers. */
 function isNonFiniteNumberSchema(node: unknown): boolean {
-  if (typeof node !== "object" || node === null) return false;
+  if (typeof node !== 'object' || node === null) return false;
   const n = node as Record<string, unknown>;
   return (
-    n.type === "string" &&
+    n.type === 'string' &&
     Array.isArray(n.enum) &&
     n.enum.length > 0 &&
-    n.enum.every(
-      (v) => typeof v === "string" && NON_FINITE_NUMBER_STRINGS.has(v),
-    )
+    n.enum.every((v) => typeof v === 'string' && NON_FINITE_NUMBER_STRINGS.has(v))
   );
 }
 
@@ -52,7 +48,7 @@ export function sanitizeForStrictGrammar<T>(schema: T): T {
 
 function visit(node: unknown): unknown {
   if (Array.isArray(node)) return node.map(visit);
-  if (typeof node !== "object" || node === null) return node;
+  if (typeof node !== 'object' || node === null) return node;
 
   // Recurse into children first so nested unions collapse before we inspect this level.
   const result: Record<string, unknown> = {};
@@ -62,7 +58,7 @@ function visit(node: unknown): unknown {
 
   // Drop "null" from array-form types: `type: ["string", "null"]` -> `type: "string"`.
   if (Array.isArray(result.type)) {
-    const types = result.type.filter((t) => t !== "null");
+    const types = result.type.filter((t) => t !== 'null');
     result.type = types.length === 1 ? types[0] : types;
   }
 

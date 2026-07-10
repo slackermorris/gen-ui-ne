@@ -1,27 +1,25 @@
-import { Schema } from "effect";
-import { Component } from "./component-schema";
-import { NonEmptyReadonlyArray } from "effect/Array";
+import { Schema } from 'effect';
+import { Component } from './component-schema';
+import { NonEmptyReadonlyArray } from 'effect/Array';
 
-export const ElementId = Schema.String.pipe(Schema.brand("ElementId"));
+export const ElementId = Schema.String.pipe(Schema.brand('ElementId'));
 export type ElementId = typeof ElementId.Type;
 
-export type CatalogueElement = ReturnType<Component["toCatalogueElement"]>;
-export type CatalogueElementKey = CatalogueElement["Type"]["type"];
+export type CatalogueElement = ReturnType<Component['toCatalogueElement']>;
+export type CatalogueElementKey = CatalogueElement['Type']['type'];
 
 export class Catalogue {
   private catalogue;
 
   constructor(components: NonEmptyReadonlyArray<Component>) {
-    this.catalogue = components.map((component) =>
-      component.toCatalogueElement(),
-    );
+    this.catalogue = components.map((component) => component.toCatalogueElement());
   }
 
   public toSpecElements() {
     const specElements = this.catalogue.map((member) => {
       const { type, props, description: _omitDescription } = member.fields;
 
-      if ("children" in props.fields) {
+      if ('children' in props.fields) {
         const { children: _reactNode, ...rest } = props.fields;
         return Schema.Struct({
           id: ElementId,
@@ -40,19 +38,17 @@ export class Catalogue {
   }
 
   public toPrompt() {
-    const { schema } = Schema.toJsonSchemaDocument(
-      Schema.Union(this.catalogue),
-    );
+    const { schema } = Schema.toJsonSchemaDocument(Schema.Union(this.catalogue));
 
-    const llmFriendlyComponentManifest = schema["anyOf"].map((element) => {
+    const llmFriendlyComponentManifest = schema['anyOf'].map((element) => {
       const { properties } = element;
-      const type = properties["type"]["enum"][0];
-      const description = properties["description"]["enum"][0];
-      const propsStr = JSON.stringify(properties["props"]);
+      const type = properties['type']['enum'][0];
+      const description = properties['description']['enum'][0];
+      const propsStr = JSON.stringify(properties['props']);
 
       return `${type}: ${propsStr} - ${description}`;
     });
 
-    return llmFriendlyComponentManifest.join("\n");
+    return llmFriendlyComponentManifest.join('\n');
   }
 }

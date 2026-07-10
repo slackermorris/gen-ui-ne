@@ -6,15 +6,16 @@ Here's Ramp's design system, reconstructed from design-token aggregators (the li
 Overwhelmingly neutral and editorial — warm off-whites, deep near-blacks, slate borders — with a single high-voltage chartreuse doing all the "brand" work. It reads as restrained, financial-serious, but modern. Color is used as punctuation, not decoration.
 
 **Color palette** (~118 tokens total, but the core is small)
-| Role | Name | Hex |
+
+| Role                 | Name        | Hex       |
 | -------------------- | ----------- | --------- |
 | Primary accent / CTA | Lime Signal | `#e4f222` |
-| Secondary accent | Cobalt Glow | `#5683d2` |
-| Near-black (text/bg) | Obsidian | `#0c0a08` |
-| Dark surface | Charcoal | `#1a1919` |
-| White | Paper | `#ffffff` |
-| Warm off-white bg | Limestone | `#f4f2f0` |
-| Muted text / borders | Slate | `#4d505d` |
+| Secondary accent     | Cobalt Glow | `#5683d2` |
+| Near-black (text/bg) | Obsidian    | `#0c0a08` |
+| Dark surface         | Charcoal    | `#1a1919` |
+| White                | Paper       | `#ffffff` |
+| Warm off-white bg    | Limestone   | `#f4f2f0` |
+| Muted text / borders | Slate       | `#4d505d` |
 
 The neutrals are _warm_ (note Obsidian and Limestone both carry a slight warm cast, not pure gray) — that's the signature. The lime is the only saturated color and it's reserved almost entirely for primary CTAs.
 
@@ -37,7 +38,6 @@ Sources: [FontOfWeb — ramp.com tokens](https://fontofweb.com/tokens/ramp.com),
 
 Since you're on the `feature/migrate-to-tailwindcss-v4` branch, I can turn this into a Tailwind v4 `@theme` token block (CSS custom properties for the colors, radii, and font families) so you could actually try the Ramp look in this project. Want me to generate that?
 
-
 PRIMITIVE
 --black-300:rgba(var(--black-rgb),.3);
 
@@ -46,5 +46,5 @@ ATOMIC
 
 EXPOSED, UTILITY
 .bg-black-300 {
-        background-color: var(--color-black-300)
-    }
+background-color: var(--color-black-300)
+}

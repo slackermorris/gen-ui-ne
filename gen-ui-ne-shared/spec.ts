@@ -1,11 +1,11 @@
-import { Schema } from "effect";
-import { Catalogue, ElementId } from "./catalogue.ts";
-import { Components } from "./component-schema.ts";
-import { sanitizeForStrictGrammar } from "./strict-schema.ts";
+import { Schema } from 'effect';
+import { Catalogue, ElementId } from './catalogue.ts';
+import { Components } from './component-schema.ts';
+import { sanitizeForStrictGrammar } from './strict-schema.ts';
 
 const SpecElement = new Catalogue(Components).toSpecElements();
 
-export class Spec extends Schema.Class<Spec>("Spec")({
+export class Spec extends Schema.Class<Spec>('Spec')({
   root: ElementId,
   elements: Schema.Record(ElementId, SpecElement),
 }) {}
@@ -24,7 +24,7 @@ export class Spec extends Schema.Class<Spec>("Spec")({
  *
  * This schema is then rebuilt into the canonical Spec via `.toSpec`.
  */
-export class SpecForLlm extends Schema.Class<SpecForLlm>("SpecForLlm")({
+export class SpecForLlm extends Schema.Class<SpecForLlm>('SpecForLlm')({
   root: ElementId,
   elements: Schema.Array(SpecElement),
 }) {
@@ -37,8 +37,7 @@ export class SpecForLlm extends Schema.Class<SpecForLlm>("SpecForLlm")({
    */
   static toStrictAnthropicJsonSchema() {
     // 1. Convert Effect Schema into format accepted by AI SDK and Anthropic.
-    const specAsJsonSchema =
-      Schema.toJsonSchemaDocument(SpecForLlm).definitions["SpecForLlm"]; //Because we are using a class, we need to drill down through the `definitions` block.
+    const specAsJsonSchema = Schema.toJsonSchemaDocument(SpecForLlm).definitions['SpecForLlm']; //Because we are using a class, we need to drill down through the `definitions` block.
 
     // 2. Sanitise schema to meet Anthropic grammar constraints.
     return sanitizeForStrictGrammar(specAsJsonSchema);

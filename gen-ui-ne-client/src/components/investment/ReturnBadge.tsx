@@ -1,26 +1,26 @@
-import { cn } from "../../utils/cn";
-import { Schema } from "effect";
+import { cn } from '../../utils/cn';
+import { Schema } from 'effect';
 
 // @schema-export-start
 export const ReturnBadgeProps = Schema.Struct({
   value: Schema.String,
-  direction: Schema.Literals(["positive", "negative", "neutral"]),
+  direction: Schema.Literals(['positive', 'negative', 'neutral']),
   label: Schema.optionalKey(Schema.String),
 }).annotate({
   description:
-    "A small badge showing a return figure with a direction indicator. Use to highlight a specific return metric inline or alongside a holding.",
+    'A small badge showing a return figure with a direction indicator. Use to highlight a specific return metric inline or alongside a holding.',
 });
 // @schema-export-end
 
 type ReturnBadgeProps = typeof ReturnBadgeProps.Type;
 
 const badgeStyles = {
-  positive: "bg-green-50 text-green-700 border-green-200",
-  negative: "bg-red-50 text-red-700 border-red-200",
-  neutral: "bg-gray-50 text-gray-600 border-gray-200",
+  positive: 'bg-green-50 text-green-700 border-green-200',
+  negative: 'bg-red-50 text-red-700 border-red-200',
+  neutral: 'bg-gray-50 text-gray-600 border-gray-200',
 };
 
-const arrow = { positive: "↑", negative: "↓", neutral: "–" };
+const arrow = { positive: '↑', negative: '↓', neutral: '–' };
 
 export function ReturnBadge({ value, direction, label }: ReturnBadgeProps) {
   return (
@@ -28,7 +28,7 @@ export function ReturnBadge({ value, direction, label }: ReturnBadgeProps) {
       {label && <p className="mb-2 text-sm text-gray-500">{label}</p>}
       <span
         className={cn(
-          "inline-flex items-center gap-1 rounded-full border px-3 py-1 text-sm font-semibold",
+          'inline-flex items-center gap-1 rounded-full border px-3 py-1 text-sm font-semibold',
           badgeStyles[direction],
         )}
       >

@@ -1,19 +1,15 @@
-import { Schema } from "effect";
-import {
-  HttpApi,
-  HttpApiEndpoint,
-  HttpApiGroup,
-} from "effect/unstable/httpapi";
-import { Spec } from "./spec";
-import { OtlpLogRecord } from "./api-schema";
+import { Schema } from 'effect';
+import { HttpApi, HttpApiEndpoint, HttpApiGroup } from 'effect/unstable/httpapi';
+import { Spec } from './spec';
+import { OtlpLogRecord } from './api-schema';
 
-class BaseGroup extends HttpApiGroup.make("base")
+class BaseGroup extends HttpApiGroup.make('base')
   .add(
-    HttpApiEndpoint.get("getUI", "/:name", {
+    HttpApiEndpoint.get('getUI', '/:name', {
       params: { name: Schema.String },
       success: Spec,
     }),
-    HttpApiEndpoint.post("log", "/:name/log", {
+    HttpApiEndpoint.post('log', '/:name/log', {
       params: { name: Schema.String },
       payload: Schema.Struct({
         logs: Schema.Array(OtlpLogRecord),
@@ -23,6 +19,6 @@ class BaseGroup extends HttpApiGroup.make("base")
       }),
     }),
   )
-  .prefix("/gen-ui-ne") {}
+  .prefix('/gen-ui-ne') {}
 
-export class Api extends HttpApi.make("Api").add(BaseGroup) {}
+export class Api extends HttpApi.make('Api').add(BaseGroup) {}

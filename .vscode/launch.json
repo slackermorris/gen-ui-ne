@@ -1,11 +1,11 @@
 {
-	"version": "0.2.0",
-	"configurations": [
-		{
-			"name": "Wrangler Debug",
-			"type": "node",
-			"request": "attach",
-			"sourceMaps": true
-		}
-	]
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Wrangler Debug",
+      "type": "node",
+      "request": "attach",
+      "sourceMaps": true
+    }
+  ]
 }

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState } from 'react';
 
 export const useShowErrorBoundary = () => {
   const [error, setError] = useState(null);
@@ -8,4 +8,4 @@ export const useShowErrorBoundary = () => {
   }
 
   return setError;
-}
+};

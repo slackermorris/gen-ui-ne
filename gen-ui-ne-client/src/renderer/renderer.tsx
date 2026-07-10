@@ -1,8 +1,8 @@
-import { Effect, Option } from "effect";
-import { RuntimeClient } from "../runtime-client";
-import { Registry } from "./registry";
-import { Spec } from "gen-ui-ne-shared/model";
-import type { ElementId } from "gen-ui-ne-shared/catalogue";
+import { Effect, Option } from 'effect';
+import { RuntimeClient } from '../runtime-client';
+import { Registry } from './registry';
+import { Spec } from 'gen-ui-ne-shared/model';
+import type { ElementId } from 'gen-ui-ne-shared/catalogue';
 
 interface RendererProps {
   spec: Spec;
@@ -25,14 +25,12 @@ export function Renderer({ spec }: RendererProps) {
 
     return Option.match(componentFromRegistry, {
       onNone: () => {
-        console.warn(
-          `[Renderer] No component registered for type: "${element.type}"`,
-        );
+        console.warn(`[Renderer] No component registered for type: "${element.type}"`);
         return null;
       },
       onSome: (Component) => {
         const children =
-          "children" in element && element.children
+          'children' in element && element.children
             ? element.children.map(renderElement)
             : undefined;
 
