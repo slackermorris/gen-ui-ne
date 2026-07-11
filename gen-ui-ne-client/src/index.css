@@ -2,11 +2,11 @@
 
 /*
   ============================================================================
-  DESIGN SYSTEM — a synthesis of Ramp, shadcn/ui, and Vercel Geist.
+  DESIGN SYSTEM
   ============================================================================
 
   Two hard tiers. The boundary between them is ENFORCED BY CONSTRUCTION, not
-  just by policy — read this before adding a token:
+  just by policy. Read this before adding a token:
 
     TIER 1 — PRIMITIVES  (plain :root variables, NEVER in @theme)
       Raw OKLCH ramps, appearance-named (`--gray-500`, `--brand-400`).
@@ -28,32 +28,29 @@
       They are the only color tokens components are allowed to name.
 
   Because components read semantics and semantics are re-pointed inside `.dark`,
-  dark mode is a token swap — no component or utility class changes.
-
-  Aesthetic (Ramp): warm neutrals do the work; ONE saturated brand color
-  (a chartreuse "signal") is punctuation. To rebrand: retune the `--brand-*`
-  ramp and/or re-point `--primary` below. Nothing else changes.
+  dark mode is a token swap, no component or utility class changes.
 */
 
-/* Let the .dark class drive dark-mode variants (optional `dark:` utilities). */
 @custom-variant dark (&:is(.dark *));
 
-/* Wipe Tailwind's built-in palette so the ONLY color utilities that exist are
-   the semantic ones we expose in `@theme inline` at the bottom. */
+/* 
+  Wipe Tailwind's built-in palette so the ONLY color utilities that exist are
+  the semantic ones we expose in `@theme inline` at the bottom. 
+*/
 @theme {
   --color-*: initial;
 }
 
-/* ==========================================================================
-   TIER 1 — PRIMITIVES.  Plain variables → no utilities are generated.
-   These are illustrative + the resolution source; never named in markup.
-   ========================================================================== */
+/* 
+  ==========================================================================
+  TIER 1 — PRIMITIVES.  Plain variables → no utilities are generated.
+  These are illustrative + the resolution source; never named in markup.
+  ========================================================================== 
+*/
 :root {
   --white: oklch(1 0 0);
   --black: oklch(0 0 0);
 
-  /* Warm neutral — the Ramp signature. Hue drifts 75->50 as it darkens, so the
-     darks read as warm "obsidian", not clinical gray. Carries ~95% of the UI. */
   --gray-50: oklch(0.985 0.002 75);
   --gray-100: oklch(0.97 0.003 75);
   --gray-200: oklch(0.922 0.004 75);
@@ -66,8 +63,10 @@
   --gray-900: oklch(0.205 0.006 52);
   --gray-950: oklch(0.145 0.006 50);
 
-  /* Brand — the single high-voltage accent. Chartreuse/lime. 400 is the
-     "signal" (brightest, most saturated). Text on it is near-black (Ramp). */
+  /* 
+    Brand the single high-voltage accent. Chartreuse/lime. 400 is the
+    "signal" (brightest, most saturated). Text on it is near-black (Ramp). 
+  */
   --brand-50: oklch(0.98 0.03 118);
   --brand-100: oklch(0.96 0.06 118);
   --brand-200: oklch(0.94 0.11 118);
@@ -80,7 +79,21 @@
   --brand-900: oklch(0.43 0.1 128);
   --brand-950: oklch(0.29 0.07 130);
 
-  /* Status — quiet by default; used only to signal state. */
+  /* 
+    Alternate brand identity. A saturated magenta-pink. 400 is the "signal".
+  */
+  --brand-pink-50: oklch(0.97 0.02 344);
+  --brand-pink-100: oklch(0.94 0.04 344);
+  --brand-pink-200: oklch(0.9 0.07 344);
+  --brand-pink-300: oklch(0.84 0.11 343);
+  --brand-pink-400: oklch(0.769 0.155 343);
+  --brand-pink-500: oklch(0.71 0.17 342);
+  --brand-pink-600: oklch(0.64 0.16 342);
+  --brand-pink-700: oklch(0.56 0.14 342);
+  --brand-pink-800: oklch(0.47 0.12 342);
+  --brand-pink-900: oklch(0.39 0.1 342);
+  --brand-pink-950: oklch(0.29 0.07 343);
+
   --red-100: oklch(0.94 0.03 25);
   --red-500: oklch(0.64 0.21 25);
   --red-600: oklch(0.58 0.22 27);
@@ -102,31 +115,39 @@
   --blue-700: oklch(0.48 0.17 258);
 }
 
-/* ==========================================================================
-   TIER 2 — SEMANTICS (light).  Name a role, point at a primitive.
+/* 
+  ==========================================================================
+  TIER 2 — SEMANTICS (light).  Name a role, point at a primitive.
    `-foreground` is the color of text/icons that sit ON the paired surface.
-   ========================================================================== */
+  ========================================================================== 
+*/
 :root {
-  /* Foundation */
-  --background: var(--gray-50); /* warm off-white page — Limestone */
-  --foreground: var(--gray-950); /* near-black text — Obsidian */
+  /* 
+    SURFACES are the backdrop of the UI and the containers that sit a-top it.
+  */
+  --background: var(--gray-50);
+  --foreground: var(--gray-950);
 
-  /* Surfaces (containers above the page) */
   --surface: var(--white);
   --surface-foreground: var(--gray-950);
-  --surface-secondary: var(--gray-100); /* subtle nested separation */
+  --surface-secondary: var(--gray-100);
 
-  /* Muted — lower-emphasis text: captions, help, placeholders */
-  --muted: var(--gray-500);
-  --muted-foreground: var(--gray-500);
+  /* 
+    INTERACTIONS. Actions. Brand identity is exposed. Primary actions get
+    the strongest visual weight. Includes status semantics.
+  */
 
-  /* Interactive: the ONE brand action */
-  --primary: var(--brand-400);
-  --primary-foreground: var(--gray-950); /* obsidian on lime (Ramp) */
+  /* The ONE brand action */
+  --primary: var(--brand-pink-400);
+  --primary-foreground: var(--gray-950); /* obsidian on pink */
 
   /* Lower-emphasis filled action */
   --secondary: var(--gray-100);
   --secondary-foreground: var(--gray-900);
+
+  /* Lower-emphasis text: captions, help, placeholders) */
+  --muted: var(--gray-500);
+  --muted-foreground: var(--gray-500);
 
   /* Hover/active surface for ghost & outline controls, menu rows */
   --accent: var(--gray-100);
@@ -135,7 +156,7 @@
   /* Structure */
   --border: var(--gray-200);
   --input: var(--gray-200);
-  --ring: var(--blue-500); /* focus ring (Geist uses blue for focus) */
+  --ring: var(--blue-500);
 
   /* Status (each with a readable foreground) */
   --success: var(--green-600);
@@ -146,10 +167,6 @@
   --error-foreground: var(--white);
 }
 
-/* --------------------------------------------------------------------------
-   TIER 2 — SEMANTICS (dark). Only the role -> primitive mapping changes.
-   Neutrals invert; the brand stays lime because it still pops on charcoal.
-   -------------------------------------------------------------------------- */
 .dark {
   --background: var(--gray-950);
   --foreground: var(--gray-50);
@@ -161,7 +178,7 @@
   --muted: var(--gray-400);
   --muted-foreground: var(--gray-400);
 
-  --primary: var(--brand-400);
+  --primary: var(--brand-pink-400);
   --primary-foreground: var(--gray-950);
 
   --secondary: var(--gray-800);
@@ -182,12 +199,14 @@
   --error-foreground: var(--gray-950);
 }
 
-/* ==========================================================================
-   EXPOSE SEMANTICS ONLY.
+/* 
+  ==========================================================================
+  EXPOSED SEMANTICS ONLY.  
    This is the sole @theme block that defines colors, so it is the sole source
    of color utilities. `inline` emits `var(--primary)` directly into
    `.bg-primary`, so the `.dark` overrides above cascade with zero rebuild.
-   ========================================================================== */
+  ========================================================================== 
+*/
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -213,9 +232,6 @@
   --color-error-foreground: var(--error-foreground);
 }
 
-/* ==========================================================================
-   BASE — sensible defaults built from semantics only.
-   ========================================================================== */
 @layer base {
   *,
   ::after,

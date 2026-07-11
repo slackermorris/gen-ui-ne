@@ -8,7 +8,7 @@ import { cn } from "../utils/cn";
  * being built.
  *
  * The system has two hard tiers (see index.css):
- *   TIER 1 — PRIMITIVES: raw OKLCH ramps, appearance-named (gray-500,
+ *   TIER 1 — PRIMITIVES: raw OKLCH entries, appearance-named (gray-500,
  *            brand-400). Theme-independent. Build material only.
  *   TIER 2 — SEMANTICS: purpose-named (primary, surface, border), shipped in
  *            background/foreground pairs, re-pointed in .dark. The ONLY tokens
@@ -100,6 +100,11 @@ const RAMPS: { name: string; note: string; steps: Swatch[] }[] = [
     name: "brand",
     note: "The single accent — 400 is the signal, reserved for punctuation",
     steps: ramp("brand", NEUTRAL_STEPS),
+  },
+  {
+    name: "brand-pink",
+    note: "Alternate brand identity — 400 is the signal (a magenta-pink)",
+    steps: ramp("brand-pink", NEUTRAL_STEPS),
   },
   {
     name: "red",
@@ -423,15 +428,14 @@ const SEMANTIC_SURFACES: SemanticToken[] = [
     fg: "text-foreground",
     role: "Subtle nested separation",
   },
-  {
-    name: "muted",
-    bg: "bg-surface",
-    fg: "text-muted-foreground",
-    role: "Low-emphasis text",
-  },
 ];
 
-const SEMANTIC_ACTIONS: SemanticToken[] = [
+// Actions split into two subcategories:
+//   Interactive — things the user acts on, plus the surface that reacts to
+//     hover / focus / active state.
+//   Utility — non-interactive support: low-emphasis text for feedback and
+//     communication (captions, help, placeholders).
+const SEMANTIC_INTERACTIVE: SemanticToken[] = [
   {
     name: "primary",
     bg: "bg-primary",
@@ -448,7 +452,16 @@ const SEMANTIC_ACTIONS: SemanticToken[] = [
     name: "accent",
     bg: "bg-accent",
     fg: "text-accent-foreground",
-    role: "Hover / active surface",
+    role: "Hover / focus / active surface",
+  },
+];
+
+const SEMANTIC_UTILITY: SemanticToken[] = [
+  {
+    name: "muted",
+    bg: "bg-surface",
+    fg: "text-muted-foreground",
+    role: "Low-emphasis text — captions, help, placeholders",
   },
 ];
 
@@ -514,7 +527,15 @@ function Semantic() {
   return (
     <div className="space-y-8">
       <SemanticGroup label="Surfaces" tokens={SEMANTIC_SURFACES} />
-      <SemanticGroup label="Actions" tokens={SEMANTIC_ACTIONS} />
+      <div>
+        <p className="mb-4 text-sm font-semibold tracking-tight text-foreground">
+          Actions
+        </p>
+        <div className="space-y-6 border-l border-border pl-4">
+          <SemanticGroup label="Interactive" tokens={SEMANTIC_INTERACTIVE} />
+          <SemanticGroup label="Utility" tokens={SEMANTIC_UTILITY} />
+        </div>
+      </div>
       <SemanticGroup label="Status" tokens={SEMANTIC_STATUS} />
 
       {/* A panel built ONLY from semantic utilities — flip the dark switch in
@@ -589,13 +610,13 @@ export function DesignSystem() {
       <main className="mx-auto max-w-5xl px-6 pb-20">
         <Section
           title="Color — Tier 1 primitives"
-          description="Raw OKLCH ramps, appearance-named. Build material only: real UI never names these directly. A warm neutral does the work; one brand ramp is punctuation."
+          description="Raw OKLCH entries, appearance-named. Build material only: real UI never uses these directly. A warm neutral does most of the work."
         >
           <Colors />
         </Section>
         <Section
           title="Color — Tier 2 semantics"
-          description="Purpose-named tokens that point at primitives, in background/foreground pairs. Components use ONLY these — so dark mode is a token swap, not a component rewrite. Each tile shows its foreground on its background."
+          description="Purpose-named tokens that point at primitives, in background/foreground pairs. Components use ONLY these. Each tile shows its foreground on its background."
         >
           <Semantic />
         </Section>
