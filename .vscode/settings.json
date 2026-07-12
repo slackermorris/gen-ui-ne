@@ -8,6 +8,10 @@
   "editor.formatOnSave": true,
   "editor.formatOnSaveMode": "file", // oxfmt can only format whole files
   "editor.codeActionsOnSave": {
-    "source.organizeImports": "never" // let oxfmt handle import organization
-  }
+    "source.organizeImports": "never", // let oxfmt handle import organization
+    "source.fixAll.oxc": "explicit" // apply oxlint autofixes (e.g. Tailwind class sort order) on save
+  },
+  // Tailwind CSS IntelliSense (bradlc.vscode-tailwindcss)
+  // Autocomplete inside our class helpers, not just className="..."
+  "tailwindCSS.classFunctions": ["cn", "cva", "clsx", "twMerge"]
 }
