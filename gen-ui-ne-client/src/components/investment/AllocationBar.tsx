@@ -16,13 +16,15 @@ export const AllocationBarProps = Schema.Struct({
 
 type AllocationBarProps = typeof AllocationBarProps.Type;
 
-const COLORS = ['bg-green-500', 'bg-blue-500', 'bg-purple-500', 'bg-orange-500', 'bg-teal-500'];
-const DOT_COLORS = ['bg-green-500', 'bg-blue-500', 'bg-purple-500', 'bg-orange-500', 'bg-teal-500'];
+// No categorical data-viz palette is exposed by the design system, so segments
+// rotate through the available semantic hues to stay distinguishable.
+const COLORS = ['bg-primary', 'bg-success', 'bg-warning', 'bg-error', 'bg-muted'];
+const DOT_COLORS = COLORS;
 
 export function AllocationBar({ segments }: AllocationBarProps) {
   return (
-    <div className="rounded-lg border border-gray-200 bg-white p-4 shadow-xs">
-      <p className="mb-3 text-sm text-gray-500">Allocation</p>
+    <div className="border-border bg-surface rounded-lg border p-4 shadow-xs">
+      <p className="text-muted-foreground mb-3 text-sm">Allocation</p>
       <div className="flex h-2 w-full overflow-hidden rounded-full">
         {segments.map((seg, i) => (
           <div
@@ -36,7 +38,7 @@ export function AllocationBar({ segments }: AllocationBarProps) {
         {segments.map((seg, i) => (
           <div key={seg.label} className="flex items-center gap-1.5">
             <span className={`h-2 w-2 rounded-full ${DOT_COLORS[i % DOT_COLORS.length]}`} />
-            <span className="text-xs text-gray-600">
+            <span className="text-muted-foreground text-xs">
               {seg.label} {seg.percent}%
             </span>
           </div>

@@ -1,7 +1,7 @@
-import { type ReactNode, useEffect, useState } from "react";
-import { Button } from "../components/Button";
-import { Card } from "../components/Card";
-import { cn } from "../utils/cn";
+import { type ReactNode, useEffect, useState } from 'react';
+import { Button } from '../components/Button';
+import { Card } from '../components/Card';
+import { cn } from '../utils/cn';
 
 /**
  * DesignSystem — a playground for exercising the design system while it's
@@ -35,14 +35,8 @@ function Section({
 }) {
   return (
     <section className="border-border border-t py-10 first:border-t-0">
-      <h2 className="text-foreground text-lg font-semibold tracking-tight">
-        {title}
-      </h2>
-      {description && (
-        <p className="text-muted-foreground mt-1 max-w-2xl text-sm">
-          {description}
-        </p>
-      )}
+      <h2 className="text-foreground text-lg font-semibold tracking-tight">{title}</h2>
+      {description && <p className="text-muted-foreground mt-1 max-w-2xl text-sm">{description}</p>}
       <div className="mt-6">{children}</div>
     </section>
   );
@@ -51,9 +45,7 @@ function Section({
 function Row({ label, children }: { label: string; children: ReactNode }) {
   return (
     <div className="flex flex-wrap items-center gap-4 py-3">
-      <span className="text-muted-foreground w-28 shrink-0 font-mono text-xs">
-        {label}
-      </span>
+      <span className="text-muted-foreground w-28 shrink-0 font-mono text-xs">{label}</span>
       <div className="flex flex-wrap items-center gap-3">{children}</div>
     </div>
   );
@@ -75,100 +67,88 @@ function ramp(name: string, steps: string[]): Swatch[] {
   return steps.map((step) => ({ step, var: `--${name}-${step}` }));
 }
 
-const NEUTRAL_STEPS = [
-  "50",
-  "100",
-  "200",
-  "300",
-  "400",
-  "500",
-  "600",
-  "700",
-  "800",
-  "900",
-  "950",
-];
-const STATUS_STEPS = ["100", "500", "600", "700"];
+const NEUTRAL_STEPS = ['50', '100', '200', '300', '400', '500', '600', '700', '800', '900', '950'];
+const STATUS_STEPS = ['100', '500', '600', '700'];
 
 const RAMPS: { name: string; note: string; steps: Swatch[] }[] = [
   {
-    name: "gray",
-    note: "Warm neutral — carries ~95% of the UI",
-    steps: ramp("gray", NEUTRAL_STEPS),
+    name: 'gray',
+    note: 'Warm neutral — carries ~95% of the UI',
+    steps: ramp('gray', NEUTRAL_STEPS),
   },
   {
-    name: "brand",
-    note: "The single accent — 400 is the signal, reserved for punctuation",
-    steps: ramp("brand", NEUTRAL_STEPS),
+    name: 'brand',
+    note: 'The single accent — 400 is the signal, reserved for punctuation',
+    steps: ramp('brand', NEUTRAL_STEPS),
   },
   {
-    name: "brand-pink",
-    note: "Alternate brand identity — 400 is the signal (a magenta-pink)",
-    steps: ramp("brand-pink", NEUTRAL_STEPS),
+    name: 'brand-pink',
+    note: 'Alternate brand identity — 400 is the signal (a magenta-pink)',
+    steps: ramp('brand-pink', NEUTRAL_STEPS),
   },
   {
-    name: "red",
-    note: "Status — error / destructive",
-    steps: ramp("red", STATUS_STEPS),
+    name: 'red',
+    note: 'Status — error / destructive',
+    steps: ramp('red', STATUS_STEPS),
   },
   {
-    name: "amber",
-    note: "Status — warning",
-    steps: ramp("amber", STATUS_STEPS),
+    name: 'amber',
+    note: 'Status — warning',
+    steps: ramp('amber', STATUS_STEPS),
   },
   {
-    name: "green",
-    note: "Status — success",
-    steps: ramp("green", STATUS_STEPS),
+    name: 'green',
+    note: 'Status — success',
+    steps: ramp('green', STATUS_STEPS),
   },
   {
-    name: "blue",
-    note: "Status — info / links / focus ring",
-    steps: ramp("blue", STATUS_STEPS),
+    name: 'blue',
+    note: 'Status — info / links / focus ring',
+    steps: ramp('blue', STATUS_STEPS),
   },
 ];
 
 const TYPE_SCALE = [
-  { name: "text-xs", className: "text-xs" },
-  { name: "text-sm", className: "text-sm" },
-  { name: "text-base", className: "text-base" },
-  { name: "text-lg", className: "text-lg" },
-  { name: "text-xl", className: "text-xl" },
-  { name: "text-2xl", className: "text-2xl" },
-  { name: "text-3xl", className: "text-3xl" },
+  { name: 'text-xs', className: 'text-xs' },
+  { name: 'text-sm', className: 'text-sm' },
+  { name: 'text-base', className: 'text-base' },
+  { name: 'text-lg', className: 'text-lg' },
+  { name: 'text-xl', className: 'text-xl' },
+  { name: 'text-2xl', className: 'text-2xl' },
+  { name: 'text-3xl', className: 'text-3xl' },
 ];
 
 const WEIGHTS = [
-  { name: "font-normal", className: "font-normal" },
-  { name: "font-medium", className: "font-medium" },
-  { name: "font-semibold", className: "font-semibold" },
-  { name: "font-bold", className: "font-bold" },
+  { name: 'font-normal', className: 'font-normal' },
+  { name: 'font-medium', className: 'font-medium' },
+  { name: 'font-semibold', className: 'font-semibold' },
+  { name: 'font-bold', className: 'font-bold' },
 ];
 
 // Full class names — Tailwind can't detect dynamically built strings like `w-${n}`.
 const SPACING = [
-  { name: "w-1", className: "w-1" },
-  { name: "w-2", className: "w-2" },
-  { name: "w-3", className: "w-3" },
-  { name: "w-4", className: "w-4" },
-  { name: "w-6", className: "w-6" },
-  { name: "w-8", className: "w-8" },
-  { name: "w-12", className: "w-12" },
-  { name: "w-16", className: "w-16" },
+  { name: 'w-1', className: 'w-1' },
+  { name: 'w-2', className: 'w-2' },
+  { name: 'w-3', className: 'w-3' },
+  { name: 'w-4', className: 'w-4' },
+  { name: 'w-6', className: 'w-6' },
+  { name: 'w-8', className: 'w-8' },
+  { name: 'w-12', className: 'w-12' },
+  { name: 'w-16', className: 'w-16' },
 ];
 
 const RADII = [
-  { name: "rounded-sm", className: "rounded-sm" },
-  { name: "rounded-md", className: "rounded-md" },
-  { name: "rounded-lg", className: "rounded-lg" },
-  { name: "rounded-full", className: "rounded-full" },
+  { name: 'rounded-sm', className: 'rounded-sm' },
+  { name: 'rounded-md', className: 'rounded-md' },
+  { name: 'rounded-lg', className: 'rounded-lg' },
+  { name: 'rounded-full', className: 'rounded-full' },
 ];
 
 const SHADOWS = [
-  { name: "shadow-xs", className: "shadow-xs" },
-  { name: "shadow-sm", className: "shadow-sm" },
-  { name: "shadow-md", className: "shadow-md" },
-  { name: "shadow-lg", className: "shadow-lg" },
+  { name: 'shadow-xs', className: 'shadow-xs' },
+  { name: 'shadow-sm', className: 'shadow-sm' },
+  { name: 'shadow-md', className: 'shadow-md' },
+  { name: 'shadow-lg', className: 'shadow-lg' },
 ];
 
 // ---------------------------------------------------------------------------
@@ -181,18 +161,13 @@ function Colors() {
       {RAMPS.map((scale) => (
         <div key={scale.name}>
           <div className="mb-2 flex items-baseline gap-2">
-            <span className="text-foreground font-mono text-sm font-medium">
-              {scale.name}
-            </span>
+            <span className="text-foreground font-mono text-sm font-medium">{scale.name}</span>
             <span className="text-muted-foreground text-xs">{scale.note}</span>
           </div>
           <div className="border-border flex overflow-hidden rounded-lg border">
             {scale.steps.map((s) => (
               <div key={s.step} className="flex-1">
-                <div
-                  className="h-14"
-                  style={{ backgroundColor: `var(${s.var})` }}
-                />
+                <div className="h-14" style={{ backgroundColor: `var(${s.var})` }} />
                 <div className="bg-surface text-muted-foreground px-1 py-1 text-center font-mono text-[10px]">
                   {s.step}
                 </div>
@@ -211,18 +186,14 @@ function Typography() {
       <div>
         {TYPE_SCALE.map((t) => (
           <Row key={t.name} label={t.name}>
-            <span className={cn("text-foreground", t.className)}>
-              The quick brown fox
-            </span>
+            <span className={cn('text-foreground', t.className)}>The quick brown fox</span>
           </Row>
         ))}
       </div>
       <div className="border-border border-t pt-4">
         {WEIGHTS.map((w) => (
           <Row key={w.name} label={w.name}>
-            <span className={cn("text-foreground text-lg", w.className)}>
-              The quick brown fox
-            </span>
+            <span className={cn('text-foreground text-lg', w.className)}>The quick brown fox</span>
           </Row>
         ))}
       </div>
@@ -235,7 +206,7 @@ function Spacing() {
     <div className="space-y-2">
       {SPACING.map((step) => (
         <Row key={step.name} label={step.name}>
-          <div className={cn("h-4 bg-primary", step.className)} />
+          <div className={cn('h-4 bg-primary', step.className)} />
         </Row>
       ))}
     </div>
@@ -253,14 +224,9 @@ function RadiiAndShadows() {
           {RADII.map((r) => (
             <div key={r.name} className="text-center">
               <div
-                className={cn(
-                  "border-border bg-surface-secondary h-16 w-16 border",
-                  r.className,
-                )}
+                className={cn('border-border bg-surface-secondary h-16 w-16 border', r.className)}
               />
-              <div className="text-muted-foreground mt-2 font-mono text-xs">
-                {r.name}
-              </div>
+              <div className="text-muted-foreground mt-2 font-mono text-xs">{r.name}</div>
             </div>
           ))}
         </div>
@@ -272,12 +238,8 @@ function RadiiAndShadows() {
         <div className="flex flex-wrap gap-6">
           {SHADOWS.map((s) => (
             <div key={s.name} className="text-center">
-              <div
-                className={cn("bg-surface h-16 w-16 rounded-lg", s.className)}
-              />
-              <div className="text-muted-foreground mt-2 font-mono text-xs">
-                {s.name}
-              </div>
+              <div className={cn('bg-surface h-16 w-16 rounded-lg', s.className)} />
+              <div className="text-muted-foreground mt-2 font-mono text-xs">{s.name}</div>
             </div>
           ))}
         </div>
@@ -286,15 +248,14 @@ function RadiiAndShadows() {
   );
 }
 
-const BUTTON_VARIANTS = ["default", "secondary", "outline", "link"] as const;
-const BUTTON_SIZES = ["default", "xs", "sm"] as const;
+const BUTTON_VARIANTS = ['default', 'secondary', 'outline', 'link'] as const;
+const BUTTON_SIZES = ['default', 'xs', 'sm'] as const;
 
 function Buttons() {
-  const [variant, setVariant] =
-    useState<(typeof BUTTON_VARIANTS)[number]>("default");
-  const [size, setSize] = useState<(typeof BUTTON_SIZES)[number]>("default");
+  const [variant, setVariant] = useState<(typeof BUTTON_VARIANTS)[number]>('default');
+  const [size, setSize] = useState<(typeof BUTTON_SIZES)[number]>('default');
   const [disabled, setDisabled] = useState(false);
-  const [label, setLabel] = useState("Click me");
+  const [label, setLabel] = useState('Click me');
 
   return (
     <div className="space-y-8">
@@ -305,9 +266,7 @@ function Buttons() {
             variant
             <select
               value={variant}
-              onChange={(e) =>
-                setVariant(e.target.value as (typeof BUTTON_VARIANTS)[number])
-              }
+              onChange={(e) => setVariant(e.target.value as (typeof BUTTON_VARIANTS)[number])}
               className="border-input bg-surface text-foreground rounded-md border px-2 py-1 text-sm"
             >
               {BUTTON_VARIANTS.map((v) => (
@@ -319,9 +278,7 @@ function Buttons() {
             size
             <select
               value={size}
-              onChange={(e) =>
-                setSize(e.target.value as (typeof BUTTON_SIZES)[number])
-              }
+              onChange={(e) => setSize(e.target.value as (typeof BUTTON_SIZES)[number])}
               className="border-input bg-surface text-foreground rounded-md border px-2 py-1 text-sm"
             >
               {BUTTON_SIZES.map((s) => (
@@ -377,8 +334,7 @@ function Cards() {
     <div className="grid gap-4 sm:grid-cols-2">
       <Card title="Card title">
         <p className="text-muted-foreground text-sm">
-          Cards wrap arbitrary content with a title, rounded corners, and a
-          subtle shadow.
+          Cards wrap arbitrary content with a title, rounded corners, and a subtle shadow.
         </p>
       </Card>
       <Card title="With actions">
@@ -411,22 +367,22 @@ type SemanticToken = {
 
 const SEMANTIC_SURFACES: SemanticToken[] = [
   {
-    name: "background",
-    bg: "bg-background",
-    fg: "text-foreground",
-    role: "The page canvas",
+    name: 'background',
+    bg: 'bg-background',
+    fg: 'text-foreground',
+    role: 'The page canvas',
   },
   {
-    name: "surface",
-    bg: "bg-surface",
-    fg: "text-surface-foreground",
-    role: "Cards & elevated containers",
+    name: 'surface',
+    bg: 'bg-surface',
+    fg: 'text-surface-foreground',
+    role: 'Cards & elevated containers',
   },
   {
-    name: "surface-secondary",
-    bg: "bg-surface-secondary",
-    fg: "text-foreground",
-    role: "Subtle nested separation",
+    name: 'surface-secondary',
+    bg: 'bg-surface-secondary',
+    fg: 'text-foreground',
+    role: 'Subtle nested separation',
   },
 ];
 
@@ -437,78 +393,68 @@ const SEMANTIC_SURFACES: SemanticToken[] = [
 //     communication (captions, help, placeholders).
 const SEMANTIC_INTERACTIVE: SemanticToken[] = [
   {
-    name: "primary",
-    bg: "bg-primary",
-    fg: "text-primary-foreground",
-    role: "The one brand action",
+    name: 'primary',
+    bg: 'bg-primary',
+    fg: 'text-primary-foreground',
+    role: 'The one brand action',
   },
   {
-    name: "secondary",
-    bg: "bg-secondary",
-    fg: "text-secondary-foreground",
-    role: "Lower-emphasis action",
+    name: 'secondary',
+    bg: 'bg-secondary',
+    fg: 'text-secondary-foreground',
+    role: 'Lower-emphasis action',
   },
   {
-    name: "accent",
-    bg: "bg-accent",
-    fg: "text-accent-foreground",
-    role: "Hover / focus / active surface",
+    name: 'accent',
+    bg: 'bg-accent',
+    fg: 'text-accent-foreground',
+    role: 'Hover / focus / active surface',
   },
 ];
 
 const SEMANTIC_UTILITY: SemanticToken[] = [
   {
-    name: "muted",
-    bg: "bg-surface",
-    fg: "text-muted-foreground",
-    role: "Low-emphasis text — captions, help, placeholders",
+    name: 'muted',
+    bg: 'bg-surface',
+    fg: 'text-muted-foreground',
+    role: 'Low-emphasis text — captions, help, placeholders',
   },
 ];
 
 const SEMANTIC_STATUS: SemanticToken[] = [
   {
-    name: "success",
-    bg: "bg-success",
-    fg: "text-success-foreground",
-    role: "Positive result",
+    name: 'success',
+    bg: 'bg-success',
+    fg: 'text-success-foreground',
+    role: 'Positive result',
   },
   {
-    name: "warning",
-    bg: "bg-warning",
-    fg: "text-warning-foreground",
-    role: "Caution",
+    name: 'warning',
+    bg: 'bg-warning',
+    fg: 'text-warning-foreground',
+    role: 'Caution',
   },
   {
-    name: "error",
-    bg: "bg-error",
-    fg: "text-error-foreground",
-    role: "Failure / destructive",
+    name: 'error',
+    bg: 'bg-error',
+    fg: 'text-error-foreground',
+    role: 'Failure / destructive',
   },
 ];
 
 function SemanticTile({ token }: { token: SemanticToken }) {
   return (
     <div className="border-border overflow-hidden rounded-lg border">
-      <div className={cn("flex h-20 flex-col justify-between p-3", token.bg)}>
-        <span className={cn("font-mono text-xs font-medium", token.fg)}>
-          {token.name}
-        </span>
-        <span className={cn("text-xs opacity-80", token.fg)}>Aa 123</span>
+      <div className={cn('flex h-20 flex-col justify-between p-3', token.bg)}>
+        <span className={cn('font-mono text-xs font-medium', token.fg)}>{token.name}</span>
+        <span className={cn('text-xs opacity-80', token.fg)}>Aa 123</span>
       </div>
-      <div className="bg-surface text-muted-foreground px-3 py-2 text-xs">
-        {token.role}
-      </div>
+      <div className="bg-surface text-muted-foreground px-3 py-2 text-xs">{token.role}</div>
     </div>
   );
 }
 
-function SemanticGroup({
-  label,
-  tokens,
-}: {
-  label: string;
-  tokens: SemanticToken[];
-}) {
+function SemanticGroup({ label, tokens }: { label: string; tokens: SemanticToken[] }) {
   return (
     <div>
       <p className="text-muted-foreground mb-3 text-xs font-medium tracking-wide uppercase">
@@ -528,9 +474,7 @@ function Semantic() {
     <div className="space-y-8">
       <SemanticGroup label="Surfaces" tokens={SEMANTIC_SURFACES} />
       <div>
-        <p className="text-foreground mb-4 text-sm font-semibold tracking-tight">
-          Actions
-        </p>
+        <p className="text-foreground mb-4 text-sm font-semibold tracking-tight">Actions</p>
         <div className="border-border space-y-6 border-l pl-4">
           <SemanticGroup label="Interactive" tokens={SEMANTIC_INTERACTIVE} />
           <SemanticGroup label="Utility" tokens={SEMANTIC_UTILITY} />
@@ -545,12 +489,11 @@ function Semantic() {
           Built from semantic tokens
         </h3>
         <p className="text-muted-foreground mt-1 text-sm">
-          bg-surface, text-surface-foreground, text-muted-foreground,
-          border-border. Toggle dark mode — nothing here names a raw ramp.
+          bg-surface, text-surface-foreground, text-muted-foreground, border-border. Toggle dark
+          mode — nothing here names a raw ramp.
         </p>
         <div className="bg-surface-secondary text-foreground mt-4 rounded-md p-4 text-sm">
-          A nested surface using{" "}
-          <code className="font-mono text-xs">bg-surface-secondary</code>.
+          A nested surface using <code className="font-mono text-xs">bg-surface-secondary</code>.
         </div>
         <div className="mt-4 flex flex-wrap gap-2">
           <span className="bg-success text-success-foreground rounded-full px-2.5 py-1 text-xs font-medium">
@@ -572,7 +515,7 @@ function DarkToggle() {
   const [dark, setDark] = useState(false);
 
   useEffect(() => {
-    document.documentElement.classList.toggle("dark", dark);
+    document.documentElement.classList.toggle('dark', dark);
   }, [dark]);
 
   return (
@@ -581,7 +524,7 @@ function DarkToggle() {
       onClick={() => setDark((d) => !d)}
       className="border-border bg-surface text-foreground hover:bg-accent rounded-md border px-3 py-1.5 text-sm font-medium"
     >
-      {dark ? "☾ Dark" : "☀ Light"}
+      {dark ? '☾ Dark' : '☀ Light'}
     </button>
   );
 }
@@ -596,12 +539,9 @@ export function DesignSystem() {
       <header className="border-border bg-surface/80 border-b backdrop-blur">
         <div className="mx-auto flex max-w-5xl items-start justify-between px-6 py-6">
           <div>
-            <h1 className="text-foreground text-2xl font-bold tracking-tight">
-              Design System
-            </h1>
+            <h1 className="text-foreground text-2xl font-bold tracking-tight">Design System</h1>
             <p className="text-muted-foreground mt-1 text-sm">
-              A playground for exercising tokens and components while the system
-              takes shape.
+              A playground for exercising tokens and components while the system takes shape.
             </p>
           </div>
           <DarkToggle />
@@ -629,10 +569,7 @@ export function DesignSystem() {
         >
           <Spacing />
         </Section>
-        <Section
-          title="Radius & Shadow"
-          description="Corner radii and elevation."
-        >
+        <Section title="Radius & Shadow" description="Corner radii and elevation.">
           <RadiiAndShadows />
         </Section>
         <Section

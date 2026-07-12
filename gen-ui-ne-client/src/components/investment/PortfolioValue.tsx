@@ -16,16 +16,16 @@ export const PortfolioValueProps = Schema.Struct({
 type PortfolioValueProps = typeof PortfolioValueProps.Type;
 
 const changeStyles = {
-  positive: 'text-green-600',
-  negative: 'text-red-600',
-  neutral: 'text-gray-400',
+  positive: 'text-success',
+  negative: 'text-error',
+  neutral: 'text-muted-foreground',
 };
 
 export function PortfolioValue({ value, change, changePercent, direction }: PortfolioValueProps) {
   return (
-    <div className="rounded-lg border border-gray-200 bg-white p-6 shadow-xs">
-      <p className="text-sm text-gray-500">Portfolio value</p>
-      <p className="mt-1 text-3xl font-bold text-gray-900">{value}</p>
+    <div className="rounded-lg border border-border bg-surface p-6 shadow-xs">
+      <p className="text-sm text-muted-foreground">Portfolio value</p>
+      <p className="mt-1 text-3xl font-bold text-surface-foreground">{value}</p>
       <p className={cn('mt-1 text-sm font-medium', changeStyles[direction])}>
         {change} ({changePercent})
       </p>

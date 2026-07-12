@@ -15,13 +15,13 @@ type AutoInvestCardProps = typeof AutoInvestCardProps.Type;
 
 export function AutoInvestCard({ amount, frequency, nextDate }: AutoInvestCardProps) {
   return (
-    <div className="rounded-lg border border-gray-200 bg-white p-4 shadow-xs">
-      <p className="mb-3 text-sm text-gray-500">Auto-invest</p>
-      <p className="text-2xl font-bold text-gray-900">{amount}</p>
-      <p className="mt-0.5 text-sm text-gray-600">{frequency}</p>
-      <div className="mt-3 border-t border-gray-100 pt-3">
-        <p className="text-xs text-gray-400">Next investment</p>
-        <p className="text-sm font-medium text-gray-900">{nextDate}</p>
+    <div className="rounded-lg border border-border bg-surface p-4 shadow-xs">
+      <p className="mb-3 text-sm text-muted-foreground">Auto-invest</p>
+      <p className="text-2xl font-bold text-surface-foreground">{amount}</p>
+      <p className="mt-0.5 text-sm text-muted-foreground">{frequency}</p>
+      <div className="mt-3 border-t border-border pt-3">
+        <p className="text-xs text-muted-foreground">Next investment</p>
+        <p className="text-sm font-medium text-surface-foreground">{nextDate}</p>
       </div>
     </div>
   );

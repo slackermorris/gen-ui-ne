@@ -15,17 +15,17 @@ export const ReturnBadgeProps = Schema.Struct({
 type ReturnBadgeProps = typeof ReturnBadgeProps.Type;
 
 const badgeStyles = {
-  positive: 'bg-green-50 text-green-700 border-green-200',
-  negative: 'bg-red-50 text-red-700 border-red-200',
-  neutral: 'bg-gray-50 text-gray-600 border-gray-200',
+  positive: 'bg-success/10 text-success border-success/20',
+  negative: 'bg-error/10 text-error border-error/20',
+  neutral: 'bg-secondary text-secondary-foreground border-border',
 };
 
 const arrow = { positive: '↑', negative: '↓', neutral: '–' };
 
 export function ReturnBadge({ value, direction, label }: ReturnBadgeProps) {
   return (
-    <div className="rounded-lg border border-gray-200 bg-white p-4 shadow-xs">
-      {label && <p className="mb-2 text-sm text-gray-500">{label}</p>}
+    <div className="border-border bg-surface rounded-lg border p-4 shadow-xs">
+      {label && <p className="text-muted-foreground mb-2 text-sm">{label}</p>}
       <span
         className={cn(
           'inline-flex items-center gap-1 rounded-full border px-3 py-1 text-sm font-semibold',

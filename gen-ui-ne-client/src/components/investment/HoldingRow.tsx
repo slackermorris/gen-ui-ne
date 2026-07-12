@@ -18,18 +18,18 @@ type HoldingRowProps = typeof HoldingRowProps.Type;
 
 export function HoldingRow({ name, code, value, returnPercent, direction }: HoldingRowProps) {
   return (
-    <div className="flex items-center justify-between rounded-lg border border-gray-200 bg-white px-4 py-3 shadow-xs">
+    <div className="flex items-center justify-between rounded-lg border border-border bg-surface px-4 py-3 shadow-xs">
       <div>
-        <p className="text-sm font-medium text-gray-900">{name}</p>
-        <p className="text-xs text-gray-400">{code}</p>
+        <p className="text-sm font-medium text-surface-foreground">{name}</p>
+        <p className="text-xs text-muted-foreground">{code}</p>
       </div>
       <div className="text-right">
-        <p className="text-sm font-semibold text-gray-900">{value}</p>
+        <p className="text-sm font-semibold text-surface-foreground">{value}</p>
         <p
           className={cn('text-xs font-medium', {
-            'text-green-600': direction === 'positive',
-            'text-red-600': direction === 'negative',
-            'text-gray-400': direction === 'neutral',
+            'text-success': direction === 'positive',
+            'text-error': direction === 'negative',
+            'text-muted-foreground': direction === 'neutral',
           })}
         >
           {returnPercent}

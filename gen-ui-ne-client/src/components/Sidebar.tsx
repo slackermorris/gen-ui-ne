@@ -14,7 +14,7 @@ export function Sidebar({ items }: SidebarProps) {
   const { state, setState } = useAppState();
 
   return (
-    <nav className="flex w-48 flex-col gap-1 rounded-lg border border-gray-200 bg-white p-3 shadow-xs">
+    <nav className="flex w-48 flex-col gap-1 rounded-lg border border-border bg-surface p-3 shadow-xs">
       {items.map((item) => (
         <button
           key={item.key}
@@ -22,8 +22,8 @@ export function Sidebar({ items }: SidebarProps) {
           className={cn(
             'rounded-md px-3 py-2 text-left text-sm font-medium transition-colors',
             state.activeNav === item.key
-              ? 'bg-blue-50 text-blue-700'
-              : 'text-gray-600 hover:bg-gray-100',
+              ? 'bg-primary/10 text-primary'
+              : 'text-muted-foreground hover:bg-accent hover:text-accent-foreground',
           )}
         >
           {item.label}

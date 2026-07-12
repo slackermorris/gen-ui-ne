@@ -10,10 +10,10 @@ const variants = cva('transition-all duration-200', {
       detailed: 'p-6 space-y-4',
     },
     status: {
-      success: 'border-green-200 bg-green-50/50 dark:border-green-800 dark:bg-green-950/50',
-      warning: 'border-yellow-200 bg-yellow-50/50 dark:border-yellow-800 dark:bg-yellow-950/50',
-      error: 'border-red-200 bg-red-50/50 dark:border-red-800 dark:bg-red-950/50',
-      info: 'border-blue-200 bg-blue-50/50 dark:border-blue-800 dark:bg-blue-950/50',
+      success: 'border border-success/30 bg-success/10',
+      warning: 'border border-warning/30 bg-warning/10',
+      error: 'border border-error/30 bg-error/10',
+      info: 'border border-primary/30 bg-primary/10',
       neutral: '',
     },
   },
@@ -37,8 +37,8 @@ export function MetricCard({ label, stateKey, variant, status, ...props }: Inter
 
   return (
     <div className={cn(variants({ variant, status }))} {...props}>
-      <p className="text-sm text-gray-500">{label}</p>
-      <p className="mt-1 text-2xl font-semibold text-gray-900">{String(value)}</p>
+      <p className="text-sm text-muted-foreground">{label}</p>
+      <p className="mt-1 text-2xl font-semibold text-foreground">{String(value)}</p>
     </div>
   );
 }
