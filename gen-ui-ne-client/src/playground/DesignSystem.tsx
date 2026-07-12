@@ -34,12 +34,12 @@ function Section({
   children: ReactNode;
 }) {
   return (
-    <section className="border-t border-border py-10 first:border-t-0">
-      <h2 className="text-lg font-semibold tracking-tight text-foreground">
+    <section className="border-border border-t py-10 first:border-t-0">
+      <h2 className="text-foreground text-lg font-semibold tracking-tight">
         {title}
       </h2>
       {description && (
-        <p className="mt-1 max-w-2xl text-sm text-muted-foreground">
+        <p className="text-muted-foreground mt-1 max-w-2xl text-sm">
           {description}
         </p>
       )}
@@ -51,7 +51,7 @@ function Section({
 function Row({ label, children }: { label: string; children: ReactNode }) {
   return (
     <div className="flex flex-wrap items-center gap-4 py-3">
-      <span className="w-28 shrink-0 font-mono text-xs text-muted-foreground">
+      <span className="text-muted-foreground w-28 shrink-0 font-mono text-xs">
         {label}
       </span>
       <div className="flex flex-wrap items-center gap-3">{children}</div>
@@ -181,19 +181,19 @@ function Colors() {
       {RAMPS.map((scale) => (
         <div key={scale.name}>
           <div className="mb-2 flex items-baseline gap-2">
-            <span className="font-mono text-sm font-medium text-foreground">
+            <span className="text-foreground font-mono text-sm font-medium">
               {scale.name}
             </span>
-            <span className="text-xs text-muted-foreground">{scale.note}</span>
+            <span className="text-muted-foreground text-xs">{scale.note}</span>
           </div>
-          <div className="flex overflow-hidden rounded-lg border border-border">
+          <div className="border-border flex overflow-hidden rounded-lg border">
             {scale.steps.map((s) => (
               <div key={s.step} className="flex-1">
                 <div
                   className="h-14"
                   style={{ backgroundColor: `var(${s.var})` }}
                 />
-                <div className="bg-surface px-1 py-1 text-center font-mono text-[10px] text-muted-foreground">
+                <div className="bg-surface text-muted-foreground px-1 py-1 text-center font-mono text-[10px]">
                   {s.step}
                 </div>
               </div>
@@ -217,10 +217,10 @@ function Typography() {
           </Row>
         ))}
       </div>
-      <div className="border-t border-border pt-4">
+      <div className="border-border border-t pt-4">
         {WEIGHTS.map((w) => (
           <Row key={w.name} label={w.name}>
-            <span className={cn("text-lg text-foreground", w.className)}>
+            <span className={cn("text-foreground text-lg", w.className)}>
               The quick brown fox
             </span>
           </Row>
@@ -246,7 +246,7 @@ function RadiiAndShadows() {
   return (
     <div className="flex flex-wrap gap-8">
       <div>
-        <p className="mb-3 text-xs font-medium tracking-wide text-muted-foreground uppercase">
+        <p className="text-muted-foreground mb-3 text-xs font-medium tracking-wide uppercase">
           Radius
         </p>
         <div className="flex flex-wrap gap-4">
@@ -254,11 +254,11 @@ function RadiiAndShadows() {
             <div key={r.name} className="text-center">
               <div
                 className={cn(
-                  "h-16 w-16 border border-border bg-surface-secondary",
+                  "border-border bg-surface-secondary h-16 w-16 border",
                   r.className,
                 )}
               />
-              <div className="mt-2 font-mono text-xs text-muted-foreground">
+              <div className="text-muted-foreground mt-2 font-mono text-xs">
                 {r.name}
               </div>
             </div>
@@ -266,16 +266,16 @@ function RadiiAndShadows() {
         </div>
       </div>
       <div>
-        <p className="mb-3 text-xs font-medium tracking-wide text-muted-foreground uppercase">
+        <p className="text-muted-foreground mb-3 text-xs font-medium tracking-wide uppercase">
           Shadow
         </p>
         <div className="flex flex-wrap gap-6">
           {SHADOWS.map((s) => (
             <div key={s.name} className="text-center">
               <div
-                className={cn("h-16 w-16 rounded-lg bg-surface", s.className)}
+                className={cn("bg-surface h-16 w-16 rounded-lg", s.className)}
               />
-              <div className="mt-2 font-mono text-xs text-muted-foreground">
+              <div className="text-muted-foreground mt-2 font-mono text-xs">
                 {s.name}
               </div>
             </div>
@@ -286,58 +286,58 @@ function RadiiAndShadows() {
   );
 }
 
-const BUTTON_VARIANTS = ["primary", "secondary", "outline-solid"] as const;
-const BUTTON_SIZES = ["sm", "md", "lg"] as const;
+const BUTTON_VARIANTS = ["default", "secondary", "outline", "link"] as const;
+const BUTTON_SIZES = ["default", "xs", "sm"] as const;
 
 function Buttons() {
   const [variant, setVariant] =
-    useState<(typeof BUTTON_VARIANTS)[number]>("primary");
-  const [size, setSize] = useState<(typeof BUTTON_SIZES)[number]>("md");
+    useState<(typeof BUTTON_VARIANTS)[number]>("default");
+  const [size, setSize] = useState<(typeof BUTTON_SIZES)[number]>("default");
   const [disabled, setDisabled] = useState(false);
   const [label, setLabel] = useState("Click me");
 
   return (
     <div className="space-y-8">
       {/* Interactive playground */}
-      <div className="rounded-lg border border-border bg-surface-secondary p-6">
+      <div className="border-border bg-surface-secondary rounded-lg border p-6">
         <div className="flex flex-wrap items-end gap-6">
-          <label className="flex flex-col gap-1 text-xs font-medium text-muted-foreground">
+          <label className="text-muted-foreground flex flex-col gap-1 text-xs font-medium">
             variant
             <select
               value={variant}
               onChange={(e) =>
                 setVariant(e.target.value as (typeof BUTTON_VARIANTS)[number])
               }
-              className="rounded-md border border-input bg-surface px-2 py-1 text-sm text-foreground"
+              className="border-input bg-surface text-foreground rounded-md border px-2 py-1 text-sm"
             >
               {BUTTON_VARIANTS.map((v) => (
                 <option key={v}>{v}</option>
               ))}
             </select>
           </label>
-          <label className="flex flex-col gap-1 text-xs font-medium text-muted-foreground">
+          <label className="text-muted-foreground flex flex-col gap-1 text-xs font-medium">
             size
             <select
               value={size}
               onChange={(e) =>
                 setSize(e.target.value as (typeof BUTTON_SIZES)[number])
               }
-              className="rounded-md border border-input bg-surface px-2 py-1 text-sm text-foreground"
+              className="border-input bg-surface text-foreground rounded-md border px-2 py-1 text-sm"
             >
               {BUTTON_SIZES.map((s) => (
                 <option key={s}>{s}</option>
               ))}
             </select>
           </label>
-          <label className="flex flex-col gap-1 text-xs font-medium text-muted-foreground">
+          <label className="text-muted-foreground flex flex-col gap-1 text-xs font-medium">
             label
             <input
               value={label}
               onChange={(e) => setLabel(e.target.value)}
-              className="rounded-md border border-input bg-surface px-2 py-1 text-sm text-foreground"
+              className="border-input bg-surface text-foreground rounded-md border px-2 py-1 text-sm"
             />
           </label>
-          <label className="flex items-center gap-2 text-xs font-medium text-muted-foreground">
+          <label className="text-muted-foreground flex items-center gap-2 text-xs font-medium">
             <input
               type="checkbox"
               checked={disabled}
@@ -346,7 +346,7 @@ function Buttons() {
             disabled
           </label>
         </div>
-        <div className="mt-6 flex items-center justify-center rounded-md border border-dashed border-border bg-surface py-10">
+        <div className="border-border bg-surface mt-6 flex items-center justify-center rounded-md border border-dashed py-10">
           <Button variant={variant} size={size} disabled={disabled}>
             {label}
           </Button>
@@ -376,13 +376,13 @@ function Cards() {
   return (
     <div className="grid gap-4 sm:grid-cols-2">
       <Card title="Card title">
-        <p className="text-sm text-muted-foreground">
+        <p className="text-muted-foreground text-sm">
           Cards wrap arbitrary content with a title, rounded corners, and a
           subtle shadow.
         </p>
       </Card>
       <Card title="With actions">
-        <p className="mb-4 text-sm text-muted-foreground">
+        <p className="text-muted-foreground mb-4 text-sm">
           Compose other components inside a card.
         </p>
         <div className="flex gap-2">
@@ -488,14 +488,14 @@ const SEMANTIC_STATUS: SemanticToken[] = [
 
 function SemanticTile({ token }: { token: SemanticToken }) {
   return (
-    <div className="overflow-hidden rounded-lg border border-border">
+    <div className="border-border overflow-hidden rounded-lg border">
       <div className={cn("flex h-20 flex-col justify-between p-3", token.bg)}>
         <span className={cn("font-mono text-xs font-medium", token.fg)}>
           {token.name}
         </span>
         <span className={cn("text-xs opacity-80", token.fg)}>Aa 123</span>
       </div>
-      <div className="bg-surface px-3 py-2 text-xs text-muted-foreground">
+      <div className="bg-surface text-muted-foreground px-3 py-2 text-xs">
         {token.role}
       </div>
     </div>
@@ -511,7 +511,7 @@ function SemanticGroup({
 }) {
   return (
     <div>
-      <p className="mb-3 text-xs font-medium tracking-wide text-muted-foreground uppercase">
+      <p className="text-muted-foreground mb-3 text-xs font-medium tracking-wide uppercase">
         {label}
       </p>
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
@@ -528,10 +528,10 @@ function Semantic() {
     <div className="space-y-8">
       <SemanticGroup label="Surfaces" tokens={SEMANTIC_SURFACES} />
       <div>
-        <p className="mb-4 text-sm font-semibold tracking-tight text-foreground">
+        <p className="text-foreground mb-4 text-sm font-semibold tracking-tight">
           Actions
         </p>
-        <div className="space-y-6 border-l border-border pl-4">
+        <div className="border-border space-y-6 border-l pl-4">
           <SemanticGroup label="Interactive" tokens={SEMANTIC_INTERACTIVE} />
           <SemanticGroup label="Utility" tokens={SEMANTIC_UTILITY} />
         </div>
@@ -540,26 +540,26 @@ function Semantic() {
 
       {/* A panel built ONLY from semantic utilities — flip the dark switch in
           the header and everything below re-themes with zero class changes. */}
-      <div className="rounded-lg border border-border bg-surface p-6">
-        <h3 className="text-base font-semibold text-surface-foreground">
+      <div className="border-border bg-surface rounded-lg border p-6">
+        <h3 className="text-surface-foreground text-base font-semibold">
           Built from semantic tokens
         </h3>
-        <p className="mt-1 text-sm text-muted-foreground">
+        <p className="text-muted-foreground mt-1 text-sm">
           bg-surface, text-surface-foreground, text-muted-foreground,
           border-border. Toggle dark mode — nothing here names a raw ramp.
         </p>
-        <div className="mt-4 rounded-md bg-surface-secondary p-4 text-sm text-foreground">
+        <div className="bg-surface-secondary text-foreground mt-4 rounded-md p-4 text-sm">
           A nested surface using{" "}
           <code className="font-mono text-xs">bg-surface-secondary</code>.
         </div>
         <div className="mt-4 flex flex-wrap gap-2">
-          <span className="rounded-full bg-success px-2.5 py-1 text-xs font-medium text-success-foreground">
+          <span className="bg-success text-success-foreground rounded-full px-2.5 py-1 text-xs font-medium">
             success
           </span>
-          <span className="rounded-full bg-warning px-2.5 py-1 text-xs font-medium text-warning-foreground">
+          <span className="bg-warning text-warning-foreground rounded-full px-2.5 py-1 text-xs font-medium">
             warning
           </span>
-          <span className="rounded-full bg-error px-2.5 py-1 text-xs font-medium text-error-foreground">
+          <span className="bg-error text-error-foreground rounded-full px-2.5 py-1 text-xs font-medium">
             error
           </span>
         </div>
@@ -579,7 +579,7 @@ function DarkToggle() {
     <button
       type="button"
       onClick={() => setDark((d) => !d)}
-      className="rounded-md border border-border bg-surface px-3 py-1.5 text-sm font-medium text-foreground hover:bg-accent"
+      className="border-border bg-surface text-foreground hover:bg-accent rounded-md border px-3 py-1.5 text-sm font-medium"
     >
       {dark ? "☾ Dark" : "☀ Light"}
     </button>
@@ -592,14 +592,14 @@ function DarkToggle() {
 
 export function DesignSystem() {
   return (
-    <div className="min-h-screen bg-background">
-      <header className="border-b border-border bg-surface/80 backdrop-blur">
+    <div className="bg-background min-h-screen">
+      <header className="border-border bg-surface/80 border-b backdrop-blur">
         <div className="mx-auto flex max-w-5xl items-start justify-between px-6 py-6">
           <div>
-            <h1 className="text-2xl font-bold tracking-tight text-foreground">
+            <h1 className="text-foreground text-2xl font-bold tracking-tight">
               Design System
             </h1>
-            <p className="mt-1 text-sm text-muted-foreground">
+            <p className="text-muted-foreground mt-1 text-sm">
               A playground for exercising tokens and components while the system
               takes shape.
             </p>

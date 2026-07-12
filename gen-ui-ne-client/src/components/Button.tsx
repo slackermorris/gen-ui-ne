@@ -1,29 +1,47 @@
-import { type ButtonHTMLAttributes, forwardRef } from 'react';
-import { cn } from '../utils/cn';
+import { type ButtonHTMLAttributes, forwardRef } from "react";
+import { cn } from "../utils/cn";
+import { cva, type VariantProps } from "class-variance-authority";
 
-interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'secondary' | 'outline-solid';
-  size?: 'sm' | 'md' | 'lg';
+const variants = cva(
+  "group focus-visible:ring-ring inline-flex transform items-center justify-center rounded-md text-sm font-medium whitespace-nowrap transition-all duration-200 hover:scale-105 focus-visible:ring-1 focus-visible:outline-none active:scale-95 disabled:pointer-events-none disabled:opacity-50",
+  {
+    variants: {
+      variant: {
+        default: "text-primary-foreground bg-primary hover:bg-primary/80",
+        secondary:
+          "text-secondary-foreground bg-secondary hover:bg-secondary/90",
+        outline:
+          "border-input hover:text-accent-foreground hover:bg-accent bg-background border",
+        link: "text-primary underline underline-offset-4 hover:underline",
+      },
+      size: {
+        default: "h-10 gap-1.5 px-6",
+        xs: "h-7 gap-1 px-3",
+        sm: "h-9 gap-1 px-4",
+        lg: "h-11 gap-1.5 px-8",
+      },
+    },
+    defaultVariants: {},
+  },
+);
+
+interface Interface
+  extends
+    ButtonHTMLAttributes<HTMLButtonElement>,
+    VariantProps<typeof variants> {
+  variant?: "default" | "secondary" | "outline" | "link";
+  size?: "default" | "xs" | "sm";
 }
 
-export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant = 'primary', size = 'md', children, ...props }, ref) => {
+export const Button = forwardRef<HTMLButtonElement, Interface>(
+  (
+    { className, variant = "default", size = "default", children, ...props },
+    ref,
+  ) => {
     return (
       <button
         ref={ref}
-        className={cn(
-          'inline-flex items-center justify-center rounded-md font-medium transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:outline-hidden disabled:pointer-events-none disabled:opacity-50',
-          {
-            'bg-primary text-primary-foreground hover:bg-primary/90': variant === 'primary',
-            'bg-secondary text-secondary-foreground hover:bg-accent': variant === 'secondary',
-            'border border-border bg-transparent hover:bg-accent hover:text-accent-foreground':
-              variant === 'outline-solid',
-            'h-8 px-3 text-sm': size === 'sm',
-            'h-10 px-4 text-base': size === 'md',
-            'h-12 px-6 text-lg': size === 'lg',
-          },
-          className,
-        )}
+        className={cn(variants({ variant, size, className }))}
         {...props}
       >
         {children}
@@ -32,4 +50,4 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   },
 );
 
-Button.displayName = 'Button';
+Button.displayName = "Button";
