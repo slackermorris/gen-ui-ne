@@ -1,1 +1,162 @@
-/* Global style overrides. Backgrounds are handled by the layouts in ./layouts. */
+/* Global style overrides.
+   The deck's surface is a soft, cool-gray gradient with a subtle mottled
+   grain — matte, ceramic-like, sampled from the reference sphere. */
+
+/* ── Die Grotesk (Klim trial web fonts) ──────────────────────────────────
+   NB: the trial fonts only carry A–Z a–z 0–9 , - .  — everything else
+   ($ + : ' " ( ) ! ? % / & and the em-dash —) falls back to the grotesk
+   stack below, so those glyphs won't be Die Grotesk. */
+@font-face {
+  font-family: 'Die Grotesk';
+  src: url('/fonts/test-die-grotesk-d-regular.woff2') format('woff2');
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Die Grotesk';
+  src: url('/fonts/test-die-grotesk-d-medium.woff2') format('woff2');
+  font-weight: 500;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Die Grotesk';
+  src: url('/fonts/test-die-grotesk-d-bold.woff2') format('woff2');
+  font-weight: 700;
+  font-display: swap;
+}
+/* Display cut (optical size A) for headings. */
+@font-face {
+  font-family: 'Die Grotesk Display';
+  src: url('/fonts/test-die-grotesk-a-regular.woff2') format('woff2');
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Die Grotesk Display';
+  src: url('/fonts/test-die-grotesk-a-medium.woff2') format('woff2');
+  font-weight: 500;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Die Grotesk Display';
+  src: url('/fonts/test-die-grotesk-a-bold.woff2') format('woff2');
+  font-weight: 700;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Die Grotesk Display';
+  src: url('/fonts/test-die-grotesk-a-black.woff2') format('woff2');
+  font-weight: 900;
+  font-display: swap;
+}
+
+:root {
+  /* Near-black warm gray — the deck's text colour. */
+  --gray-950: oklch(0.145 0.006 50);
+  /* Muted warm gray — subheadings. */
+  --gray-500: oklch(0.556 0.007 68);
+
+  --deck-sans: 'Die Grotesk', -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  --deck-display: 'Die Grotesk Display', 'Die Grotesk', -apple-system, 'Helvetica Neue', Arial, sans-serif;
+
+  /* Cool light-gray gradient, lit from the upper-left like the reference. */
+  --grad-gray: radial-gradient(
+    125% 125% at 32% 22%,
+    #f3f5f6 0%,
+    #e4e9ea 38%,
+    #cfd6d9 70%,
+    #b4bec2 100%
+  );
+
+  /* A tiny splash of brand pink (#F04FB4), bled into the top-right corner. */
+  --splash-pink: radial-gradient(
+    50% 42% at 86% 14%,
+    rgba(240, 79, 180, 0.16) 0%,
+    rgba(240, 79, 180, 0) 62%
+  );
+
+  /* Fractal-noise grain, embedded as an SVG data URI. The rect is drawn at
+     low opacity so multiply-blending it over the gradient only mottles it. */
+  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.35'/%3E%3C/svg%3E");
+}
+
+/* Typography — Die Grotesk everywhere, display cut for headings. Code keeps
+   its own monospace + syntax colours (not targeted here). */
+.slidev-layout {
+  font-family: var(--deck-sans);
+  color: var(--gray-950);
+}
+.slidev-layout h1,
+.slidev-layout h2,
+.slidev-layout h3,
+.slidev-layout h4,
+.slidev-layout h5,
+.slidev-layout h6 {
+  font-family: var(--deck-display) !important;
+}
+/* Main slide title. */
+.slidev-layout h1 {
+  color: var(--gray-950) !important;
+}
+/* Subheadings. */
+.slidev-layout h2,
+.slidev-layout h3,
+.slidev-layout h4,
+.slidev-layout h5,
+.slidev-layout h6 {
+  color: var(--gray-500) !important;
+}
+
+/* Uniform body text — cancel the theme's auto-dimmed first paragraph so all
+   body copy is gray-950; grey is reserved for actual subheadings. */
+.slidev-layout h1 + p {
+  opacity: 1 !important;
+}
+
+/* Split/content layouts center their body in a flex column, which suppresses
+   margin-collapsing — the theme's `my-4` on <p> then doubles up (1rem bottom +
+   1rem top) between every block, and stacks further under any `mt-*`. Tighten
+   to one modest, consistent rhythm so gaps read the same across all slides. */
+.slidev-layout p {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Every slide gets the textured gray surface by default. Layouts that need a
+   distinct panel (the split rail) paint over it. */
+.slidev-layout {
+  background-color: #e4e9ea;
+  background-image: var(--grain), var(--splash-pink), var(--grad-gray);
+  background-size: 260px 260px, cover, cover;
+  background-repeat: repeat, no-repeat, no-repeat;
+  background-blend-mode: multiply, normal, normal;
+}
+
+/* Diagram slides: the textured surface is dropped right back (~30%) behind a
+   white veil so the architecture diagram itself carries the slide. */
+.slidev-layout.diagram-bg {
+  background-color: #ffffff;
+  background-image: var(--splash-pink);
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+/* Image slides (FocusDiagram on the `full` layout): whiten the whole layout,
+   including its padding, so no grainy grey border shows around the diagram. */
+.slidev-layout.image-white {
+  background-color: #ffffff !important;
+  background-image: var(--splash-pink) !important;
+  background-size: cover !important;
+  background-repeat: no-repeat !important;
+  background-blend-mode: normal !important;
+}
+
+/* The seriph cover sets an inline `background` from frontmatter, which would
+   otherwise clobber the layered image above — force the shared surface. */
+.slidev-layout.cover {
+  background-color: #e4e9ea !important;
+  background-image: var(--grain), var(--splash-pink), var(--grad-gray) !important;
+  background-size: 260px 260px, cover, cover !important;
+  background-repeat: repeat, no-repeat, no-repeat !important;
+  background-blend-mode: multiply, normal, normal !important;
+}

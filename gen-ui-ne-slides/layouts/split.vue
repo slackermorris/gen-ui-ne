@@ -38,7 +38,7 @@ const noiseUrl = computed(() => {
 
 <template>
   <div class="slidev-layout h-full w-full !p-0 grid" style="grid-template-columns: 3fr 2fr">
-    <div class="bg-white px-14 py-10 flex flex-col justify-center overflow-hidden">
+    <div class="px-14 py-10 flex flex-col justify-center overflow-hidden" style="background: #fefeff">
       <slot />
     </div>
     <div class="relative h-full w-full overflow-hidden" :style="{ background: gradient }">

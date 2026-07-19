@@ -6,7 +6,7 @@ defineProps({
 </script>
 
 <template>
-  <div class="slidev-layout h-full w-full !p-0 flex flex-col" style="background: #ffffff">
+  <div class="slidev-layout diagram-bg h-full w-full !p-0 flex flex-col">
     <div class="px-12 pt-8">
       <slot />
     </div>
