@@ -58,11 +58,12 @@ layout: split
 
 # The tension every SaaS team inherits
 
+<!-- <p class="mt-4">Observe · Infer · Serve</p> -->
 To build for many, we compress toward the median. We homogenise. **We trade specificity for scale.**
 
 <div v-click>
 
-What if we spent that energy differently? Instead of one app that fits everyone *reasonably* well, systems flexible enough to deliver a **different app to each user**. Genuinely optimised for them, still unmistakably the same platform.
+What if we spent that energy differently? Instead of one app that fits everyone *reasonably* well, we design systems flexible enough to deliver a **different app to each user**. Genuinely optimised for them, still unmistakably the same platform.
 
 </div>
 
@@ -101,7 +102,7 @@ class: image-white
   ratio="3888 / 860"
   :steps="[
     { label: 'Observe', note: 'The client emits behavioural logs as the user interacts. They are captured, sent through the API, and persisted per user.', region: { x: 1, y: 2, w: 61, h: 96 } },
-    { label: 'Infer', note: 'An LLM weighs those logs against the semantic catalogue and composes a UI specification.', regions: [{ x: 44, y: 3, w: 55, h: 95 }, { x: 22, y: 3, w: 21, h: 17 }] },
+    { label: 'Infer', note: 'An LLM weighs those logs against a semantic catalogue of components and composes a UI specification.', regions: [{ x: 44, y: 3, w: 55, h: 95 }, { x: 22, y: 3, w: 21, h: 17 }] },
     { label: 'Serve', note: 'The spec streams back through the API; the client resolves each element through the registry and renders it.', region: { x: 0, y: 24, w: 100, h: 38 } },
   ]"
 >
@@ -331,6 +332,6 @@ layout: split
 
 <div v-click>
 
-One design system. One catalogue. One spec per person.
+One design system. One catalogue. One spec per user.
 
 </div>

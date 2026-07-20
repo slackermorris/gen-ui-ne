@@ -113,10 +113,11 @@
   opacity: 1 !important;
 }
 
-/* Split/content layouts center their body in a flex column, which suppresses
-   margin-collapsing — the theme's `my-4` on <p> then doubles up (1rem bottom +
-   1rem top) between every block, and stacks further under any `mt-*`. Tighten
-   to one modest, consistent rhythm so gaps read the same across all slides. */
+/* Body paragraphs: one modest, consistent rhythm across the deck. The seriph
+   theme's default `my-4` (1rem each side) reads too loose in the flex-centered
+   content columns, where margins don't collapse. This targets <p> only, so
+   utilities on wrapping <div>s (e.g. `mt-1`) are unaffected; to override the
+   rhythm on a paragraph itself, use the important prefix (`mt-4!`). */
 .slidev-layout p {
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
@@ -125,6 +126,18 @@
 /* Every slide gets the textured gray surface by default. Layouts that need a
    distinct panel (the split rail) paint over it. */
 .slidev-layout {
+  background-color: #e4e9ea;
+  background-image: var(--grain), var(--splash-pink), var(--grad-gray);
+  background-size: 260px 260px, cover, cover;
+  background-repeat: repeat, no-repeat, no-repeat;
+  background-blend-mode: multiply, normal, normal;
+}
+
+/* Split-layout rail: reuse the deck's shared surface so its pink is the same
+   subtle corner splash as every other slide, not a bespoke gradient. The rail
+   is the right-hand panel, so --splash-pink's top-right anchor lands in the
+   slide's top-right corner exactly as it does elsewhere. */
+.split-rail {
   background-color: #e4e9ea;
   background-image: var(--grain), var(--splash-pink), var(--grad-gray);
   background-size: 260px 260px, cover, cover;
