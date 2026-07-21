@@ -1,3 +1,20 @@
+## Table of Contents
+
+- [Problem](#problem)
+- [Requirements](#requirements)
+- [Constraints](#constraints)
+- [1. Executive Summary](#1-executive-summary)
+- [2. Solution Overview](#2-solution-overview)
+- [3. Requirements Analysis](#3-requirements-analysis)
+- [4. Constraints Analysis](#4-constraints-analysis)
+- [5. Technical Considerations](#5-technical-considerations)
+- [6. Risks & Uncertainties](#6-risks--uncertainties)
+- [7. Pros & Cons Summary](#7-pros--cons-summary)
+- Changelog
+  - [Limitations Using Schemas With the Anthropic API](changelog/limitations-using-schemas-with-anthropic-api/index.md)
+  - [Anthropic Constrained Decoding Nearly Unusable](changelog/anthropic-constrained-decoding-nearly-unusable/index.md)
+
+---
 ## Problem
 
 Most of the time, we all experience the same app. The closest thing to personalisation today is algorithmic content. This is the experience we have in apps like Facebook, Instagram, Spotify. 
