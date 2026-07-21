@@ -4,7 +4,7 @@ import { HttpRouter, HttpServer } from 'effect/unstable/http';
 import { WorkerEnvironment, WorkerContext } from './services/cf-env';
 import { ApiLive } from './http';
 import * as DurableObjectNamespace from './services/durable-object-namespace';
-import { generateText, tool, jsonSchema, hasToolCall } from 'ai';
+import { generateText, tool, hasToolCall, jsonSchema } from 'ai';
 import { createAnthropic } from '@ai-sdk/anthropic';
 
 import type { SpecSelector } from './spec-selector';
@@ -32,37 +32,18 @@ export class Orchestrator extends DurableObject<Env> {
   }
 
   async getUi(name: string) {
-    const userData: Record<string, string> = {
-      jack: 'New investor, no holdings yet, risk profile 3/7 (moderate-low).',
-      rose: 'Active investor, $18,420 portfolio, holdings: Apple (AAPL $4,200 +32.1%), Meridian Energy (MEL $2,800 +8.4%), Fisher & Paykel (FPH $1,950 -2.1%), allocation: US 52% NZ 31% AU 17%, total return +21.3%.',
-      robert:
-        'Passive investor, $9,840 portfolio, auto-invests $50 weekly next 19 May 2026, allocation: NZ ETF 60% US ETF 30% AU ETF 10%, return +9.3%.',
-      kennedy:
-        'Concerned investor, $14,200 portfolio down $1,800 (-11.3%), heavily concentrated in US Tech (71%), risk level 6/7 (high).',
-    };
-
     const anthropic = createAnthropic({ apiKey: this.env.ANTHROPIC_API_KEY });
     const selector = this.env.SPEC_SELECTOR as unknown as SpecSelector;
 
     const result = await generateText({
       model: anthropic('claude-sonnet-4-6'),
       system: SYSTEM_PROMPT,
-      prompt: `Render the dashboard for user "${name}". Data: ${userData[name] ?? 'unknown user'}`,
+      prompt: `Render the dashboard for user "${name} ?? 'unknown user'".`,
       tools: {
         selectSpec: tool({
           description: 'Generate a personalised UI spec for an investor based on their context',
-          inputSchema: jsonSchema<{ userContext: string }>({
-            type: 'object',
-            properties: {
-              userContext: {
-                type: 'string',
-                description:
-                  'A description of the investor including their portfolio, holdings, risk profile, and relevant context',
-              },
-            },
-            required: ['userContext'],
-          }),
-          execute: async ({ userContext }) => selector.generate(name, userContext),
+          inputSchema: jsonSchema({ type: 'object', properties: {}, additionalProperties: false }),
+          execute: async () => selector.generate(name),
         }),
       },
       stopWhen: hasToolCall('selectSpec'),
