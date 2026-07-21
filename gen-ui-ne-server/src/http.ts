@@ -4,6 +4,7 @@ import { Effect, Layer, Schema } from 'effect';
 import { DurableObjectNamespace } from './services/durable-object-namespace';
 import { Api } from 'gen-ui-ne-shared/api';
 import { OtlpLogRecordToLogInsertDto } from './models/dto';
+import { generateSeedLogs } from './seed-data';
 import { Spec } from 'gen-ui-ne-shared/model';
 
 const BaseLive = HttpApiBuilder.group(Api, 'base', (handlers) =>
@@ -30,6 +31,17 @@ const BaseLive = HttpApiBuilder.group(Api, 'base', (handlers) =>
         return {
           ok: true,
         };
+      }),
+    )
+    // TEMPORARY: seeding only — remove before prod.
+    .handle('seed', ({ params }) =>
+      Effect.gen(function* () {
+        const doNamespace = yield* DurableObjectNamespace;
+        const stub = yield* doNamespace.getByName(params.name);
+        const rows = generateSeedLogs(params.name);
+        const { inserted } = yield* Effect.promise(() => stub.seed(rows));
+
+        return { ok: true, inserted };
       }),
     ),
 );

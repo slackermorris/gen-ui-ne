@@ -7,6 +7,7 @@
   ],
   "scripts": {
     "generate-catalogue": "tsx scripts/generate-catalogue.ts",
+    "seed": "tsx scripts/seed.ts",
     "lint": "oxlint --type-aware",
     "format": "oxfmt .",
     "format:check": "oxfmt --check .",

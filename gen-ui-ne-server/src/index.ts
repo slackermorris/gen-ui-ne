@@ -86,6 +86,26 @@ export class Orchestrator extends DurableObject<Env> {
     }
   }
 
+  // TEMPORARY: seeding only — remove before prod.
+  // Wipes this user's logs and inserts a fresh narrative batch. Idempotent.
+  async seed(rows: ReadonlyArray<LogInsertDto>) {
+    this.ctx.storage.transactionSync(() => {
+      this.ctx.storage.sql.exec('DELETE FROM logs');
+      for (const row of rows) {
+        this.ctx.storage.sql.exec(
+          `INSERT INTO logs (ts, severity, body, trace_id, span_id, attributes) VALUES (?, ?, ?, ?, ?, ?)`,
+          row.ts,
+          row.severity,
+          row.body,
+          row.trace_id,
+          row.span_id,
+          row.attributes,
+        );
+      }
+    });
+    return { inserted: rows.length };
+  }
+
   async getRecentLogs(limit: number = 100) {
     type LogRow = {
       ts: number;

@@ -18,6 +18,14 @@ class BaseGroup extends HttpApiGroup.make('base')
         ok: Schema.Boolean,
       }),
     }),
+    // TEMPORARY: seeding only — remove before prod.
+    HttpApiEndpoint.post('seed', '/:name/seed', {
+      params: { name: Schema.String },
+      success: Schema.Struct({
+        ok: Schema.Boolean,
+        inserted: Schema.Number,
+      }),
+    }),
   )
   .prefix('/gen-ui-ne') {}
 
