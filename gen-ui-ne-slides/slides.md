@@ -15,6 +15,12 @@ A different app for every user. Still unmistakably the same platform.
 
 <div class="abs-br m-6 text-sm opacity-50">Architecture Overview</div>
 
+<!--
+A pet project using AI to dynamically produce UIs.
+
+Not intended as a "oh, wouldn't it be nice if Sharesies did...". It's strictly an opportunity to geek out and inspire. We have seen AI code assistants like Waddles and tools-for-knowledge improvements like the second brain initiative. This is another exploration into could we perhaps design, architect our app experiences differently.
+-->
+
 ---
 layout: split
 hide: true
@@ -67,6 +73,10 @@ What if we spent that energy differently? Instead of one app that fits everyone 
 
 </div>
 
+<!--
+We try to better meet the needs of our users.
+-->
+
 ---
 layout: split
 ---
@@ -113,6 +123,10 @@ class: image-white
 
 </FocusDiagram>
 
+<!--
+The catalogue of components is a contract between what the client can render and what the LLM is dictating to render. This single-source-of-truth, this consistency is essential for this architecture to work.
+-->
+
 ---
 layout: split
 hide: true
@@ -146,14 +160,14 @@ class: image-white
 ---
 
 <FocusDiagram
-  image="/catalogue-sources.png"
+  image="/component-catalogue-centrality.png"
   ratio="4424 / 1764"
   :steps="[
-    { label: 'Strong primitives', note: 'Modular, reusable, flexible components, heavily influenced by ShadCN. The LLM can only be as expressive as these allow.', region: { x: 4, y: 18, w: 25, h: 22 }, card: { x: 33, y: 52 } },
-    { label: 'One shared library', note: 'Component definitions → catalogue → spec. Client and server both derive from it, so there is zero drift.', region: { x: 34, y: 1, w: 35, h: 38 }, card: { x: 34, y: 54 } },
-    { label: 'Keys → the client registry', note: 'The catalogue keys seed the registry, the gatekeeper. Without a legitimate component backing a type, nothing renders. Unknown types degrade gracefully.', region: { x: 4, y: 37, w: 25, h: 24 }, card: { x: 32, y: 66 } },
-    { label: 'Semantics → an output schema', note: 'The catalogue compiles into an output schema, a grammar derived from it, fed to the LLM to constrain generation. The model can only emit specs that reference real components; off-catalogue output is impossible.', region: { x: 70, y: 1, w: 29, h: 38 }, card: { x: 55, y: 50 } },
-    { label: 'The renderer', note: 'The renderer takes the spec and the registry, recursively walks the element tree, and renders the page. That page is a tree an LLM assembled from a user profile and a catalogue of semantically annotated components.', region: { x: 4, y: 60, w: 25, h: 38 }, card: { x: 33, y: 56 } },
+    { label: 'Strong Primitives', note: 'Modular, reusable, flexible components, heavily influenced by ShadCN. The LLM can only be as expressive as these allow.', region: { x: 4, y: 18, w: 25, h: 22 }, card: { x: 33, y: 52 } },
+    { label: 'Single Source of Truth', note: 'A schema of component definitions referenced by both client and server. This is the single-source-of-truth, referenced by client and server with the purpose to prevent drift.', region: { x: 34, y: 1, w: 35, h: 38 }, card: { x: 34, y: 54 } },
+    { label: 'Client → Catalogue', note: 'A mapping between the components declared by the client and the catalogue. A client can only render what it actually has.', region: { x: 4, y: 37, w: 25, h: 24 }, card: { x: 32, y: 66 } },
+    { label: 'UI Spec', note: 'The catalogue is a schema passed to the LLM to constrain its output. The model can only emit specs that reference real components; off-catalogue output is impossible.', region: { x: 70, y: 1, w: 29, h: 38 }, card: { x: 55, y: 50 } },
+    { label: 'The Renderer', note: 'The renderer takes the spec and the registry, recursively walks the element tree, and renders the page.', region: { x: 4, y: 60, w: 25, h: 38 }, card: { x: 33, y: 56 } },
   ]"
 >
 
@@ -162,6 +176,10 @@ class: image-white
 <div class="text-sm opacity-50 mt-1">Design system · catalogue · registry</div>
 
 </FocusDiagram>
+
+<!--
+The catalogue of components is critical to making this work. The contract between what the client renders whatever the server, the LLM tells it to. And the LLM can only produce a spec-to-be-rendered from components that the client can render.
+-->
 
 ---
 layout: split
@@ -226,19 +244,19 @@ Two agents. The **Orchestrator** owns the request and delegates to the **Spec Se
 ````md magic-move {class:'text-xs'}
 ```ts
 // The Orchestrator: general-purpose, tool-based.
-const result = await generateText({
-  model: anthropic('claude-sonnet-4-6'),
-  system: SYSTEM_PROMPT,
-  prompt: `Render the dashboard for "${name}".`,
-  tools: {
-    selectSpec: tool({
-      description: 'Generate a personalised UI spec',
-      inputSchema: jsonSchema<Ctx>({ /* ... */ }),
-      execute: ({ ctx }) => selector.generate(name, ctx),
-    }),
-  },
-  stopWhen: hasToolCall('selectSpec'),
-});
+    const result = await generateText({
+      model: anthropic('claude-sonnet-4-6'),
+      system: SYSTEM_PROMPT,
+      prompt: `Render the dashboard for user "${name}".`,
+      tools: {
+        selectSpec: tool({
+          description: '...',
+          inputSchema: jsonSchema({ ... }),
+          execute: async () => selector.generate(name),
+        }),
+      },
+      stopWhen: hasToolCall('selectSpec'),
+    });
 ```
 ```ts
 // The Spec Selector: single-purpose, structured output.
@@ -248,8 +266,9 @@ const { output } = await generateText({
     schema: jsonSchema(catalogueSchema),
   }),
   system: buildSystemPrompt(),
-  prompt: `${userContext}${logContext}`,
+  prompt: `${behaviouralLogContext}`,
 });
+
 return SpecForLlm.toSpec(output);
 ```
 ````
