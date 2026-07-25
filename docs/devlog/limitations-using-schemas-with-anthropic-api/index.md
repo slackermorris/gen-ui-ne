@@ -1,3 +1,7 @@
+# Limitations Using Schemas With the Anthropic API
+
+`2026-07-21` · [← Devlog](../index.md)
+
 The Vercel AI SDK supports prescribing a schema that the LLM output needs to adhere to.
 
 ```typescript
@@ -86,7 +90,7 @@ Apparently this is a [known issue](https://github.com/anthropics/anthropic-sdk-p
 
 ![Number of component schemas](./number-of-component-schemas.png)
 
-[[Anthropic Constrained Decoding Nearly Unusable]] speaks to this error in isolation.
+[Anthropic Constrained Decoding Nearly Unusable](../anthropic-constrained-decoding-nearly-unusable/index.md) speaks to this error in isolation.
 
 ### Satisfying Optional Parameters
 

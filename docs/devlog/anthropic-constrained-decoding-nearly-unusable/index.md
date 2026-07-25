@@ -1,4 +1,8 @@
-There are some severe Limitations Using Schemas With Anthropic API Via Vercel AI SDK. So severe that I do not think I can achieve my ideal architecture.
+# Anthropic Constrained Decoding Nearly Unusable
+
+`2026-07-21` · [← Devlog](../index.md)
+
+There are some severe [limitations using schemas with the Anthropic API](../limitations-using-schemas-with-anthropic-api/index.md) via the Vercel AI SDK. So severe that I do not think I can achieve my ideal architecture.
 
 The most recent of which is that Anthropic has a number of hard limits to the schema it can accept for constrained decoding.
 
