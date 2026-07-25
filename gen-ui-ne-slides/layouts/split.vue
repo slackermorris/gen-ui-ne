@@ -1,8 +1,14 @@
 <script setup lang="ts">
-defineProps({
-  images: { type: Array, default: null },
+import { computed } from 'vue'
+import { resolveAssetUrl } from '../utils/asset'
+
+const props = defineProps({
+  images: { type: Array as () => string[], default: null },
   caption: { type: String, default: null },
 })
+
+// frontmatter paths are root-relative; prefix them with the deploy base
+const srcs = computed(() => (props.images ?? []).map(resolveAssetUrl))
 </script>
 
 <template>
@@ -13,7 +19,7 @@ defineProps({
     <div class="split-rail relative h-full w-full overflow-hidden">
       <div v-if="images" class="relative h-full flex flex-col items-center justify-center gap-3 px-6 py-8">
         <div class="flex gap-3 items-center justify-center min-h-0">
-          <img v-for="img in images" :key="img" :src="img" class="rounded-lg shadow-xl max-h-95 min-w-0 object-contain" />
+          <img v-for="img in srcs" :key="img" :src="img" class="rounded-lg shadow-xl max-h-95 min-w-0 object-contain" />
         </div>
         <div v-if="caption" class="text-xs text-black/50 text-center">{{ caption }}</div>
       </div>

@@ -1,8 +1,14 @@
 <script setup lang="ts">
-defineProps({
+import { computed } from 'vue'
+import { resolveAssetUrl } from '../utils/asset'
+
+const props = defineProps({
   image: { type: String, required: true },
   caption: { type: String, default: null },
 })
+
+// frontmatter paths are root-relative; prefix them with the deploy base
+const src = computed(() => resolveAssetUrl(props.image))
 </script>
 
 <template>
@@ -11,7 +17,7 @@ defineProps({
       <slot />
     </div>
     <div class="flex-1 min-h-0 flex items-center justify-center px-8 py-4">
-      <img :src="image" class="max-w-full max-h-full object-contain" />
+      <img :src="src" class="max-w-full max-h-full object-contain" />
     </div>
     <div v-if="caption" class="px-12 pb-6 text-sm text-black/50 text-center">
       {{ caption }}

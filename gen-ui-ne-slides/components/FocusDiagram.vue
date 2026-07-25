@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useSlideContext } from '@slidev/client'
+import { resolveAssetUrl } from '../utils/asset'
 
 interface Region { x: number; y: number; w: number; h: number }
 interface Step {
@@ -24,6 +25,10 @@ const props = defineProps({
   // Set false for a plain image with per-click caption cards only.
   spotlight: { type: Boolean, default: true },
 })
+
+// prefix root-relative paths with the deploy base (e.g. /gen-ui-ne/ on GitHub
+// Pages); Vite cannot rewrite a path that arrives as a runtime prop
+const src = computed(() => resolveAssetUrl(props.image))
 
 const { $clicks } = useSlideContext()
 
@@ -82,7 +87,7 @@ const cardStyle = computed(() => {
       <div class="fd-frame relative w-full" :style="{ aspectRatio: ratio }">
         <!-- base image: sharp for the overview, blurred + dimmed once focusing -->
         <img
-          :src="image"
+          :src="src"
           class="absolute inset-0 w-full h-full object-contain transition-all duration-500"
           :class="active >= 0 && spotlight ? 'fd-dim' : ''"
         />
@@ -90,7 +95,7 @@ const cardStyle = computed(() => {
         <img
           v-for="(r, i) in regions"
           :key="'clip-' + i"
-          :src="image"
+          :src="src"
           class="absolute inset-0 w-full h-full object-contain transition-all duration-500 pointer-events-none"
           :style="clipStyle(r)"
         />

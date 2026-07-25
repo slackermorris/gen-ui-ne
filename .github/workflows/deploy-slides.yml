@@ -4,8 +4,8 @@ on:
   push:
     branches: [main]
     paths:
-      - "gen-ui-ne-slides/**"
-      - ".github/workflows/deploy-slides.yml"
+      - 'gen-ui-ne-slides/**'
+      - '.github/workflows/deploy-slides.yml'
   workflow_dispatch:
 
 # Allow GITHUB_TOKEN to deploy to GitHub Pages.
@@ -30,7 +30,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: "22"
+          node-version: '22'
           cache: npm
           cache-dependency-path: gen-ui-ne-slides/package-lock.json
 
