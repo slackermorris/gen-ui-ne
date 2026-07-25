@@ -1,0 +1,58 @@
+name: Deploy slides
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "gen-ui-ne-slides/**"
+      - ".github/workflows/deploy-slides.yml"
+  workflow_dispatch:
+
+# Allow GITHUB_TOKEN to deploy to GitHub Pages.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Only one deployment at a time; queued runs supersede each other.
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: gen-ui-ne-slides
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: gen-ui-ne-slides/package-lock.json
+
+      # Skip devDependencies so playwright-chromium (only needed for `slidev
+      # export`) isn't downloaded.
+      - run: npm ci --omit=dev
+
+      # Project pages are served from /<repo>/, so the bundle needs that base.
+      - run: npm run build -- --base /${{ github.event.repository.name }}/
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: gen-ui-ne-slides/dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
